@@ -3545,117 +3545,19 @@ button.disabled {
 
 
 .background-color {
+    $base-colors: #F2CECE, #F4B3AE, #F2BCA0, #F0D3AB,
+    #F1E1A9, #F4F2B3, #dbf4be, #beedd7,
+    #b7e2de, #c9eaf4, #B4D3ED, #B9C5ED,
+    #CCC6ED, #D8C1F0, #EBCAEF, #f4badb;
 
-    &--1
-    {
-        background-color: #F2CECE;
-        &.background-color--dark {
-            background-color: adjust-color(#F2CECE, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--2
-    {
-        background-color: #F4B3AE;
-        &.background-color--dark {
-            background-color: adjust-color(#F4B3AE, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--3
-    {
-        background-color: #F2BCA0;
-        &.background-color--dark {
-            background-color: adjust-color(#F2BCA0, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--4
-    {
-        background-color: #F0D3AB;
-        &.background-color--dark {
-            background-color: adjust-color(#F0D3AB, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--5
-    {
-        background-color: #F1E1A9;
-        &.background-color--dark {
-            background-color: adjust-color(#F1E1A9, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--6
-    {
-        background-color: #f4f2b3;
-        &.background-color--dark {
-            background-color: adjust-color(#f4f2b3, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--7
-    {
-        background-color: #dbf4be;
-        &.background-color--dark {
-            background-color: adjust-color(#dbf4be, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--8
-    {
-        background-color: #beedd7;
-        &.background-color--dark {
-            background-color: adjust-color(#beedd7, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--9
-    {
-        background-color: #b7e2de;
-        &.background-color--dark {
-            background-color: adjust-color(#b7e2de, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--10
-    {
-        background-color: #c9eaf4;
-        &.background-color--dark {
-            background-color: adjust-color(#c9eaf4, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--11
-    {
-        background-color: #B4D3ED;
-        &.background-color--dark {
-            background-color: adjust-color(#B4D3ED, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--12
-    {
-        background-color: #B9C5ED;
-        &.background-color--dark {
-            background-color: adjust-color(#B9C5ED, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--13
-    {
-        background-color: #CCC6ED;
-        &.background-color--dark {
-            background-color: adjust-color(#CCC6ED, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--14
-    {
-        background-color: #D8C1F0;
-        &.background-color--dark {
-            background-color: adjust-color(#D8C1F0, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--15
-    {
-        background-color: #EBCAEF;
-        &.background-color--dark {
-            background-color: adjust-color(#EBCAEF, $saturation: 10%, $lightness: -10%);
-        }
-    }
-    &--16
-    {
-        background-color: #f4badb;
-        &.background-color--dark {
-            background-color: adjust-color(#f4badb, $saturation: 10%, $lightness: -10%);
+    @for $i from 1 through length($base-colors) {
+        $base-color: nth($base-colors, $i);
+
+        &--#{$i} {
+            background-color: $base-color;
+            &.background-color--dark {
+                background-color: adjust-color($base-color, $saturation: 10%, $lightness: -10%);
+            }
         }
     }
 }
