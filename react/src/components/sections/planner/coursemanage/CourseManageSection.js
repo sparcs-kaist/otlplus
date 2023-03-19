@@ -123,7 +123,7 @@ class CourseManageSection extends Component {
     const sectionContent = itemFocus.course
       ? (
         <>
-          <div className={classNames('subsection', 'subsection--course-info-sub')}>
+          <div className={classNames('subsection', 'subsection--course-manage-left')}>
             <div className={classNames('subsection', 'subsection--flex')}>
               <CloseButton onClick={this.unfix} />
               <div className={classNames('detail-title-area')}>

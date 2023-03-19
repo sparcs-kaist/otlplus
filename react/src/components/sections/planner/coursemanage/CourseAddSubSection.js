@@ -53,7 +53,7 @@ class CourseCustomizeSubSection extends Component {
     );
 
     return (
-      <div className={classNames('subsection', 'subsection--course-info-setting')}>
+      <div className={classNames('subsection', 'subsection--course-manage-right')}>
         {sectionHead}
         {sectionBody}
       </div>

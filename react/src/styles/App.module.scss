@@ -1693,12 +1693,12 @@ a {
         }
     }
 
-    &--course-info-sub {
+    &--course-manage-left {
         flex-basis: 1px;
         flex-grow: 1;
     }
 
-    &--course-info-setting {
+    &--course-manage-right {
         flex-basis: calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
         display: flex;
         flex-direction: column;
@@ -3026,7 +3026,7 @@ a {
                     min-width: 23px;
                 }
             }
-            .subsection--course-info-setting & {
+            .subsection--course-manage-right & {
                 &.fixed-ko {
                     min-width: 55px;
                 }
