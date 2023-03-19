@@ -97,6 +97,12 @@ urlpatterns = [
         planner_views.UserInstancePlannerListView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)$",
         planner_views.UserInstancePlannerInstanceView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/add-item$",
+        planner_views.UserInstancePlannerInstanceAddItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/remove-item$",
+        planner_views.UserInstancePlannerInstanceRemoveItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/reorder",
+        planner_views.UserInstancePlannerInstanceReorderView.as_view()),
 
     url(r"^api/users/(?P<user_id>\d+)/wishlist$",
         timetable_views.UserInstanceWishlistView.as_view()),

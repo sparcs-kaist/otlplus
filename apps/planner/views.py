@@ -1,13 +1,15 @@
 import json
 
 from django.db.models import F
-from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.db import transaction
 
-from .models import Planner
+from .models import Planner, TakenPlannerItem, FuturePlannerItem, GenericPlannerItem
+from apps.subject.models import Course
+from .services import reorder_planner
 
 from utils.decorators import login_required_ajax
 from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG, OFFSET_DEFAULT_CONFIG, LIMIT_DEFAULT_CONFIG, apply_offset_and_limit, apply_order, patch_object
@@ -52,9 +54,9 @@ class UserInstancePlannerListView(View):
 
         start_year, end_year, taken_items, future_items, generic_items = parse_body(request.body, BODY_STRUCTURE)
 
-        related_timetables = Planner.get_related_planners(userprofile)
-        if related_timetables.exists():
-            arrange_order = related_timetables.order_by("arrange_order").last().arrange_order + 1
+        related_planners = Planner.get_related_planners(userprofile)
+        if related_planners.exists():
+            arrange_order = related_planners.order_by("arrange_order").last().arrange_order + 1
         else:
             arrange_order = 0
 
@@ -116,3 +118,85 @@ class UserInstancePlannerInstanceView(View):
         related_planners.filter(arrange_order__gt=planner.arrange_order) \
                           .update(arrange_order=F('arrange_order')-1)
         return HttpResponse()
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceAddItemView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("type", ParseType.STR, True, []),
+            ("course", ParseType.INT, True, []),
+            ("year", ParseType.INT, True, []),
+            ("semester", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        type_, course, year, semester = parse_body(request.body, BODY_STRUCTURE)
+
+        if type_ == 'FUTURE':
+            try:
+                course = Course.objects.get(id=course)
+            except Course.DoesNotExist:
+                return HttpResponseBadRequest("Wrong field 'course' in request data")
+            item = FuturePlannerItem.objects.create(planner=planner, year=year, semester=semester,
+                                                    course=course)
+        return JsonResponse(item.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceRemoveItemView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("item", ParseType.INT, True, []),
+            ("type", ParseType.STR, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        item, type_ = parse_body(request.body, BODY_STRUCTURE)
+
+        if type_ == 'FUTURE':
+            try:
+                target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
+            except FuturePlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such item")
+            target_item.delete()
+
+        return JsonResponse(planner.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceReorderView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("arrange_order", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        arrange_order, = parse_body(request.body, BODY_STRUCTURE)
+
+        reorder_planner(planner, arrange_order)
+        return JsonResponse(planner.to_json())

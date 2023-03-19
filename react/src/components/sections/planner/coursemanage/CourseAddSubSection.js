@@ -47,8 +47,9 @@ class CourseCustomizeSubSection extends Component {
     }
     else {
       axios.post(
-        `/api/users/${user.id}/planners/${selectedPlanner.id}/add-course`,
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/add-item`,
         {
+          type: 'FUTURE',
           course: course.id,
           year: year,
           semester: semester,
