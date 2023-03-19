@@ -78,7 +78,7 @@ class PlannerTabs extends Component {
       return currentYear;
     }
     if (!user.student_id
-      || !user.student_id.length !== 8
+      || user.student_id.length !== 8
       || user.student_id[4] !== '0') {
       return currentYear;
     }
