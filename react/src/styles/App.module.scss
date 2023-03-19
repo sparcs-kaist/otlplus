@@ -2012,6 +2012,44 @@ a {
             }
         }
     }
+
+    &--planner {
+        cursor: pointer;
+
+        &__button {
+            top: 0px;
+            right: 0px;
+            position: absolute;
+            cursor: pointer;
+            padding: 4px;
+            background-color: rgba(#E0546F,0.8);
+            .tile--planner:not(:hover) &,
+            .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
+                display: none;
+            }
+            @media #{$media-portrait} {
+                display: none;
+            }
+        }
+
+        &__content {
+            padding: $tile-padding-tb $tile-padding-lr;
+            overflow: hidden;
+            max-height: 100%;
+
+            &__title {
+                color: rgba(#000000,0.8);
+                margin: 0;
+                pointer-events: none;
+                .tile--timetable.tile--highlighted &,
+                .tile--timetable.tile--raised &,
+                .tile--timetable.tile--temp &
+                 {
+                    color: rgba(#FFFFFF,1);
+                }
+            }
+        }
+    }
 }
 
 

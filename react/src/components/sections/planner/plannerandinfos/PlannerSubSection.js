@@ -18,6 +18,7 @@ import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
 
 import { isTableClicked } from '../../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../../common/commonOperations';
+import PlannerTile from '../../../tiles/PlannerTile';
 
 
 class PlannerSubSection extends Component {
@@ -113,7 +114,7 @@ class PlannerSubSection extends Component {
     const {
       t,
       selectedPlanner,
-      // cellWidth, cellHeight,
+      cellWidth, cellHeight,
       mobileIsLectureListOpen,
     } = this.props;
 
@@ -337,6 +338,31 @@ class PlannerSubSection extends Component {
       );
     };
 
+    const getTiles = (year, semester) => {
+      const items = this._getItemsForSemester(selectedPlanner, year, semester);
+      return items.map((i, index) => (
+        <PlannerTile
+          item={i}
+          yearIndex={year - plannerStartYear}
+          semesterIndex={semester <= 2 ? 0 : 1}
+          beginIndex={index * 3}
+          endIndex={index * 3 + 3}
+          cellWidth={cellWidth}
+          cellHeight={cellHeight}
+          // TODO: Implement below
+          isRaised={false}
+          isHighlighted={false}
+          isDimmed={false}
+          isSimple={false}
+          onMouseOver={() => null}
+          onMouseOut={() => null}
+          onClick={() => null}
+          deleteLecture={() => null}
+          key={`Tile:${year}-${semester}-${i.id}`}
+        />
+      ));
+    };
+
     return (
       <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
@@ -344,6 +370,13 @@ class PlannerSubSection extends Component {
           {
             plannerYears.map((y) => (
               getYearColumn(y)
+            ))
+          }
+          {
+            plannerYears.map((y) => (
+              [1, 2, 3, 4].map((s) => (
+                getTiles(y, s)
+              ))
             ))
           }
         </div>
@@ -356,8 +389,8 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedPlanner: state.planner.planner.selectedPlanner,
   lectureFocus: state.timetable.lectureFocus,
-  // cellWidth: state.timetable.timetable.cellWidth,
-  // cellHeight: state.timetable.timetable.cellHeight,
+  cellWidth: state.timetable.timetable.cellWidth,
+  cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
 });
@@ -381,8 +414,8 @@ PlannerSubSection.propTypes = {
   user: userShape,
   selectedPlanner: plannerShape,
   lectureFocus: lectureFocusShape.isRequired,
-  // cellWidth: PropTypes.number.isRequired,
-  // cellHeight: PropTypes.number.isRequired,
+  cellWidth: PropTypes.number.isRequired,
+  cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 
