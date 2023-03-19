@@ -1,8 +1,8 @@
 import {
   RESET,
-  SET_COURSE_FOCUS, CLEAR_COURSE_FOCUS,
+  SET_ITEM_FOCUS, CLEAR_ITEM_FOCUS,
   SET_REVIEWS, UPDATE_REVIEW, SET_LECTURES,
-} from '../../actions/planner/courseFocus';
+} from '../../actions/planner/itemFocus';
 
 const initialState = {
   course: null,
@@ -10,12 +10,12 @@ const initialState = {
   lectures: null,
 };
 
-const courseFocus = (state = initialState, action) => {
+const itemFocus = (state = initialState, action) => {
   switch (action.type) {
     case RESET: {
       return initialState;
     }
-    case SET_COURSE_FOCUS: {
+    case SET_ITEM_FOCUS: {
       const courseChanged = !state.course || (state.course.id !== action.course.id);
       return Object.assign({}, state, {
         course: action.course,
@@ -25,7 +25,7 @@ const courseFocus = (state = initialState, action) => {
         : {}
       ));
     }
-    case CLEAR_COURSE_FOCUS: {
+    case CLEAR_ITEM_FOCUS: {
       return Object.assign({}, state, {
         course: null,
         reviews: null,
@@ -71,4 +71,4 @@ const courseFocus = (state = initialState, action) => {
   }
 };
 
-export default courseFocus;
+export default itemFocus;

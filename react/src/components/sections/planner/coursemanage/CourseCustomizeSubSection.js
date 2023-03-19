@@ -30,13 +30,13 @@ class CourseCustomizeSubSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { courseFocus } = this.props;
-    if (!courseFocus.course || !courseFocus.lectures) {
+    const { itemFocus } = this.props;
+    if (!itemFocus.course || !itemFocus.lectures) {
       return;
     }
 
-    if (!prevProps.courseFocus.lectures && courseFocus.lectures) {
-      this.initialize2(courseFocus);
+    if (!prevProps.itemFocus.lectures && itemFocus.lectures) {
+      this.initialize2(itemFocus);
     }
   }
 
@@ -70,13 +70,13 @@ class CourseCustomizeSubSection extends Component {
 
   initialize2 = () => {
     const { t } = this.props;
-    const { courseFocus } = this.props;
+    const { itemFocus } = this.props;
 
-    const recentLecture = courseFocus.lectures[courseFocus.lectures.length - 1];
+    const recentLecture = itemFocus.lectures[itemFocus.lectures.length - 1];
     const credit = recentLecture.credit >= 1
       ? recentLecture.credit
       : recentLecture.credit_au;
-    const lectureType = courseFocus.course[t('js.property.type')];
+    const lectureType = itemFocus.course[t('js.property.type')];
 
     this.setState({
       selectedSemester: new Set(['ALL']),
@@ -176,7 +176,7 @@ class CourseCustomizeSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
   selectedListCode: state.planner.list.selectedListCode,
 });
 

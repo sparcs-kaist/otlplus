@@ -6,9 +6,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { clearCourseFocus } from '../../../../actions/planner/courseFocus';
+import { clearItemFocus } from '../../../../actions/planner/itemFocus';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import CreditStatusBar from '../../../CreditStatusBar';
 import CourseStatus from '../../../CourseStatus';
@@ -28,41 +28,41 @@ class SummarySubSection extends Component {
   componentDidUpdate(prevProps) {
     const {
       selectedListCode,
-      courseFocus, clearCourseFocusDispatch,
+      itemFocus, clearItemFocusDispatch,
     } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
-      clearCourseFocusDispatch();
+      clearItemFocusDispatch();
     }
 
-    if (!prevProps.courseFocus.course && courseFocus.course) {
+    if (!prevProps.itemFocus.course && itemFocus.course) {
       // pass;
     }
-    if ((prevProps.courseFocus.course && courseFocus.course) && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
+    if ((prevProps.itemFocus.course && itemFocus.course) && (prevProps.itemFocus.course.id !== itemFocus.course.id)) {
       // pass;
     }
   }
 
   render() {
     const { t } = this.props;
-    const { courseFocus } = this.props;
+    const { itemFocus } = this.props;
 
     // TODO: Retrieve data from planner
     const majors = [];
 
     const singleFocusedTypeCredit = (index) => {
-      if (courseFocus.course && courseFocus.lectures) {
+      if (itemFocus.course && itemFocus.lectures) {
         switch (index) {
           case 0:
-            return courseFocus.lectures.at(-1).credit;// total credit
+            return itemFocus.lectures.at(-1).credit;// total credit
           case 3: case 4:
-            if (majors[0].name_en.toUpperCase() === courseFocus.course.department.name_en.toUpperCase()
-              && indexOfType(courseFocus.course.type_en) === index) {
-              return courseFocus.lectures.at(-1).credit;
+            if (majors[0].name_en.toUpperCase() === itemFocus.course.department.name_en.toUpperCase()
+              && indexOfType(itemFocus.course.type_en) === index) {
+              return itemFocus.lectures.at(-1).credit;
             } return 0;
           default:
-            if (indexOfType(courseFocus.course.type_en) === index) {
-              return courseFocus.lectures.at(-1).credit;
+            if (indexOfType(itemFocus.course.type_en) === index) {
+              return itemFocus.lectures.at(-1).credit;
             } return 0;
         }
       }
@@ -113,20 +113,20 @@ class SummarySubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
   selectedListCode: state.planner.list.selectedListCode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  clearCourseFocusDispatch: () => {
-    dispatch(clearCourseFocus());
+  clearItemFocusDispatch: () => {
+    dispatch(clearItemFocus());
   },
 });
 
 SummarySubSection.propTypes = {
-  courseFocus: courseFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
 
-  clearCourseFocusDispatch: PropTypes.func.isRequired,
+  clearItemFocusDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(

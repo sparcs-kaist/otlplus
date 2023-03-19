@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import courseFocus from './courseFocus';
+import itemFocus from './itemFocus';
 import list from './list';
 import planner from './planner';
 import search from './search';
 
 const CombinedReducer = combineReducers({
-  courseFocus: courseFocus,
+  itemFocus: itemFocus,
   list: list,
   planner: planner,
   search: search,

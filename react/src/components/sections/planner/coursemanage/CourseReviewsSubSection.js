@@ -10,10 +10,10 @@ import ReviewBlock from '../../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../../SearchFilter';
 
-import { updateReview } from '../../../../actions/planner/courseFocus';
+import { updateReview } from '../../../../actions/planner/itemFocus';
 import { updateUserReview } from '../../../../actions/common/user';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 import userShape from '../../../../shapes/model/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Scores from '../../../Scores';
@@ -53,8 +53,8 @@ class CourseReviewsSubSection extends Component {
   }
 
   _checkLectureCourse = (lecture) => {
-    const { courseFocus } = this.props;
-    return lecture.course === courseFocus.course.id;
+    const { itemFocus } = this.props;
+    return lecture.course === itemFocus.course.id;
   }
 
   _checkReviewLanguage = (review) => {
@@ -79,15 +79,15 @@ class CourseReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
     const { selectedProfessors, selectedLanguages } = this.state;
-    const { user, courseFocus } = this.props;
+    const { user, itemFocus } = this.props;
 
-    if (!courseFocus.course) {
+    if (!itemFocus.course) {
       return null;
     }
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
-      ...(courseFocus.course.professors
+      ...(itemFocus.course.professors
         .map((p) => [this._getProfessorFormValue(p), p[t('js.property.name')]])
       ),
     ];
@@ -121,9 +121,9 @@ class CourseReviewsSubSection extends Component {
         )
     );
 
-    const filteredReviews = courseFocus.reviews == null
+    const filteredReviews = itemFocus.reviews == null
       ? null
-      : courseFocus.reviews.filter((r) => (
+      : itemFocus.reviews.filter((r) => (
         this._checkLectureProfessor(r.lecture) && this._checkReviewLanguage(r)
       ));
     const reviewBlocksArea = (filteredReviews == null)
@@ -185,7 +185,7 @@ class CourseReviewsSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -199,7 +199,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 CourseReviewsSubSection.propTypes = {
   user: userShape,
-  courseFocus: courseFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
 
   updateUserReviewDispatch: PropTypes.func.isRequired,
   updateReviewDispatch: PropTypes.func.isRequired,

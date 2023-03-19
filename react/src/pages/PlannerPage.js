@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import { reset as resetCourseFocus } from '../actions/planner/courseFocus';
+import { reset as resetCourseFocus } from '../actions/planner/itemFocus';
 import { reset as resetList } from '../actions/planner/list';
 import { reset as resetSearch } from '../actions/planner/search';
 import { reset as resetPlanner } from '../actions/planner/planner';

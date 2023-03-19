@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import { getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Attributes from '../../../Attributes';
@@ -14,20 +14,20 @@ import Scores from '../../../Scores';
 class CourseInfoSubSection extends Component {
   render() {
     const { t } = this.props;
-    const { courseFocus } = this.props;
+    const { itemFocus } = this.props;
 
-    if (!courseFocus.course || !courseFocus.lectures) {
+    if (!itemFocus.course || !itemFocus.lectures) {
       return null;
     }
 
-    const recentLecture = courseFocus.lectures[courseFocus.lectures.length - 1];
+    const recentLecture = itemFocus.lectures[itemFocus.lectures.length - 1];
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
           entries={[
-            { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
-            { name: t('ui.attribute.description'), info: courseFocus.course.summary },
+            { name: t('ui.attribute.classification'), info: `${itemFocus.course.department[t('js.property.name')]}, ${itemFocus.course[t('js.property.type')]}` },
+            { name: t('ui.attribute.description'), info: itemFocus.course.summary },
           ]}
           longInfo
         />
@@ -43,9 +43,9 @@ class CourseInfoSubSection extends Component {
         />
         <Scores
           entries={[
-            { name: t('ui.score.grade'), score: getAverageScoreLabel(courseFocus.course.grade) },
-            { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
-            { name: t('ui.score.speech'), score: getAverageScoreLabel(courseFocus.course.speech) },
+            { name: t('ui.score.grade'), score: getAverageScoreLabel(itemFocus.course.grade) },
+            { name: t('ui.score.load'), score: getAverageScoreLabel(itemFocus.course.load) },
+            { name: t('ui.score.speech'), score: getAverageScoreLabel(itemFocus.course.speech) },
           ]}
           big
         />
@@ -55,14 +55,14 @@ class CourseInfoSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseInfoSubSection.propTypes = {
-  courseFocus: courseFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
 };
 
 

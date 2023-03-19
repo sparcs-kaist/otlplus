@@ -14,7 +14,7 @@ import Scroller from '../../../Scroller';
 
 import { closeSearch, setLastSearchOption } from '../../../../actions/planner/search';
 import { setListCourses, clearSearchListCourses } from '../../../../actions/planner/list';
-import { clearCourseFocus } from '../../../../actions/planner/courseFocus';
+import { clearItemFocus } from '../../../../actions/planner/itemFocus';
 
 import {
   getTypeOptions, getDepartmentOptions, getLevelOptions, getTermOptions,
@@ -51,7 +51,7 @@ class CourseSearchSubSection extends Component {
     } = this.state;
     const {
       closeSearchDispatch, clearSearchListCoursesDispatch,
-      setListCoursesDispatch, clearCourseFocusDispatch,
+      setListCoursesDispatch, clearItemFocusDispatch,
       setLastSearchOptionDispatch,
     } = this.props;
 
@@ -67,7 +67,7 @@ class CourseSearchSubSection extends Component {
       closeSearchDispatch();
       clearSearchListCoursesDispatch();
       setLastSearchOptionDispatch(option);
-      clearCourseFocusDispatch();
+      clearItemFocusDispatch();
     };
     const afterResponse = (courses) => {
       if (courses.length === LIMIT) {
@@ -247,8 +247,8 @@ const mapDispatchToProps = (dispatch) => ({
   clearSearchListCoursesDispatch: () => {
     dispatch(clearSearchListCourses());
   },
-  clearCourseFocusDispatch: () => {
-    dispatch(clearCourseFocus());
+  clearItemFocusDispatch: () => {
+    dispatch(clearItemFocus());
   },
   setLastSearchOptionDispatch: (lastSearchOption) => {
     dispatch(setLastSearchOption(lastSearchOption));
@@ -259,7 +259,7 @@ CourseSearchSubSection.propTypes = {
   closeSearchDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
-  clearCourseFocusDispatch: PropTypes.func.isRequired,
+  clearItemFocusDispatch: PropTypes.func.isRequired,
   setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 

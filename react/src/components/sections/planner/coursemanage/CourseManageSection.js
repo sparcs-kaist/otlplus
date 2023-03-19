@@ -16,9 +16,9 @@ import CourseCustomizeSubSection from './CourseCustomizeSubSection';
 import CourseInfoSubSection from './CourseInfoSubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
-import { clearCourseFocus, setLectures, setReviews } from '../../../../actions/planner/courseFocus';
+import { clearItemFocus, setLectures, setReviews } from '../../../../actions/planner/itemFocus';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 
 class CourseManageSection extends Component {
@@ -31,20 +31,20 @@ class CourseManageSection extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      selectedListCode, courseFocus,
-      clearCourseFocusDispatch,
+      selectedListCode, itemFocus,
+      clearItemFocusDispatch,
     } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
-      clearCourseFocusDispatch();
+      clearItemFocusDispatch();
     }
 
-    if (!prevProps.courseFocus.course && courseFocus.course) {
+    if (!prevProps.itemFocus.course && itemFocus.course) {
       this._fetchLectures();
       this._fetchReviews();
     }
-    if ((prevProps.courseFocus.course && courseFocus.course)
-      && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
+    if ((prevProps.itemFocus.course && itemFocus.course)
+      && (prevProps.itemFocus.course.id !== itemFocus.course.id)) {
       this._fetchLectures();
       this._fetchReviews();
     }
@@ -52,10 +52,10 @@ class CourseManageSection extends Component {
 
 
   _fetchLectures = () => {
-    const { courseFocus, setLecturesDispatch } = this.props;
+    const { itemFocus, setLecturesDispatch } = this.props;
 
     axios.get(
-      `/api/courses/${courseFocus.course.id}/lectures`,
+      `/api/courses/${itemFocus.course.id}/lectures`,
       {
         params: {
           order: ['year', 'semester', 'class_no'],
@@ -68,7 +68,7 @@ class CourseManageSection extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.courseFocus.course.id === courseFocus.course.id) {
+        if (newProps.itemFocus.course.id === itemFocus.course.id) {
           setLecturesDispatch(response.data);
         }
       })
@@ -80,10 +80,10 @@ class CourseManageSection extends Component {
   _fetchReviews = () => {
     const LIMIT = 100;
 
-    const { courseFocus, setReviewsDispatch } = this.props;
+    const { itemFocus, setReviewsDispatch } = this.props;
 
     axios.get(
-      `/api/courses/${courseFocus.course.id}/reviews`,
+      `/api/courses/${itemFocus.course.id}/reviews`,
       {
         params: {
           order: ['-lecture__year', '-lecture__semester', '-written_datetime', '-id'],
@@ -97,10 +97,10 @@ class CourseManageSection extends Component {
     )
       .then((response) => {
         const newProps = this.props;
-        if (newProps.courseFocus.course.id !== courseFocus.course.id) {
+        if (newProps.itemFocus.course.id !== itemFocus.course.id) {
           return;
         }
-        this._markRead(courseFocus.course);
+        this._markRead(itemFocus.course);
         if (response.data.length === LIMIT) {
           // TODO: handle limit overflow
         }
@@ -112,27 +112,27 @@ class CourseManageSection extends Component {
 
 
   unfix = () => {
-    const { clearCourseFocusDispatch } = this.props;
-    clearCourseFocusDispatch();
+    const { clearItemFocusDispatch } = this.props;
+    clearItemFocusDispatch();
   }
 
 
   render() {
-    const { t, courseFocus } = this.props;
-    const sectionContent = courseFocus.course
+    const { t, itemFocus } = this.props;
+    const sectionContent = itemFocus.course
       ? (
         <>
           <div className={classNames('subsection', 'subsection--course-info-sub')}>
             <div className={classNames('subsection', 'subsection--flex')}>
               <CloseButton onClick={this.unfix} />
               <div className={classNames('detail-title-area')}>
-                <div className={classNames('title')}>{courseFocus.course[t('js.property.title')]}</div>
-                <div className={classNames('subtitle')}>{courseFocus.course.old_code}</div>
-                <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: courseFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
+                <div className={classNames('title')}>{itemFocus.course[t('js.property.title')]}</div>
+                <div className={classNames('subtitle')}>{itemFocus.course.old_code}</div>
+                <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: itemFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
                   {t('ui.button.dictionary')}
                 </Link>
               </div>
-              <Scroller key={courseFocus.course.id}>
+              <Scroller key={itemFocus.course.id}>
                 <CourseInfoSubSection />
                 <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <CourseReviewsSubSection />
@@ -155,13 +155,13 @@ class CourseManageSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
   selectedListCode: state.planner.list.selectedListCode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  clearCourseFocusDispatch: () => {
-    dispatch(clearCourseFocus());
+  clearItemFocusDispatch: () => {
+    dispatch(clearItemFocus());
   },
   setLecturesDispatch: (lectures) => {
     dispatch(setLectures(lectures));
@@ -172,10 +172,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 CourseManageSection.propTypes = {
-  courseFocus: courseFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
 
-  clearCourseFocusDispatch: PropTypes.func.isRequired,
+  clearItemFocusDispatch: PropTypes.func.isRequired,
   setLecturesDispatch: PropTypes.func.isRequired,
   setReviewsDispatch: PropTypes.func.isRequired,
 };

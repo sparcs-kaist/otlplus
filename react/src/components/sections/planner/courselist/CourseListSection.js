@@ -13,11 +13,11 @@ import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../../utils/courseUtils';
-import { setCourseFocus, clearCourseFocus } from '../../../../actions/planner/courseFocus';
+import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
 import courseShape from '../../../../shapes/model/CourseShape';
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/CourseListsShape';
 import userShape from '../../../../shapes/model/UserShape';
 import courseLastSearchOptionShape from '../../../../shapes/state/CourseLastSearchOptionShape';
@@ -36,12 +36,12 @@ class CourseListSection extends Component {
 
   focusCourseWithClick = (course) => {
     const {
-      courseFocus, selectedListCode,
-      setCourseFocusDispatch, clearCourseFocusDispatch,
+      itemFocus, selectedListCode,
+      setItemFocusDispatch, clearItemFocusDispatch,
     } = this.props;
 
-    if (!isFocused(course, courseFocus)) {
-      setCourseFocusDispatch(course);
+    if (!isFocused(course, itemFocus)) {
+      setItemFocusDispatch(course);
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -56,7 +56,7 @@ class CourseListSection extends Component {
       });
     }
     else {
-      clearCourseFocusDispatch();
+      clearItemFocusDispatch();
 
       const labelOfTabs = new Map([
         [CourseListCode.SEARCH, 'Search'],
@@ -89,7 +89,7 @@ class CourseListSection extends Component {
     const { t } = this.props;
     const {
       user,
-      courseFocus, selectedListCode,
+      itemFocus, selectedListCode,
       searchOpen, lastSearchOption,
       readCourses,
     } = this.props;
@@ -179,8 +179,8 @@ class CourseListSection extends Component {
                   key={c.id}
                   shouldShowReadStatus={true}
                   isRead={c.userspecific_is_read || readCourses.some((c2) => (c2.id === c.id))}
-                  isRaised={isFocused(c, courseFocus)}
-                  isDimmed={isDimmedCourse(c, courseFocus)}
+                  isRaised={isFocused(c, itemFocus)}
+                  isDimmed={isDimmedCourse(c, itemFocus)}
                   onClick={this.focusCourseWithClick}
                 // inCart={inCart(l, lists[CourseListCode.CART])}
                 // fromCart={(selectedListCode === CourseListCode.CART)}
@@ -213,7 +213,7 @@ const mapStateToProps = (state) => ({
   selectedListCode: state.planner.list.selectedListCode,
   lists: state.planner.list.lists,
   readCourses: state.planner.list.readCourses,
-  courseFocus: state.planner.courseFocus,
+  itemFocus: state.planner.itemFocus,
   searchOpen: state.planner.search.open,
   lastSearchOption: state.planner.search.lastSearchOption,
 });
@@ -222,11 +222,11 @@ const mapDispatchToProps = (dispatch) => ({
   openSearchDispatch: () => {
     dispatch(openSearch());
   },
-  setCourseFocusDispatch: (course) => {
-    dispatch(setCourseFocus(course));
+  setItemFocusDispatch: (course) => {
+    dispatch(setItemFocus(course));
   },
-  clearCourseFocusDispatch: () => {
-    dispatch(clearCourseFocus());
+  clearItemFocusDispatch: () => {
+    dispatch(clearItemFocus());
   },
 });
 
@@ -235,13 +235,13 @@ CourseListSection.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   lists: courseListsShape,
   readCourses: PropTypes.arrayOf(courseShape).isRequired,
-  courseFocus: courseFocusShape.isRequired,
+  itemFocus: itemFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
-  setCourseFocusDispatch: PropTypes.func.isRequired,
-  clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setItemFocusDispatch: PropTypes.func.isRequired,
+  clearItemFocusDispatch: PropTypes.func.isRequired,
 };
 
 
