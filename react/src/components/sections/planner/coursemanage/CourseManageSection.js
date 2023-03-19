@@ -21,6 +21,7 @@ import { clearItemFocus, setLectures, setReviews } from '../../../../actions/pla
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import CourseAddSubSection from './CourseAddSubSection';
+import plannerShape from '../../../../shapes/model/PlannerShape';
 
 
 class CourseManageSection extends Component {
@@ -33,11 +34,20 @@ class CourseManageSection extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      selectedListCode, itemFocus,
+      selectedListCode, selectedPlanner, itemFocus,
       clearItemFocusDispatch,
     } = this.props;
 
-    if (prevProps.selectedListCode !== selectedListCode) {
+    if (itemFocus.from === ItemFocusFrom.LIST
+      && prevProps.selectedListCode !== selectedListCode) {
+      clearItemFocusDispatch();
+    }
+    if ((
+      itemFocus.from === ItemFocusFrom.TABLE_TAKEN
+        || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
+        || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
+    )
+      && prevProps.selectedPlanner.id !== selectedPlanner.id) {
       clearItemFocusDispatch();
     }
 
@@ -183,6 +193,7 @@ class CourseManageSection extends Component {
 const mapStateToProps = (state) => ({
   itemFocus: state.planner.itemFocus,
   selectedListCode: state.planner.list.selectedListCode,
+  selectedPlanner: state.planner.planner.selectedPlanner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -200,6 +211,7 @@ const mapDispatchToProps = (dispatch) => ({
 CourseManageSection.propTypes = {
   itemFocus: itemFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
+  selectedPlanner: plannerShape,
 
   clearItemFocusDispatch: PropTypes.func.isRequired,
   setLecturesDispatch: PropTypes.func.isRequired,
