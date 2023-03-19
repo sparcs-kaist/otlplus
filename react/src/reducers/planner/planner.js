@@ -3,7 +3,7 @@ import {
   SET_PLANNERS, CLEAR_PLANNERS,
   SET_SELECTED_PLANNER,
   CREATE_PLANNER, DELETE_PLANNER, DUPLICATE_PLANNER,
-  ADD_ITEM_TO_PLANNER, // REMOVE_LECTURE_FROM_PLANNER,
+  ADD_ITEM_TO_PLANNER, REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
 } from '../../actions/planner/planner';
@@ -15,6 +15,19 @@ const initialState = {
   cellHeight: 50,
   isDragging: false,
   mobileIsPlannerTabsOpen: false,
+};
+
+const getListNameOfType = (type) => {
+  switch (type) {
+    case 'TAKEN':
+      return 'taken_items';
+    case 'FUTURE':
+      return 'future_items';
+    case 'GENERIC':
+      return 'generic_items';
+    default:
+      return undefined;
+  }
 };
 
 const planner = (state = initialState, action) => {
@@ -107,11 +120,13 @@ const planner = (state = initialState, action) => {
         planners: newPlanners,
       });
     }
-    /*
-    case REMOVE_LECTURE_FROM_PLANNER: {
+    case REMOVE_ITEM_FROM_PLANNER: {
+      const listName = getListNameOfType(action.item.type);
       const newPlanner = {
-        id: state.selectedPlanner.id,
-        lectures: state.selectedPlanner.lectures.filter((l) => (l.id !== action.lecture.id)),
+        ...state.selectedPlanner,
+        [listName]: state.selectedPlanner[listName].filter((i) => (
+          (i.type !== action.item.type) || (i.id !== action.item.id)
+        )),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
@@ -123,7 +138,6 @@ const planner = (state = initialState, action) => {
         planners: newPlanners,
       });
     }
-    */
     case REORDER_PLANNER: {
       const newPlanners = state.planners.map((t) => {
         if (t.id === action.planner.id) {

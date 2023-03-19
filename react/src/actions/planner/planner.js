@@ -9,7 +9,7 @@ export const CREATE_PLANNER = BASE_STRING + 'CREATE_PLANNER';
 export const DELETE_PLANNER = BASE_STRING + 'DELETE_PLANNER';
 export const DUPLICATE_PLANNER = BASE_STRING + 'DUPLICATE_PLANNER';
 export const ADD_ITEM_TO_PLANNER = BASE_STRING + 'ADD_ITEM_TO_PLANNER';
-// export const REMOVE_LECTURE_FROM_PLANNER = BASE_STRING + 'REMOVE_LECTURE_FROM_PLANNER';
+export const REMOVE_ITEM_FROM_PLANNER = BASE_STRING + 'REMOVE_ITEM_FROM_PLANNER';
 export const REORDER_PLANNER = BASE_STRING + 'REORDER_PLANNER';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
 /* eslint-enable prefer-template */
@@ -19,15 +19,6 @@ export function reset() {
     type: RESET,
   };
 }
-
-/*
-export function removeLectureFromPlanner(lecture) {
-  return {
-    type: REMOVE_LECTURE_FROM_PLANNER,
-    lecture: lecture,
-  };
-}
-*/
 
 export function setPlanners(planners) {
   return {
@@ -76,6 +67,13 @@ export function duplicatePlanner(id, planner) {
 export function addItemToPlanner(item) {
   return {
     type: ADD_ITEM_TO_PLANNER,
+    item: item,
+  };
+}
+
+export function removeItemFromPlanner(item) {
+  return {
+    type: REMOVE_ITEM_FROM_PLANNER,
     item: item,
   };
 }

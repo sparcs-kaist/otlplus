@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { withTranslation } from 'react-i18next';
 import { range } from 'lodash';
 
@@ -8,11 +9,11 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
 
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
-import { updateCellSize } from '../../../../actions/planner/planner';
+import { removeItemFromPlanner, updateCellSize } from '../../../../actions/planner/planner';
 
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
-// import userShape from '../../../../shapes/model/UserShape';
+import userShape from '../../../../shapes/model/UserShape';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
@@ -109,30 +110,41 @@ class PlannerSubSection extends Component {
     }
   }
 
-  /*
-  deleteLectureFromTimetable = (lecture) => {
-    const { selectedPlanner, user, removeLectureFromTimetableDispatch } = this.props;
+  deleteItemFromPlanner = (item) => {
+    const { selectedPlanner, user, removeItemFromPlannerDispatch } = this.props;
 
     if (!selectedPlanner) {
       return;
     }
 
-    const beforeRequest = () => {
-    };
-    const afterResponse = () => {
-      const newProps = this.props;
-      if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
-        return;
-      }
-      // TODO: Fix timetable not updated when semester unchanged and timetable changed
-      removeLectureFromTimetableDispatch(lecture);
-    };
-    performDeleteFromTable(
-      lecture, selectedPlanner, user, 'Timetable',
-      beforeRequest, afterResponse,
-    );
+    if (!user) {
+      removeItemFromPlannerDispatch(item);
+    }
+    else {
+      axios.post(
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/remove-item`,
+        {
+          item: item.id,
+          type: item.type,
+        },
+        {
+          metadata: {
+            gaCategory: 'Planner',
+            gaVariable: 'POST Update / Instance',
+          },
+        },
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+            return;
+          }
+          removeItemFromPlannerDispatch(item);
+        })
+        .catch((error) => {
+        });
+    }
   }
-  */
 
   render() {
     const {
@@ -382,7 +394,7 @@ class PlannerSubSection extends Component {
           onMouseOver={this.focusItemWithHover}
           onMouseOut={this.unfocusItemWithHover}
           onClick={this.focusItemWithClick}
-          deleteLecture={() => null} // TODO: Implement this
+          deleteLecture={this.deleteItemFromPlanner}
           key={`Tile:${year}-${semester}-${i.type}-${i.id}`}
         />
       ));
@@ -411,7 +423,7 @@ class PlannerSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  // user: state.common.user.user,
+  user: state.common.user.user,
   selectedPlanner: state.planner.planner.selectedPlanner,
   itemFocus: state.planner.itemFocus,
   cellWidth: state.planner.planner.cellWidth,
@@ -430,10 +442,13 @@ const mapDispatchToProps = (dispatch) => ({
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
   },
+  removeItemFromPlannerDispatch: (item) => {
+    dispatch(removeItemFromPlanner(item));
+  },
 });
 
 PlannerSubSection.propTypes = {
-  // user: userShape,
+  user: userShape,
   selectedPlanner: plannerShape,
   itemFocus: itemFocusShape.isRequired,
   cellWidth: PropTypes.number.isRequired,
@@ -444,6 +459,7 @@ PlannerSubSection.propTypes = {
   updateCellSizeDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
+  removeItemFromPlannerDispatch: PropTypes.func.isRequired,
 };
 
 
