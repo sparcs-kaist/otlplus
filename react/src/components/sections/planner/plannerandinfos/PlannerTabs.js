@@ -77,9 +77,12 @@ class PlannerTabs extends Component {
     if (!user) {
       return currentYear;
     }
-    if (!user.student_id.length !== 8) {
+    if (!user.student_id
+      || !user.student_id.length !== 8
+      || user.student_id[4] !== '0') {
       return currentYear;
     }
+
     const userEntranceYear = parseInt(user.student_id.substring(0, 4), 10);
     if (userEntranceYear < 2000 && userEntranceYear > currentYear) {
       return currentYear;
@@ -105,7 +108,7 @@ class PlannerTabs extends Component {
     } = this.props;
 
     const startYear = this._getPlannerStartYear(user);
-    const endYear = startYear + 3;
+    const endYear = Math.max(startYear + 3, (new Date()).getFullYear());
 
     if (!user) {
       createPlannerDispatch(this._createRandomPlannerId(), startYear, endYear);
