@@ -62,7 +62,7 @@ class PlannerSubSection extends Component {
 
   _getCourseOfItem = (item) => {
     if (item.type === 'TAKEN') {
-      return item.lecture.course;
+      return item.course;
     }
     if (item.type === 'FUTURE') {
       return item.course;

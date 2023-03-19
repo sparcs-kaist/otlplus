@@ -8,7 +8,7 @@ from django.views import View
 from django.db import transaction
 
 from .models import Planner, TakenPlannerItem, FuturePlannerItem, GenericPlannerItem
-from apps.subject.models import Course
+from apps.subject.models import Course, Lecture
 from .services import reorder_planner
 
 from utils.decorators import login_required_ajax
@@ -43,6 +43,7 @@ class UserInstancePlannerListView(View):
         BODY_STRUCTURE = [
             ("start_year", ParseType.INT, True, []),
             ("end_year", ParseType.INT, True, []),
+            ("taken_lectures", ParseType.LIST_INT, False, []),
             ("taken_items", ParseType.LIST_INT, True, []),
             ("future_items", ParseType.LIST_INT, True, []),
             ("generic_items", ParseType.LIST_INT, True, []),
@@ -52,7 +53,7 @@ class UserInstancePlannerListView(View):
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        start_year, end_year, taken_items, future_items, generic_items = parse_body(request.body, BODY_STRUCTURE)
+        start_year, end_year, taken_lectures, taken_items, future_items, generic_items = parse_body(request.body, BODY_STRUCTURE)
 
         related_planners = Planner.get_related_planners(userprofile)
         if related_planners.exists():
@@ -62,6 +63,14 @@ class UserInstancePlannerListView(View):
 
         planner = Planner.objects.create(user=userprofile, start_year=start_year, end_year=end_year,
                                          arrange_order=arrange_order)
+
+        if taken_lectures:
+            for l in taken_lectures:
+                try:
+                    lecture = Lecture.objects.get(id = l)
+                except Lecture.DoesNotExist:
+                    HttpResponseBadRequest("No such lecture")
+                TakenPlannerItem.objects.create(planner=planner, lecture=lecture)
 
         for i in taken_items:
             try:

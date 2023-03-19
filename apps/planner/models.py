@@ -45,6 +45,7 @@ class TakenPlannerItem(models.Model):
             "id": self.id,
             "type": "TAKEN",
             "lecture": self.lecture.to_json(nested=False),
+            "course": self.lecture.course.to_json(nested=False),
         }
 
         return result

@@ -49,7 +49,7 @@ const PlannerTile = ({
   };
   const getTitle = () => {
     if (item.type === 'TAKEN') {
-      return item.lecture.course[t('js.property.title')];
+      return item.course[t('js.property.title')];
     }
     if (item.type === 'FUTURE') {
       return item.course[t('js.property.title')];

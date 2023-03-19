@@ -90,6 +90,15 @@ class PlannerTabs extends Component {
     return userEntranceYear;
   }
 
+  _getTakenLectures = (user, startYear, endYear) => {
+    if (!user) {
+      return [];
+    }
+    return user.review_writable_lectures.filter((l) => (
+      (l.year >= startYear) && (l.year <= endYear)
+    ));
+  }
+
   changeTab = (planner) => {
     const { setSelectedPlannerDispatch } = this.props;
 
@@ -109,6 +118,7 @@ class PlannerTabs extends Component {
 
     const startYear = this._getPlannerStartYear(user);
     const endYear = Math.max(startYear + 3, (new Date()).getFullYear());
+    const takenLectures = this._getTakenLectures(user, startYear, endYear);
 
     if (!user) {
       createPlannerDispatch(this._createRandomPlannerId(), startYear, endYear);
@@ -119,6 +129,7 @@ class PlannerTabs extends Component {
         {
           start_year: startYear,
           end_year: endYear,
+          taken_lectures: takenLectures.map((l) => l.id),
           taken_items: [],
           future_items: [],
           generic_items: [],
