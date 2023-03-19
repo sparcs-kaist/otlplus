@@ -2576,14 +2576,7 @@ a {
     margin-bottom: $title-margin-bottom;
 
 
-    // TODO: Change after :has supported. See issue #852
-    /*
     &:has(+ .subtitle) {
-        margin-bottom: 2px;
-    }
-    */
-    .section--course-detail &,
-    .section--lecture-detail & {
         margin-bottom: 2px;
     }
 
@@ -2605,13 +2598,7 @@ a {
     margin-bottom: $title-margin-bottom;
 
 
-    // TODO: Change after :has supported. See issue #852
-    /*
     &:has(+ .buttons) {
-        margin-bottom: 4px;
-    }
-    */
-    .section--lecture-detail & {
         margin-bottom: 4px;
     }
 }

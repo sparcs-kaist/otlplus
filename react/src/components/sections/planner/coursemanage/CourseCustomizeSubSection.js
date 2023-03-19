@@ -105,7 +105,9 @@ class CourseCustomizeSubSection extends Component {
         <div className={classNames('detail-title-area')}>
           <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div>
           <div className={classNames('subtitle')}>수강 완료 - 2016 봄</div>
-          <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
+          <div className={classNames('buttons')}>
+            <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
+          </div>
         </div>
       </>
     );

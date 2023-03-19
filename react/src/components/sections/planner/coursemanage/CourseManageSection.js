@@ -127,9 +127,11 @@ class CourseManageSection extends Component {
               <div className={classNames('detail-title-area')}>
                 <div className={classNames('title')}>{itemFocus.course[t('js.property.title')]}</div>
                 <div className={classNames('subtitle')}>{itemFocus.course.old_code}</div>
-                <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: itemFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
-                  {t('ui.button.dictionary')}
-                </Link>
+                <div className={classNames('buttons')}>
+                  <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: itemFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
+                    {t('ui.button.dictionary')}
+                  </Link>
+                </div>
               </div>
               <Scroller key={itemFocus.course.id}>
                 <CourseInfoSubSection />
