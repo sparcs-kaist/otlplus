@@ -202,7 +202,24 @@ class PlannerTabs extends Component {
     event.stopPropagation();
 
     if (!user) {
-      duplicatePlannerDispatch(this._createRandomPlannerId(), planner);
+      const newPlanner = {
+        ...planner,
+        id: this._createRandomPlannerId(),
+        taken_items: planner.taken_items.map((i) => ({
+          ...i,
+          id: this._createRandomPlannerId(),
+        })),
+        future_items: planner.future_items.map((i) => ({
+          ...i,
+          id: this._createRandomPlannerId(),
+        })),
+        generic_items: planner.generic_items.map((i) => ({
+          ...i,
+          id: this._createRandomPlannerId(),
+        })),
+        arrange_order: planner.arrange_order,
+      };
+      duplicatePlannerDispatch(newPlanner);
     }
     else {
       axios.post(
@@ -222,7 +239,7 @@ class PlannerTabs extends Component {
         },
       )
         .then((response) => {
-          duplicatePlannerDispatch(response.data.id, planner);
+          duplicatePlannerDispatch(response.data);
         })
         .catch((error) => {
         });
@@ -314,8 +331,8 @@ const mapDispatchToProps = (dispatch) => ({
   deletePlannerDispatch: (planner) => {
     dispatch(deletePlanner(planner));
   },
-  duplicatePlannerDispatch: (id, planner) => {
-    dispatch(duplicatePlanner(id, planner));
+  duplicatePlannerDispatch: (newPlanner) => {
+    dispatch(duplicatePlanner(newPlanner));
   },
 });
 

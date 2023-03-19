@@ -87,21 +87,11 @@ const planner = (state = initialState, action) => {
       });
     }
     case DUPLICATE_PLANNER: {
-      const newPlanner = {
-        id: action.id,
-        start_year: action.planner.start_year,
-        end_year: action.planner.end_year,
-        // TODO: Implement duplicating items
-        taken_items: [],
-        future_items: [],
-        generic_items: [],
-        arrange_order: Math.max(...state.planners.map((t) => t.arrange_order)) + 1,
-      };
       return Object.assign({}, state, {
-        selectedPlanner: newPlanner,
+        selectedPlanner: action.newPlanner,
         planners: [
           ...state.planners,
-          newPlanner,
+          action.newPlanner,
         ],
       });
     }

@@ -56,11 +56,10 @@ export function deletePlanner(planner) {
   };
 }
 
-export function duplicatePlanner(id, planner) {
+export function duplicatePlanner(newPlanner) {
   return {
     type: DUPLICATE_PLANNER,
-    id: id,
-    planner: planner,
+    newPlanner: newPlanner,
   };
 }
 

@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
-
-import { clearItemFocus } from '../../../../actions/planner/itemFocus';
 
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
@@ -25,24 +22,6 @@ const indexOfType = (type) => {
 };
 
 class SummarySubSection extends Component {
-  componentDidUpdate(prevProps) {
-    const {
-      selectedListCode,
-      itemFocus, clearItemFocusDispatch,
-    } = this.props;
-
-    if (prevProps.selectedListCode !== selectedListCode) {
-      clearItemFocusDispatch();
-    }
-
-    if (!prevProps.itemFocus.course && itemFocus.course) {
-      // pass;
-    }
-    if ((prevProps.itemFocus.course && itemFocus.course) && (prevProps.itemFocus.course.id !== itemFocus.course.id)) {
-      // pass;
-    }
-  }
-
   render() {
     const { t } = this.props;
     const { itemFocus } = this.props;
@@ -118,15 +97,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  clearItemFocusDispatch: () => {
-    dispatch(clearItemFocus());
-  },
 });
 
 SummarySubSection.propTypes = {
   itemFocus: itemFocusShape.isRequired,
-
-  clearItemFocusDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(
