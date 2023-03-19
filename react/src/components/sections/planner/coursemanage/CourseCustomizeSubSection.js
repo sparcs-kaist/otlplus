@@ -12,6 +12,8 @@ import {
 } from '../../../../common/searchOptions';
 import CourseStatus from '../../../CourseStatus';
 import CountController from '../../../CountController';
+import { getSemesterName } from '../../../../utils/semesterUtils';
+import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 class CourseCustomizeSubSection extends Component {
   constructor(props) {
@@ -95,16 +97,29 @@ class CourseCustomizeSubSection extends Component {
 
 
   render() {
-    const { t } = this.props;
-
+    const { t, itemFocus } = this.props;
     const {
       selectedSemester, selectedRetake, totalCredit, basicRequired, basicElective, generalRequired, generalElective, majorRequired, majorElective, secondMajorRequired, secondMajorElective,
     } = this.state;
+
+    const getSubtitle = () => {
+      switch (itemFocus.from) {
+        case ItemFocusFrom.TABLE_TAKEN:
+          return `수강 완료 - ${itemFocus.item.lecture.year} ${getSemesterName(itemFocus.item.lecture.semester)}`;
+        case ItemFocusFrom.TABLE_FUTURE:
+          return `수강 예정 - ${itemFocus.item.year} ${getSemesterName(itemFocus.item.semester)}`;
+        case ItemFocusFrom.TABLE_GENERIC:
+          return `수강 예정 - ${itemFocus.item.year} ${getSemesterName(itemFocus.item.semester)}`;
+        default:
+          return 'Unknown';
+      }
+    };
+
     const sectionHead = (
       <>
         <div className={classNames('detail-title-area')}>
           <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div>
-          <div className={classNames('subtitle')}>수강 완료 - 2016 봄</div>
+          <div className={classNames('subtitle')}>{getSubtitle()}</div>
           <div className={classNames('buttons')}>
             <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
           </div>
