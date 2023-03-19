@@ -8,7 +8,7 @@ export const SET_SELECTED_PLANNER = BASE_STRING + 'SET_SELECTED_PLANNER';
 export const CREATE_PLANNER = BASE_STRING + 'CREATE_PLANNER';
 export const DELETE_PLANNER = BASE_STRING + 'DELETE_PLANNER';
 export const DUPLICATE_PLANNER = BASE_STRING + 'DUPLICATE_PLANNER';
-// export const ADD_LECTURE_TO_PLANNER = BASE_STRING + 'ADD_LECTURE_TO_PLANNER';
+export const ADD_COURSE_TO_PLANNER = BASE_STRING + 'ADD_COURSE_TO_PLANNER';
 // export const REMOVE_LECTURE_FROM_PLANNER = BASE_STRING + 'REMOVE_LECTURE_FROM_PLANNER';
 export const REORDER_PLANNER = BASE_STRING + 'REORDER_PLANNER';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
@@ -21,13 +21,6 @@ export function reset() {
 }
 
 /*
-export function addLectureTopPlanner(lecture) {
-  return {
-    type: ADD_LECTURE_TO_PLANNER,
-    lecture: lecture,
-  };
-}
-
 export function removeLectureFromPlanner(lecture) {
   return {
     type: REMOVE_LECTURE_FROM_PLANNER,
@@ -77,6 +70,15 @@ export function duplicatePlanner(id, planner) {
     type: DUPLICATE_PLANNER,
     id: id,
     planner: planner,
+  };
+}
+
+export function addCourseToPlanner(course, year, semester) {
+  return {
+    type: ADD_COURSE_TO_PLANNER,
+    course: course,
+    year: year,
+    semester: semester,
   };
 }
 
