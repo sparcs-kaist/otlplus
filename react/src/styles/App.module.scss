@@ -3558,6 +3558,16 @@ button.disabled {
             &.background-color--dark {
                 background-color: adjust-color($base-color, $saturation: 10%, $lightness: -10%);
             }
+            &.background-color--stripe {
+                $light-color: adjust-color($base-color, $lightness: 3%);
+                background: repeating-linear-gradient(
+                    -45deg,
+                    $base-color,
+                    $base-color 3px,
+                    $light-color 3px,
+                    $light-color 6px
+                );
+            }
         }
     }
 }

@@ -63,6 +63,7 @@ const PlannerTile = ({
         'tile',
         'tile--planner',
         `background-color--${1}`,
+        (item.type === 'TAKEN' ? null : 'background-color--stripe'),
         (isRaised ? 'tile--raised' : null),
         (isHighlighted ? 'tile--highlighted' : null),
         (isDimmed ? 'tile--dimmed' : null),
