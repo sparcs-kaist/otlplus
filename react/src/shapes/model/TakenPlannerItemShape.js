@@ -3,6 +3,7 @@ import nestedLectureShape from './NestedLectureShape';
 
 
 const takenPlannerItemShape = PropTypes.shape({
+  type: PropTypes.string.isRequired,
   lecture: nestedLectureShape.isRequired,
 });
 

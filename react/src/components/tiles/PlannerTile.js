@@ -48,10 +48,10 @@ const PlannerTile = ({
     return base;
   };
   const getTitle = () => {
-    if (item.lecture) {
+    if (item.type === 'TAKEN') {
       return item.lecture.course[t('js.property.title')];
     }
-    if (item.course) {
+    if (item.type === 'FUTURE') {
       return item.course[t('js.property.title')];
     }
     return 'Generic';
