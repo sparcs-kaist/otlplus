@@ -57,3 +57,45 @@ export const isDimmedListCourse = (course, itemFocus) => (
   && itemFocus.clicked === true
   && itemFocus.course.id !== course.id
 );
+
+export const getCategory = (planner, item) => {
+  const type = (
+    item.type === 'TAKEN'
+      ? item.lecture.type_en
+      : item.type === 'FUTURE'
+        ? item.course.type_en
+        : 'Other' // TODO: Update this
+  );
+
+  switch (type) {
+    case 'Basic Required':
+      return [0, 0, 0];
+    case 'Basic Elective':
+      return [0, 0, 1];
+    case 'Major Required':
+      // TODO: Retrieve and check majors and minors from planner
+      return [1, 0, 0];
+    case 'Major Elective':
+      // TODO: Retrieve and check majors and minors from planner
+      return [1, 0, 1];
+    case 'Thesis Study(Undergraduate)':
+      // TODO: Retrieve and check majors and minors from planner
+      return [2, 0, 0];
+    case 'Individual Study':
+      // TODO: Retrieve and check majors and minors from planner
+      return [2, 0, 1];
+    case 'General Required':
+      return [3, 0, 0];
+    case 'Humanities & Social Elective':
+      return [3, 0, 1];
+    case 'Other Elective':
+      return [4, 0, 0];
+    default:
+      return [4, 0, 1];
+  }
+};
+
+export const getColor = (planner, item) => {
+  const category = getCategory(planner, item);
+  return category[0] * 3 + 1;
+};

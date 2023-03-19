@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
 import genericPlannerItemShape from '../../shapes/model/GenericPlannerItemShape';
+import { getColor } from '../../utils/itemUtils';
 
 
 const PlannerTile = ({
@@ -62,7 +63,7 @@ const PlannerTile = ({
       className={classNames(
         'tile',
         'tile--planner',
-        `background-color--${1}`,
+        `background-color--${getColor(null, item)}`,
         (item.type === 'TAKEN' ? null : 'background-color--stripe'),
         (isRaised ? 'tile--raised' : null),
         (isHighlighted ? 'tile--highlighted' : null),
