@@ -62,8 +62,29 @@ class UserInstancePlannerListView(View):
 
         planner = Planner.objects.create(user=userprofile, start_year=start_year, end_year=end_year,
                                          arrange_order=arrange_order)
-        
-        # TODO: Implement adding items
+
+        for i in taken_items:
+            try:
+                target_item = TakenPlannerItem.objects.get(planner__user=userprofile, id=i)
+            except TakenPlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such planner item")
+            TakenPlannerItem.objects.create(planner=planner,
+                                            lecture=target_item.lecture)
+        for i in future_items:
+            try:
+                target_item = FuturePlannerItem.objects.get(planner__user=userprofile, id=i)
+            except FuturePlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such planner item")
+            FuturePlannerItem.objects.create(planner=planner,
+                                             year=target_item.year, semester=target_item.semester,
+                                             course=target_item.course)
+        for i in generic_items:
+            try:
+                target_item = GenericPlannerItem.objects.get(planner__user=userprofile, id=i)
+            except GenericPlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such planner item")
+            GenericPlannerItem.objects.create(planner=planner,
+                                              year=target_item.year, semester=target_item.semester,)
 
         return JsonResponse(planner.to_json())
 
@@ -174,7 +195,7 @@ class UserInstancePlannerInstanceRemoveItemView(View):
             try:
                 target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
             except FuturePlannerItem.DoesNotExist:
-                HttpResponseBadRequest("No such item")
+                HttpResponseBadRequest("No such planner item")
             target_item.delete()
 
         return JsonResponse(planner.to_json())
