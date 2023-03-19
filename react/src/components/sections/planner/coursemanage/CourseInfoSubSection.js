@@ -16,11 +16,15 @@ class CourseInfoSubSection extends Component {
     const { t } = this.props;
     const { itemFocus } = this.props;
 
-    if (!itemFocus.course || !itemFocus.lectures) {
+    if (!itemFocus.course) {
       return null;
     }
 
-    const recentLecture = itemFocus.lectures[itemFocus.lectures.length - 1];
+    const representativeLecture = (
+      itemFocus.lectures && (itemFocus.lectures.length > 0)
+        ? itemFocus.lectures[itemFocus.lectures.length - 1]
+        : null
+    );
 
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
@@ -33,11 +37,34 @@ class CourseInfoSubSection extends Component {
         />
         <Scores
           entries={[
-            { name: t('ui.score.numClasses'), score: recentLecture ? recentLecture.num_classes : '-' },
-            { name: t('ui.score.numLabs'), score: recentLecture ? recentLecture.num_labs : '-' },
-            recentLecture.credit >= 1
-              ? { name: t('ui.score.credit'), score: recentLecture.credit }
-              : { name: t('ui.score.au'), score: recentLecture ? recentLecture.credit_au : '-' },
+            {
+              name: t('ui.score.lectureHours'),
+              score: (
+                representativeLecture
+                  ? representativeLecture.num_classes
+                  : '-'
+              ),
+            },
+            {
+              name: t('ui.score.labHours'),
+              score: (
+                representativeLecture
+                  ? representativeLecture.num_labs
+                  : '-'
+              ),
+            },
+            {
+              name: (
+                representativeLecture
+                  ? (representativeLecture.credit === 0) ? t('ui.score.au') : t('ui.score.credit')
+                  : t('ui.score.credit')
+              ),
+              score: (
+                representativeLecture
+                  ? (representativeLecture.credit === 0) ? representativeLecture.credit_au : representativeLecture.credit
+                  : '-'
+              ),
+            },
           ]}
           big
         />

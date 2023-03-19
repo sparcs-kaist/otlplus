@@ -113,9 +113,7 @@
       "likes": "추천",
       "grade": "성적",
       "load": "널널",
-      "speech": "강의",
-      "numClasses": "강의 시간",
-      "numLabs": "실습 시간"
+      "speech": "강의"
     },
     "placeholder": {
       "loading": "불러오는 중",
