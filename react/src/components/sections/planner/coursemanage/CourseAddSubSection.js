@@ -14,7 +14,7 @@ import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import Attributes from '../../../Attributes';
-import { addCourseToPlanner } from '../../../../actions/planner/planner';
+import { addItemToPlanner } from '../../../../actions/planner/planner';
 
 
 class CourseCustomizeSubSection extends Component {
@@ -27,13 +27,19 @@ class CourseCustomizeSubSection extends Component {
     const {
       user,
       selectedPlanner,
-      addCourseToPlannerDispatch,
+      addItemToPlannerDispatch,
     } = this.props;
 
 
     if (!user) {
       const id = this._createRandomItemId();
-      addCourseToPlannerDispatch(id, course, year, semester);
+      addItemToPlannerDispatch({
+        id: id,
+        type: 'FUTURE',
+        course: course,
+        year: year,
+        semester: semester,
+      });
     }
     else {
       axios.post(
@@ -55,7 +61,7 @@ class CourseCustomizeSubSection extends Component {
           if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
             return;
           }
-          addCourseToPlannerDispatch(response.data.id, course, year, semester);
+          addItemToPlannerDispatch(response.data);
         })
         .catch((error) => {
         });
@@ -119,8 +125,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addCourseToPlannerDispatch: (id, course, year, semester) => {
-    dispatch(addCourseToPlanner(id, course, year, semester));
+  addItemToPlannerDispatch: (item) => {
+    dispatch(addItemToPlanner(item));
   },
 });
 
@@ -129,7 +135,7 @@ CourseCustomizeSubSection.propTypes = {
   selectedPlanner: plannerShape,
   itemFocus: itemFocusShape,
 
-  addCourseToPlannerDispatch: PropTypes.func.isRequired,
+  addItemToPlannerDispatch: PropTypes.func.isRequired,
 };
 
 

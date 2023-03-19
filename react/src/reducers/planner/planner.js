@@ -3,7 +3,7 @@ import {
   SET_PLANNERS, CLEAR_PLANNERS,
   SET_SELECTED_PLANNER,
   CREATE_PLANNER, DELETE_PLANNER, DUPLICATE_PLANNER,
-  ADD_COURSE_TO_PLANNER, // REMOVE_LECTURE_FROM_PLANNER,
+  ADD_ITEM_TO_PLANNER, // REMOVE_LECTURE_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
 } from '../../actions/planner/planner';
@@ -92,16 +92,10 @@ const planner = (state = initialState, action) => {
         ],
       });
     }
-    case ADD_COURSE_TO_PLANNER: {
+    case ADD_ITEM_TO_PLANNER: {
       const newPlanner = {
         ...state.selectedPlanner,
-        future_items: state.selectedPlanner.future_items.concat([{
-          id: action.id,
-          type: 'FUTURE',
-          year: action.year,
-          semester: action.semester,
-          course: action.course,
-        }]),
+        future_items: state.selectedPlanner.future_items.concat([action.item]),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
