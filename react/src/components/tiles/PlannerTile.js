@@ -99,7 +99,7 @@ PlannerTile.propTypes = {
     takenPlannerItemShape, futurePlannerItemShape, genericPlannerItemShape,
   ]).isRequired,
   yearIndex: PropTypes.number.isRequired,
-  semesterIndex: PropTypes.oneOf(0, 1).isRequired,
+  semesterIndex: PropTypes.oneOf([0, 1]).isRequired,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
