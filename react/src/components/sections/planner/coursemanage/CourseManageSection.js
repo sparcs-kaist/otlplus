@@ -100,7 +100,6 @@ class CourseManageSection extends Component {
         if (newProps.itemFocus.course.id !== itemFocus.course.id) {
           return;
         }
-        this._markRead(itemFocus.course);
         if (response.data.length === LIMIT) {
           // TODO: handle limit overflow
         }
