@@ -127,10 +127,22 @@ class CourseManageSection extends Component {
             <div className={classNames('subsection', 'subsection--flex')}>
               <CloseButton onClick={this.unfix} />
               <div className={classNames('detail-title-area')}>
-                <div className={classNames('title')}>{itemFocus.course[t('js.property.title')]}</div>
-                <div className={classNames('subtitle')}>{itemFocus.course.old_code}</div>
+                <div className={classNames('title')}>
+                  {itemFocus.course[t('js.property.title')]}
+                </div>
+                <div className={classNames('subtitle')}>
+                  {itemFocus.course.old_code}
+                </div>
                 <div className={classNames('buttons')}>
-                  <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: itemFocus.course.id }) }} target="_blank" rel="noopener noreferrer">
+                  <Link
+                    className={classNames('text-button', 'text-button--right')}
+                    to={{
+                      pathname: '/dictionary',
+                      search: qs.stringify({ startCourseId: itemFocus.course.id }),
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {t('ui.button.dictionary')}
                   </Link>
                 </div>
@@ -142,7 +154,14 @@ class CourseManageSection extends Component {
               </Scroller>
             </div>
           </div>
-          <Divider orientation={{ desktop: Divider.Orientation.VERTICAL, mobile: Divider.Orientation.HORIZONTAL }} isVisible={true} gridArea="divider-main" />
+          <Divider
+            orientation={{
+              desktop: Divider.Orientation.VERTICAL,
+              mobile: Divider.Orientation.HORIZONTAL,
+            }}
+            isVisible={true}
+            gridArea="divider-main"
+          />
           {
             itemFocus.from === ItemFocusFrom.LIST
               ? <CourseAddSubSection />

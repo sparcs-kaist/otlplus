@@ -27,7 +27,16 @@ class CourseReviewsSubSection extends Component {
       : (itemFocus.reviews.length
         ? (
           <div className={classNames('block-list', 'min-height-area')}>
-            {itemFocus.reviews.map((r) => <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />)}
+            {
+              itemFocus.reviews.map((r) => (
+                <ReviewBlock
+                  review={r}
+                  shouldLimitLines={false}
+                  pageFrom="Dictionary"
+                  key={r.id}
+                />
+              ))
+            }
           </div>
         )
         : (
