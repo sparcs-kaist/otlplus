@@ -77,12 +77,17 @@ const PlannerTile = ({
       onMouseOut={handleMouseOut}
       onClick={handleClick}
     >
-      <button
-        className={classNames('tile--planner__button')}
-        onClick={handleDeleteFromTableClick}
-      >
-        <i className={classNames('icon', 'icon--delete-lecture')} />
-      </button>
+      { item.type !== 'TAKEN'
+        ? (
+          <button
+            className={classNames('tile--planner__button')}
+            onClick={handleDeleteFromTableClick}
+          >
+            <i className={classNames('icon', 'icon--delete-lecture')} />
+          </button>
+        )
+        : null
+      }
       <div
         className={classNames('tile--planner__content')}
       >

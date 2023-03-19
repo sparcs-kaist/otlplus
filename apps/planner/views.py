@@ -200,6 +200,8 @@ class UserInstancePlannerInstanceRemoveItemView(View):
 
         item, type_ = parse_body(request.body, BODY_STRUCTURE)
 
+        if type_ == 'TAKEN':
+            return HttpResponseBadRequest("Planner item with type 'taken' can't be deleted")
         if type_ == 'FUTURE':
             try:
                 target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
