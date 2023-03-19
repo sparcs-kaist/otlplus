@@ -1906,7 +1906,7 @@ a {
     line-height: $line-height-small;
     transition: margin $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &.tile--highlighted {
-        background-color: #E0546F;
+        background: #E0546F !important;
     }
     &.tile--raised {
         margin-top: -3px;
