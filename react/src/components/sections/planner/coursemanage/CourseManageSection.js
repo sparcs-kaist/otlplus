@@ -41,12 +41,12 @@ class CourseManageSection extends Component {
       clearItemFocusDispatch();
     }
 
-    if (!prevProps.itemFocus.course && itemFocus.course) {
+    if (!prevProps.itemFocus.clicked && itemFocus.clicked) {
       this._fetchLectures();
       this._fetchReviews();
     }
-    if ((prevProps.itemFocus.course && itemFocus.course)
-      && (prevProps.itemFocus.course.id !== itemFocus.course.id)) {
+    if (prevProps.itemFocus.clicked && itemFocus.clicked
+      && (prevProps.itemFocus.course?.id !== itemFocus.course?.id)) {
       this._fetchLectures();
       this._fetchReviews();
     }
