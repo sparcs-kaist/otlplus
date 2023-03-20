@@ -103,6 +103,8 @@ export const getCategoryOfType = (type) => {
       return [2, 0, 1];
     case 'General Required':
       return [3, 0, 0];
+    case 'Mandatory General Courses':
+      return [3, 0, 0];
     case 'Humanities & Social Elective':
       return [3, 0, 1];
     case 'Other Elective':
