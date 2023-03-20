@@ -55,23 +55,11 @@ const planner = (state = initialState, action) => {
       });
     }
     case CREATE_PLANNER: {
-      const newArrangeOrder = state.planners.length > 0
-        ? Math.max(...state.planners.map((t) => t.arrange_order)) + 1
-        : 0;
-      const newPlanner = {
-        id: action.id,
-        start_year: action.startYear,
-        end_year: action.endYear,
-        taken_items: [],
-        future_items: [],
-        generic_items: [],
-        arrange_order: newArrangeOrder,
-      };
       return Object.assign({}, state, {
-        selectedPlanner: newPlanner,
+        selectedPlanner: action.newPlanner,
         planners: [
           ...state.planners,
-          newPlanner,
+          action.newPlanner,
         ],
       });
     }

@@ -40,12 +40,10 @@ export function setSelectedPlanner(planner) {
   };
 }
 
-export function createPlanner(id, startYear, endYear) {
+export function createPlanner(newPlanner) {
   return {
     type: CREATE_PLANNER,
-    id: id,
-    startYear: startYear,
-    endYear: endYear,
+    newPlanner: newPlanner,
   };
 }
 
