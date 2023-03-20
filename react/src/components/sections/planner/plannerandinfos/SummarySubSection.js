@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
@@ -26,7 +27,7 @@ class SummarySubSection extends Component {
     const { t, itemFocus, selectedPlanner } = this.props;
 
     // TODO: Retrieve data from planner
-    const majors = ['CS'];
+    const majors = ['전산학부'];
 
     const totalCredit = [0, 0, 136];
     // TODO: Apply constants to indexes
@@ -67,9 +68,56 @@ class SummarySubSection extends Component {
       ],
     };
 
+    const categoryBigTitles = {
+      // Basic
+      0: ['기초'],
+      // Major
+      1: majors.map((m) => `전공 - ${m}`),
+      // Research
+      2: [`연구 - ${majors[0]}`],
+      // General and humanity
+      3: ['교양'],
+      // Others
+      4: ['기타'],
+    };
+    const categoryTitles = {
+      // Basic
+      0: [
+        [
+          t('ui.type.basicRequired'),
+          t('ui.type.basicElective'),
+        ],
+      ],
+      // Major
+      1: majors.map((m) => [
+        t('ui.type.majorRequired'),
+        t('ui.type.majorElective'),
+      ]),
+      // Research
+      2: [
+        [
+          t('ui.type.graduationResearch'),
+          t('ui.type.individualResearch'),
+        ],
+      ],
+      // General and humanity
+      3: [
+        [
+          t('ui.type.generalRequired'),
+          t('ui.type.humanitiesSocialElective'),
+        ],
+      ],
+      // Others
+      4: [
+        [
+          t('ui.type.otherElective'),
+          t('ui.type.others'),
+        ],
+      ],
+    };
+
     if (selectedPlanner) {
       selectedPlanner.taken_items.forEach((i) => {
-        console.log(i);
         const category = getCategory(selectedPlanner, i);
         // eslint-disable-next-line fp/no-mutation
         totalCredit[ValueIndex.TAKEN] += getCredit(i);
@@ -118,62 +166,24 @@ class SummarySubSection extends Component {
                     },
                   ],
                 },
-                {
-                  name: t('ui.attribute.basic'),
-                  info: [
-                    {
-                      name: t('ui.type.basicRequired'),
-                      controller: (
-                        <CreditStatusBar
-                          credit={categoryCreditAndAus[0][0][0][ValueIndex.TAKEN]}
-                          totalCredit={categoryCreditAndAus[0][0][0][ValueIndex.REQUIREMENT]}
-                          focusedCredit={0}
-                          statusColor="#f3b6b5"
-                        />
-                      ),
-                    },
-                    {
-                      name: t('ui.type.basicElective'),
-                      controller: (
-                        <CreditStatusBar
-                          credit={categoryCreditAndAus[0][0][1][ValueIndex.TAKEN]}
-                          totalCredit={categoryCreditAndAus[0][0][1][ValueIndex.REQUIREMENT]}
-                          focusedCredit={0}
-                          statusColor="#f3c8ae"
-                        />
-                      ),
-                    },
-                  ],
-                },
-                ...majors.map((m, index) => (
-                  {
-                    name: `${t('ui.attribute.major')} - ${m[t('js.property.name')]}`,
-                    info: [
+                ...range(0, 5).map((i) => (
+                  range(0, categoryCreditAndAus[i].length).map((j) => ({
+                    name: categoryBigTitles[i][j],
+                    info: range(0, categoryCreditAndAus[i][j].length).map((k) => (
                       {
-                        name: t('ui.type.majorRequired'),
+                        name: categoryTitles[i][j][k],
                         controller: (
                           <CreditStatusBar
-                            credit={categoryCreditAndAus[1][index][0][ValueIndex.TAKEN]}
-                            totalCredit={categoryCreditAndAus[1][index][0][ValueIndex.REQUIREMENT]}
+                            credit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
+                            totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
                             focusedCredit={0}
-                            statusColor="#eee9a0"
+                            statusColor="#cccccc"
                           />
                         ),
-                      },
-                      {
-                        name: t('ui.type.majorElective'),
-                        controller: (
-                          <CreditStatusBar
-                            credit={categoryCreditAndAus[1][index][0][ValueIndex.TAKEN]}
-                            totalCredit={categoryCreditAndAus[1][index][0][ValueIndex.REQUIREMENT]}
-                            focusedCredit={0}
-                            statusColor="#e5f2a0"
-                          />
-                        ),
-                      },
-                    ],
-                  }
-                )),
+                      }
+                    )),
+                  }))
+                )).flat(),
               ]}
             />
           </Scroller>
