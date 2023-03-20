@@ -83,15 +83,7 @@ export const getCreditAndAu = (item) => {
   return 0;
 };
 
-export const getCategory = (planner, item) => {
-  const type = (
-    item.type === 'TAKEN'
-      ? item.lecture.type_en
-      : item.type === 'FUTURE'
-        ? item.course.type_en
-        : 'Other' // TODO: Update this
-  );
-
+export const getCategoryOfType = (type) => {
   switch (type) {
     case 'Basic Required':
       return [0, 0, 0];
@@ -118,6 +110,18 @@ export const getCategory = (planner, item) => {
     default:
       return [4, 0, 1];
   }
+};
+
+export const getCategory = (planner, item) => {
+  const type = (
+    item.type === 'TAKEN'
+      ? item.lecture.type_en
+      : item.type === 'FUTURE'
+        ? item.course.type_en
+        : 'Other' // TODO: Update this
+  );
+
+  return getCategoryOfType(type);
 };
 
 export const getColorOfCategory = (category) => {

@@ -4024,11 +4024,24 @@ i.icon {
         &__taken {
             height: 100%;
         }
+
+        &__planned {
+            height: 100%;
+        }
+
+        &__focused {
+            height: 100%;
+            background-color: $color-highlight;
+        }
     }
 
     &__text {
         text-align: right;
         font-size: $font-size-smallest;
         line-height: $line-height-smallest;
+
+        & > span {
+            color: $color-highlight;
+        }
     }
 }

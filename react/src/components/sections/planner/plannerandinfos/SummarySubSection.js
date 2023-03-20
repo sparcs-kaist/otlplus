@@ -12,7 +12,7 @@ import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import {
-  getCategory, getColorOfCategory,
+  getCategory, getCategoryOfType, getColorOfCategory,
   getCredit, getCreditAndAu,
 } from '../../../../utils/itemUtils';
 import plannerShape from '../../../../shapes/model/PlannerShape';
@@ -21,7 +21,8 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 const ValueIndex = {
   TAKEN: 0,
   PLANNED: 1,
-  REQUIREMENT: 2,
+  FOCUSED: 2,
+  REQUIREMENT: 3,
 };
 
 
@@ -32,20 +33,20 @@ class SummarySubSection extends Component {
     // TODO: Retrieve data from planner
     const majors = ['전산학부'];
 
-    const totalCredit = [0, 0, 136];
+    const totalCredit = [0, 0, 0, 136];
     // TODO: Apply constants to indexes
     // TODO: Load requirements from planner
     const categoryCreditAndAus = {
       // Basic
-      0: [[[0, 0, 23], [0, 0, 9]]],
+      0: [[[0, 0, 0, 23], [0, 0, 0, 9]]],
       // Major
-      1: majors.map((m) => [[0, 0, 19], [0, 0, 30]]),
+      1: majors.map((m) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
       // Research
-      2: [[[0, 0, 3], [0, 0, 0]]],
+      2: [[[0, 0, 0, 3], [0, 0, 0, 0]]],
       // General and humanity
-      3: [[[0, 0, 15], [0, 0, 21]]],
+      3: [[[0, 0, 0, 15], [0, 0, 0, 21]]],
       // Others
-      4: [[[0, 0, 0], [0, 0, 0]]],
+      4: [[[0, 0, 0, 0], [0, 0, 0, 0]]],
     };
 
     const categoryBigTitles = {
@@ -93,8 +94,23 @@ class SummarySubSection extends Component {
       /* eslint-enable fp/no-mutation */
     }
 
-    if (itemFocus.from !== ItemFocusFrom.NONE) {
-      // TODO: Implement this
+    if (itemFocus.from === ItemFocusFrom.LIST) {
+      /* eslint-disable fp/no-mutation */
+      const category = getCategoryOfType(itemFocus.course.type_en);
+      totalCredit[ValueIndex.FOCUSED] += itemFocus.course.credit;
+      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += itemFocus.course.credit + itemFocus.course.credit_au;
+      /* eslint-enable fp/no-mutation */
+    }
+    else if (
+      itemFocus.from === ItemFocusFrom.TABLE_TAKEN
+      || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
+      || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
+    ) {
+      /* eslint-disable fp/no-mutation */
+      const category = getCategory(selectedPlanner, itemFocus.item);
+      totalCredit[ValueIndex.FOCUSED] += getCredit(itemFocus.item);
+      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += getCreditAndAu(itemFocus.item);
+      /* eslint-enable fp/no-mutation */
     }
 
     return (
@@ -112,9 +128,10 @@ class SummarySubSection extends Component {
                         <CreditStatusBar
                           takenCredit={totalCredit[ValueIndex.TAKEN]}
                           plannedCredit={totalCredit[ValueIndex.TAKEN]}
+                          focusedCredit={totalCredit[ValueIndex.FOCUSED]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
-                          focusedCredit={0}
                           colorIndex={17}
+                          focusFrom={itemFocus.from}
                         />
                       ),
                     },
@@ -130,9 +147,10 @@ class SummarySubSection extends Component {
                           <CreditStatusBar
                             takenCredit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
                             plannedCredit={categoryCreditAndAus[i][j][k][ValueIndex.PLANNED]}
+                            focusedCredit={categoryCreditAndAus[i][j][k][ValueIndex.FOCUSED]}
                             totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
-                            focusedCredit={0}
                             colorIndex={getColorOfCategory([i, j, k])}
+                            focusFrom={itemFocus.from}
                           />
                         ),
                       }
