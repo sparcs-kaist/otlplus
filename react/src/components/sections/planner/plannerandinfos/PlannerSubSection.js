@@ -19,7 +19,7 @@ import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import {
   getCategory, getCreditAndAu,
-  isDimmedTableItem, isFocused, isTableClicked,
+  isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 
@@ -114,7 +114,7 @@ class PlannerSubSection extends Component {
   focusItemWithClick = (item) => {
     const { itemFocus, setItemFocusDispatch } = this.props;
 
-    if (isTableClicked(item, itemFocus)) {
+    if (isTableClickedItem(item, itemFocus)) {
       setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), false);
     }
     else {
@@ -400,9 +400,9 @@ class PlannerSubSection extends Component {
           endIndex={sum(sizes.slice(0, index)) + sizes[index]}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
-          isRaised={isTableClicked(i, itemFocus)}
-          isHighlighted={isFocused(i, itemFocus)}
-          isDimmed={isDimmedTableItem(i, itemFocus)}
+          isRaised={isTableClickedItem(i, itemFocus)}
+          isHighlighted={isFocusedItem(i, itemFocus)}
+          isDimmed={isDimmedItem(i, itemFocus)}
           isSimple={false} // TODO: Implement this
           onMouseOver={this.focusItemWithHover}
           onMouseOut={this.unfocusItemWithHover}

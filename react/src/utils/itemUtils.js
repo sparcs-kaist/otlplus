@@ -8,36 +8,31 @@ export const isIdenticalItem = (item1, item2) => (
   && item1.id === item2.id
 );
 
-export const isFocused = (item, itemFocus) => (
-  isIdenticalItem(item, itemFocus.item)
-);
-
-export const isListFocused = (item, itemFocus) => (
-  isFocused(item, itemFocus)
-  && itemFocus.from === ItemFocusFrom.LIST
-);
-
-export const isListClicked = (item, itemFocus) => (
-  isListFocused(item, itemFocus)
-  && itemFocus.clicked === true
-);
-
-export const isTableFocused = (item, itemFocus) => (
-  isFocused(item, itemFocus)
-  && (
+export const isTableFocusedItem = (item, itemFocus) => (
+  (
     itemFocus.from === ItemFocusFrom.TABLE_TAKEN
     || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
     || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
   )
+  && isIdenticalItem(item, itemFocus.item)
 );
 
-export const isTableClicked = (item, itemFocus) => (
-  isTableFocused(item, itemFocus)
+export const isTableClickedItem = (item, itemFocus) => (
+  isTableFocusedItem(item, itemFocus)
   && itemFocus.clicked === true
 );
 
-export const isDimmedTableItem = (item, itemFocus) => (
-  !isFocused(item, itemFocus)
+export const isFocusedItem = (item, itemFocus) => (
+  isTableFocusedItem(item, itemFocus)
+  || (
+    item.course
+    && itemFocus.course
+    && item.course.id === itemFocus.course.id
+  )
+);
+
+export const isDimmedItem = (item, itemFocus) => (
+  !isFocusedItem(item, itemFocus)
   && itemFocus.clicked === true
 );
 
