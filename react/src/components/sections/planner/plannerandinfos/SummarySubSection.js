@@ -114,7 +114,7 @@ class SummarySubSection extends Component {
                           plannedCredit={totalCredit[ValueIndex.TAKEN]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
                           focusedCredit={0}
-                          colorIndex={0}
+                          colorIndex={17}
                         />
                       ),
                     },

@@ -3550,11 +3550,12 @@ button.disabled {
     $base-colors: #F2CECE, #F4B3AE, #F2BCA0, #F0D3AB,
     #F1E1A9, #F4F2B3, #dbf4be, #beedd7,
     #b7e2de, #c9eaf4, #B4D3ED, #B9C5ED,
-    #CCC6ED, #D8C1F0, #EBCAEF, #f4badb;
+    #CCC6ED, #D8C1F0, #EBCAEF, #f4badb,
+    #CCCCCC;
 
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);
-        $dark-color: adjust-color($base-color, $saturation: 10%, $lightness: -10%);
+        $dark-color: adjust-color($base-color, $saturation: if($i <= 16, 10%, 0%), $lightness: -10%);
         $stripe-color: adjust-color($base-color, $lightness: 3%);
 
         &--#{$i} {
@@ -4016,7 +4017,7 @@ i.icon {
         border-radius: (6px / 2);
         margin: (($line-height-normal - 6px) / 2) 0;
         overflow: hidden;
-        background-color: #dfdfdf;
+        background-color: #E8E8E8;
         display: flex;
         flex-direction: row;
 

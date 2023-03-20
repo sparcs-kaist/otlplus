@@ -126,7 +126,10 @@ export const getCategory = (planner, item) => {
 };
 
 export const getColorOfCategory = (category) => {
-  return category[0] * 3 + 1;
+  if (category[0] === 4) {
+    return 17;
+  }
+  return ((category[0] * 3) % 16) + 1;
 };
 
 export const getColor = (planner, item) => {
