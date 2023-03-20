@@ -20,6 +20,9 @@ class CreditBar extends Component {
 
     return (
       <div className={classNames('credit-bar')}>
+        <div className={classNames('credit-bar__text')}>
+          {`${takenCredit} \u2192 ${takenCredit + plannedCredit} / ${totalCredit}`}
+        </div>
         <div className={classNames('credit-bar__body')}>
           <div
             className={classNames(
@@ -38,9 +41,6 @@ class CreditBar extends Component {
             )}
             style={{ width: `${getWidth(plannedCredit)}%` }}
           />
-        </div>
-        <div className={classNames('credit-bar__text')}>
-          {`${takenCredit} \u2192 ${takenCredit + plannedCredit} / ${totalCredit}`}
         </div>
       </div>
     );

@@ -4016,9 +4016,8 @@ i.icon {
     &__body {
         height: 6px;
         border-radius: (6px / 2);
-        margin: (($line-height-normal - 6px) / 2) 0;
         overflow: hidden;
-        background-color: #E8E8E8;
+        background-color: #EEEEEE;
         display: flex;
         flex-direction: row;
 
@@ -4028,12 +4027,8 @@ i.icon {
     }
 
     &__text {
-        position: absolute;
-        top: (($line-height-normal - $line-height-smaller) / 2);
-        bottom: (($line-height-normal - $line-height-smaller) / 2);
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: $font-size-smaller;
+        text-align: right;
+        font-size: $font-size-smallest;
+        line-height: $line-height-smallest;
     }
 }
