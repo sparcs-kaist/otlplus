@@ -47,15 +47,15 @@ class SummarySubSection extends Component {
 
     const categoryBigTitles = {
       // Basic
-      0: ['기초'],
+      0: [t('ui.type.basic')],
       // Major
-      1: majors.map((m) => `전공 - ${m}`),
+      1: majors.map((m) => `${t('ui.type.major')} - ${m}`),
       // Research
-      2: [`연구 - ${majors[0]}`],
+      2: [`${t('ui.type.research')} - ${majors[0]}`],
       // General and humanity
-      3: ['교양'],
+      3: [t('ui.type.general')],
       // Others
-      4: ['기타'],
+      4: [t('ui.type.etc')],
     };
     const categoryTitles = {
       // Basic
@@ -63,11 +63,11 @@ class SummarySubSection extends Component {
       // Major
       1: majors.map((m) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
       // Research
-      2: [[t('ui.type.graduationResearch'), t('ui.type.individualResearch')]],
+      2: [[t('ui.type.thesisStudy'), t('ui.type.individualStudy')]],
       // General and humanity
-      3: [[t('ui.type.generalRequired'), t('ui.type.humanitiesSocialElective')]],
+      3: [[t('ui.type.generalRequired'), t('ui.type.humanities')]],
       // Others
-      4: [[t('ui.type.otherElective'), t('ui.type.others')]],
+      4: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
     };
 
     if (selectedPlanner) {
@@ -101,10 +101,10 @@ class SummarySubSection extends Component {
             <CourseStatus
               entries={[
                 {
-                  name: t('ui.attribute.all'),
+                  name: t('ui.type.total'),
                   info: [
                     {
-                      name: '총학점',
+                      name: t('ui.type.totalCredit'),
                       controller: (
                         <CreditStatusBar
                           credit={totalCredit[ValueIndex.TAKEN]}

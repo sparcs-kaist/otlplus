@@ -143,11 +143,21 @@
       "retake": "재수강"
     },
     "type": {
+      "basic": "기초",
+      "major": "전공",
+      "research": "연구",
+      "general": "교양",
       "basicRequired": "기초필수",
       "basicElective": "기초선택",
       "majorRequired": "전공필수",
       "majorElective": "전공선택",
+      "generalRequired": "교양필수",
       "humanitiesSocialElective": "인문사회선택",
+      "humanities": "인문사회선택",
+      "thesisStudy": "졸업연구",
+      "individualStudy": "개별연구",
+      "otherElective": "자유선택",
+      "unclassified": "미분류",
       "etc": "기타",
       "basicRequiredShort": "기필",
       "basicElectiveShort": "기선",
@@ -159,7 +169,10 @@
       "generalRequiredShort": "공통",
       "electiveGraduateShort": "석박",
       "allShort": "전체",
-      "etcShort": "기타"
+      "etcShort": "기타",
+      "total": "전체",
+      "totalCredit": "학점",
+      "totalAu": "AU"
     },
     "department": {
       "hssShort": "인문",

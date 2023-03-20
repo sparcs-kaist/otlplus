@@ -143,11 +143,21 @@
       "retake": "Retake"
     },
     "type": {
+      "basic": "Basic",
+      "major": "Major",
+      "research": "Research",
+      "general": "General",
       "basicRequired": "Basic Required",
       "basicElective": "Basic Elective",
       "majorRequired": "Major Required",
       "majorElective": "Major Elective",
+      "generalRequired": "General Required",
       "humanitiesSocialElective": "Humanities & Social Elective",
+      "humanities": "Humanities",
+      "thesisStudy": "Thesis Study",
+      "individualStudy": "Individual Study",
+      "otherElective": "Other Elective",
+      "unclassified": "Unclassified",
       "etc": "Others",
       "basicRequiredShort": "BR",
       "basicElectiveShort": "BE",
@@ -159,7 +169,10 @@
       "generalRequiredShort": "GR",
       "electiveGraduateShort": "EG",
       "allShort": "ALL",
-      "etcShort": "ETC"
+      "etcShort": "ETC",
+      "total": "Total",
+      "totalCredit": "Credit",
+      "totalAu": "AU"
     },
     "department": {
       "hssShort": "HSS",
