@@ -70,17 +70,21 @@ export const getCredit = (item) => {
   return getDefaultCredit(item); // TODO: Implement additional customization
 };
 
-export const getCreditAndAu = (item) => {
+export const getAu = (item) => {
   if (item.type === 'TAKEN') {
-    return getDefaultCredit(item) + item.lecture.credit_au;
+    return item.lecture.credit_au;
   }
   if (item.type === 'FUTURE') {
-    return getDefaultCredit(item) + item.course.credit_au;
+    return item.course.credit_au;
   }
   if (item.type === 'GENERIC') {
-    return 3; // TODO: Update this
+    return 0;
   }
   return 0;
+};
+
+export const getCreditAndAu = (item) => {
+  return getCredit(item) + getAu(item);
 };
 
 export const getCategoryOfType = (type) => {

@@ -13,7 +13,7 @@ import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import {
   getCategory, getCategoryOfType, getColorOfCategory,
-  getCredit, getCreditAndAu,
+  getCredit, getAu, getCreditAndAu,
 } from '../../../../utils/itemUtils';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 
@@ -34,6 +34,7 @@ class SummarySubSection extends Component {
     const majors = ['전산학부'];
 
     const totalCredit = [0, 0, 0, 136];
+    const totalAu = [0, 0, 0, 8];
     // TODO: Apply constants to indexes
     // TODO: Load requirements from planner
     const categoryCreditAndAus = {
@@ -79,16 +80,19 @@ class SummarySubSection extends Component {
       selectedPlanner.taken_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
         totalCredit[ValueIndex.TAKEN] += getCredit(i);
+        totalAu[ValueIndex.TAKEN] += getAu(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAu(i);
       });
       selectedPlanner.future_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
         totalCredit[ValueIndex.PLANNED] += getCredit(i);
+        totalAu[ValueIndex.PLANNED] += getAu(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
       });
       selectedPlanner.generic_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
         totalCredit[ValueIndex.PLANNED] += getCredit(i);
+        totalAu[ValueIndex.PLANNED] += getAu(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
       });
       /* eslint-enable fp/no-mutation */
@@ -98,6 +102,7 @@ class SummarySubSection extends Component {
       /* eslint-disable fp/no-mutation */
       const category = getCategoryOfType(itemFocus.course.type_en);
       totalCredit[ValueIndex.FOCUSED] += itemFocus.course.credit;
+      totalAu[ValueIndex.FOCUSED] += itemFocus.course.credit_au;
       categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += itemFocus.course.credit + itemFocus.course.credit_au;
       /* eslint-enable fp/no-mutation */
     }
@@ -109,6 +114,7 @@ class SummarySubSection extends Component {
       /* eslint-disable fp/no-mutation */
       const category = getCategory(selectedPlanner, itemFocus.item);
       totalCredit[ValueIndex.FOCUSED] += getCredit(itemFocus.item);
+      totalAu[ValueIndex.FOCUSED] += getAu(itemFocus.item);
       categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += getCreditAndAu(itemFocus.item);
       /* eslint-enable fp/no-mutation */
     }
@@ -130,6 +136,19 @@ class SummarySubSection extends Component {
                           plannedCredit={totalCredit[ValueIndex.TAKEN]}
                           focusedCredit={totalCredit[ValueIndex.FOCUSED]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
+                          colorIndex={17}
+                          focusFrom={itemFocus.from}
+                        />
+                      ),
+                    },
+                    {
+                      name: t('ui.type.totalAu'),
+                      controller: (
+                        <CreditStatusBar
+                          takenCredit={totalAu[ValueIndex.TAKEN]}
+                          plannedCredit={totalAu[ValueIndex.PLANNED]}
+                          focusedCredit={totalAu[ValueIndex.FOCUSED]}
+                          totalCredit={totalAu[ValueIndex.REQUIREMENT]}
                           colorIndex={17}
                           focusFrom={itemFocus.from}
                         />
