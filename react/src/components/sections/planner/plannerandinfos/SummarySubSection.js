@@ -34,38 +34,15 @@ class SummarySubSection extends Component {
     // TODO: Load requirements from planner
     const categoryCreditAndAus = {
       // Basic
-      0: [
-        [
-          [0, 0, 23],
-          [0, 0, 0],
-        ],
-      ],
+      0: [[[0, 0, 23], [0, 0, 0]]],
       // Major
-      1: majors.map((m) => [
-        [0, 0, 19],
-        [0, 0, 30],
-      ]),
+      1: majors.map((m) => [[0, 0, 19], [0, 0, 30]]),
       // Research
-      2: [
-        [
-          [0, 0, 3],
-          [0, 0, 0],
-        ],
-      ],
+      2: [[[0, 0, 3], [0, 0, 0]]],
       // General and humanity
-      3: [
-        [
-          [0, 0, 15],
-          [0, 0, 21],
-        ],
-      ],
+      3: [[[0, 0, 15], [0, 0, 21]]],
       // Others
-      4: [
-        [
-          [0, 0, 0],
-          [0, 0, 0],
-        ],
-      ],
+      4: [[[0, 0, 0], [0, 0, 0]]],
     };
 
     const categoryBigTitles = {
@@ -82,62 +59,35 @@ class SummarySubSection extends Component {
     };
     const categoryTitles = {
       // Basic
-      0: [
-        [
-          t('ui.type.basicRequired'),
-          t('ui.type.basicElective'),
-        ],
-      ],
+      0: [[t('ui.type.basicRequired'), t('ui.type.basicElective')]],
       // Major
-      1: majors.map((m) => [
-        t('ui.type.majorRequired'),
-        t('ui.type.majorElective'),
-      ]),
+      1: majors.map((m) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
       // Research
-      2: [
-        [
-          t('ui.type.graduationResearch'),
-          t('ui.type.individualResearch'),
-        ],
-      ],
+      2: [[t('ui.type.graduationResearch'), t('ui.type.individualResearch')]],
       // General and humanity
-      3: [
-        [
-          t('ui.type.generalRequired'),
-          t('ui.type.humanitiesSocialElective'),
-        ],
-      ],
+      3: [[t('ui.type.generalRequired'), t('ui.type.humanitiesSocialElective')]],
       // Others
-      4: [
-        [
-          t('ui.type.otherElective'),
-          t('ui.type.others'),
-        ],
-      ],
+      4: [[t('ui.type.otherElective'), t('ui.type.others')]],
     };
 
     if (selectedPlanner) {
+      /* eslint-disable fp/no-mutation */
       selectedPlanner.taken_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
-        // eslint-disable-next-line fp/no-mutation
         totalCredit[ValueIndex.TAKEN] += getCredit(i);
-        // eslint-disable-next-line fp/no-mutation
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAu(i);
       });
       selectedPlanner.future_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
-        // eslint-disable-next-line fp/no-mutation
         totalCredit[ValueIndex.PLANNED] += getCredit(i);
-        // eslint-disable-next-line fp/no-mutation
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
       });
       selectedPlanner.generic_items.forEach((i) => {
         const category = getCategory(selectedPlanner, i);
-        // eslint-disable-next-line fp/no-mutation
         totalCredit[ValueIndex.PLANNED] += getCredit(i);
-        // eslint-disable-next-line fp/no-mutation
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
       });
+      /* eslint-enable fp/no-mutation */
     }
 
     if (itemFocus.from !== ItemFocusFrom.NONE) {
