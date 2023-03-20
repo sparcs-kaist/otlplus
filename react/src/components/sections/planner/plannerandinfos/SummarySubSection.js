@@ -37,7 +37,7 @@ class SummarySubSection extends Component {
     // TODO: Load requirements from planner
     const categoryCreditAndAus = {
       // Basic
-      0: [[[0, 0, 23], [0, 0, 0]]],
+      0: [[[0, 0, 23], [0, 0, 9]]],
       // Major
       1: majors.map((m) => [[0, 0, 19], [0, 0, 30]]),
       // Research
