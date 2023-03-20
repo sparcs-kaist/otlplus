@@ -133,7 +133,7 @@ class SummarySubSection extends Component {
                       controller: (
                         <CreditStatusBar
                           takenCredit={totalCredit[ValueIndex.TAKEN]}
-                          plannedCredit={totalCredit[ValueIndex.TAKEN]}
+                          plannedCredit={totalCredit[ValueIndex.PLANNED]}
                           focusedCredit={totalCredit[ValueIndex.FOCUSED]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
                           colorIndex={17}
