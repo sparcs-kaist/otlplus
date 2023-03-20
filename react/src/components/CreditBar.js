@@ -7,25 +7,40 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 class CreditBar extends Component {
   render() {
     const {
-      credit,
-      totalCredit,
+      takenCredit, plannedCredit, totalCredit,
       colorIndex,
     } = this.props;
 
-    const statusWidth = credit >= totalCredit
-      ? 100
-      : credit / totalCredit * 100;
+    const getWidth = (credit) => {
+      if (totalCredit === 0) {
+        return 100;
+      }
+      return credit / totalCredit * 100;
+    };
 
     return (
       <div className={classNames('credit-bar')}>
         <div className={classNames('credit-bar__body')}>
           <div
-            className={classNames('credit-bar__body__taken', `background-color--${colorIndex}`)}
-            style={{ width: statusWidth }}
+            className={classNames(
+              'credit-bar__body__taken',
+              `background-color--${colorIndex}`,
+              'background-color--dark',
+            )}
+            style={{ width: `${getWidth(takenCredit)}%` }}
+          />
+          <div
+            className={classNames(
+              'credit-bar__body__planned',
+              `background-color--${colorIndex}`,
+              'background-color--dark',
+              'background-color--stripe',
+            )}
+            style={{ width: `${getWidth(plannedCredit)}%` }}
           />
         </div>
         <div className={classNames('credit-bar__text')}>
-          {`${credit} / ${totalCredit}`}
+          {`${takenCredit} \u2192 ${takenCredit + plannedCredit} / ${totalCredit}`}
         </div>
       </div>
     );
@@ -33,7 +48,8 @@ class CreditBar extends Component {
 }
 
 CreditBar.propTypes = {
-  credit: PropTypes.number.isRequired,
+  takenCredit: PropTypes.number.isRequired,
+  plannedCredit: PropTypes.number.isRequired,
   totalCredit: PropTypes.number.isRequired,
   colorIndex: PropTypes.number.isRequired,
 };

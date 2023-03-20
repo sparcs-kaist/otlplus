@@ -3554,20 +3554,30 @@ button.disabled {
 
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);
+        $dark-color: adjust-color($base-color, $saturation: 10%, $lightness: -10%);
+        $stripe-color: adjust-color($base-color, $lightness: 3%);
 
         &--#{$i} {
             background-color: $base-color;
             &.background-color--dark {
-                background-color: adjust-color($base-color, $saturation: 10%, $lightness: -10%);
+                background-color: $dark-color;
             }
             &.background-color--stripe {
-                $light-color: adjust-color($base-color, $lightness: 3%);
                 background: repeating-linear-gradient(
                     -45deg,
                     $base-color,
-                    $base-color 3px,
-                    $light-color 3px,
-                    $light-color 6px
+                    $base-color 4px,
+                    $stripe-color 4px,
+                    $stripe-color 8px
+                );
+            }
+            &.background-color--dark.background-color--stripe {
+                background: repeating-linear-gradient(
+                    -45deg,
+                    $dark-color,
+                    $dark-color 2px,
+                    $stripe-color 2px,
+                    $stripe-color 4px
                 );
             }
         }

@@ -110,7 +110,8 @@ class SummarySubSection extends Component {
                       name: t('ui.type.totalCredit'),
                       controller: (
                         <CreditStatusBar
-                          credit={totalCredit[ValueIndex.TAKEN]}
+                          takenCredit={totalCredit[ValueIndex.TAKEN]}
+                          plannedCredit={totalCredit[ValueIndex.TAKEN]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
                           focusedCredit={0}
                           colorIndex={0}
@@ -127,7 +128,8 @@ class SummarySubSection extends Component {
                         name: categoryTitles[i][j][k],
                         controller: (
                           <CreditStatusBar
-                            credit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
+                            takenCredit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
+                            plannedCredit={categoryCreditAndAus[i][j][k][ValueIndex.PLANNED]}
                             totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
                             focusedCredit={0}
                             colorIndex={getColorOfCategory([i, j, k])}
