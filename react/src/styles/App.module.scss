@@ -3997,68 +3997,31 @@ i.icon {
     }
 }
 
-.credit-status {
-    &--container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100px;
-    }
+.credit-bar {
+    position: relative;
+    width: 100px;
 
-    &--back {
-        width: 100px;
+    &__body {
         height: 6px;
-        border-radius: 3px;
+        border-radius: (6px / 2);
+        margin: (($line-height-normal - 6px) / 2) 0;
+        overflow: hidden;
         background-color: #dfdfdf;
-        position: absolute;
-        z-index: 1;
-    }
-
-    &--highlight {
-        align-self: flex-start;
-        width: 80px;
-        height: 6px;
-        border-radius: 3px;
-        background-color: $color-highlight;
-        position: absolute;
-        z-index: 2;
-    }
-
-    &--front {
-        align-self: flex-start;
-        width: 80px;
-        height: 6px;
-        border-radius: 3px 0 0 3px;
-        position: absolute;
-        z-index: 3;
-    }
-
-    &--front-full { // front와 한번에 작성하는 법?
-        width: 46%;
-        height: 6px;
-        border-radius: 3px;
-        position: absolute;
-        z-index: 3;
-    }
-
-    &--textbox {
-        width: 100%;
-        height: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        z-index: 4;
+
+        &__taken {
+            height: 100%;
+        }
     }
 
-    &--text {
-        font-size: $font-size-smallest;
-    }
-
-    &--text-focused {
-        font-weight: bold;
-        font-size: $font-size-smallest;
-        color: $color-highlight;
+    &__text {
+        position: absolute;
+        top: (($line-height-normal - $line-height-smaller) / 2);
+        bottom: (($line-height-normal - $line-height-smaller) / 2);
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: $font-size-smaller;
     }
 }

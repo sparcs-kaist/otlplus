@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
-import CreditStatusBar from '../../../CreditStatusBar';
+import CreditStatusBar from '../../../CreditBar';
 import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
