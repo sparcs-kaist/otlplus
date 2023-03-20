@@ -13,8 +13,6 @@ class CreditStatusBar extends Component {
       colorIndex,
     } = this.props;
 
-    console.log(colorIndex);
-
     const statusWidth = credit >= totalCredit
       ? 100
       : credit / totalCredit * 100;
