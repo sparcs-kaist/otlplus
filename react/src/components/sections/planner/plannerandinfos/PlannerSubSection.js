@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
-import { range, sum } from 'lodash';
+import { range, sortBy, sum } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
@@ -18,7 +18,8 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import {
-  getCreditAndAu, isDimmedTableItem, isFocused, isTableClicked,
+  getCategory, getCreditAndAu,
+  isDimmedTableItem, isFocused, isTableClicked,
 } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 
@@ -42,17 +43,26 @@ class PlannerSubSection extends Component {
       return [];
     }
 
-    return [
-      ...planner.taken_items.filter((i) => (
-        i.lecture.year === year && i.lecture.semester === semester
-      )),
-      ...planner.future_items.filter((i) => (
-        i.year === year && i.semester === semester
-      )),
-      ...planner.generic_items.filter((i) => (
-        i.year === year && i.semester === semester
-      )),
-    ];
+    return sortBy(
+      [
+        ...planner.taken_items.filter((i) => (
+          i.lecture.year === year && i.lecture.semester === semester
+        )),
+        ...planner.future_items.filter((i) => (
+          i.year === year && i.semester === semester
+        )),
+        ...planner.generic_items.filter((i) => (
+          i.year === year && i.semester === semester
+        )),
+      ],
+      (i) => {
+        const category = getCategory(planner, i);
+        return category[0] * (100 ** 3)
+        + category[1] * (100 ** 2)
+        + category[2] * 100
+        + (100 - getCreditAndAu(i));
+      }
+    );
   }
 
   resize = () => {
