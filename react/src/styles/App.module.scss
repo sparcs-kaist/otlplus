@@ -3547,16 +3547,16 @@ button.disabled {
 
 
 .background-color {
-    $base-colors: #F2CECE, #F4B3AE, #F2BCA0, #F0D3AB,
-    #F1E1A9, #F4F2B3, #dbf4be, #beedd7,
-    #b7e2de, #c9eaf4, #B4D3ED, #B9C5ED,
-    #CCC6ED, #D8C1F0, #EBCAEF, #f4badb,
+    $base-colors: #F0B9B9, #F5C8AE, #F2D7A0, #EDE9A1,
+    #E5F2A2, #D8F5B3, #CAF5BF, #BEEDCE,
+    #B5E6E3, #BDE3F2, #B6D4F0, #B9C3ED,
+    #CCC2ED, #DBC0F0, #EBC0F0, #F5BCD9,
     #CCCCCC;
 
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);
-        $dark-color: adjust-color($base-color, $saturation: if($i <= 16, 10%, 0%), $lightness: -10%);
-        $stripe-color: adjust-color($base-color, $lightness: 3%);
+        $dark-color: adjust-color($base-color, $saturation: if($i <= 16, -6%, 0%), $lightness: -12%);
+        $stripe-color: adjust-color($base-color, $lightness: 5%);
 
         &--#{$i} {
             background-color: $base-color;
@@ -4011,6 +4011,7 @@ i.icon {
 .credit-bar {
     position: relative;
     width: 100px;
+    margin: (($line-height-normal - 6px - $line-height-smallest) / 2) 0;
 
     &__body {
         height: 6px;
