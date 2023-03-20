@@ -10,8 +10,10 @@ class CreditStatusBar extends Component {
       credit,
       totalCredit,
       focusedCredit,
-      statusColor,
+      colorIndex,
     } = this.props;
+
+    console.log(colorIndex);
 
     const statusWidth = credit >= totalCredit
       ? 100
@@ -31,10 +33,12 @@ class CreditStatusBar extends Component {
           )
         }
         <div
-          className={statusWidth === 100 ? classNames('credit-status--front-full') : classNames('credit-status--front')}
+          className={classNames(
+            statusWidth === 100 ? 'credit-status--front-full' : 'credit-status--front',
+            `background-color--${colorIndex}`
+          )}
           style={{
             width: statusWidth,
-            backgroundColor: statusColor,
           }}
         />
         <div className={classNames('credit-status--textbox')}>
@@ -82,7 +86,7 @@ CreditStatusBar.propTypes = {
   credit: PropTypes.number.isRequired,
   totalCredit: PropTypes.number.isRequired,
   focusedCredit: PropTypes.number.isRequired,
-  statusColor: PropTypes.string.isRequired,
+  colorIndex: PropTypes.number.isRequired,
 };
 
 export default withTranslation()(

@@ -125,7 +125,10 @@ export const getCategory = (planner, item) => {
   }
 };
 
-export const getColor = (planner, item) => {
-  const category = getCategory(planner, item);
+export const getColorOfCategory = (category) => {
   return category[0] * 3 + 1;
+};
+
+export const getColor = (planner, item) => {
+  return getColorOfCategory(getCategory(planner, item));
 };

@@ -11,7 +11,10 @@ import CreditStatusBar from '../../../CreditStatusBar';
 import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
-import { getCategory, getCredit, getCreditAndAu } from '../../../../utils/itemUtils';
+import {
+  getCategory, getColorOfCategory,
+  getCredit, getCreditAndAu,
+} from '../../../../utils/itemUtils';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 
 
@@ -110,7 +113,7 @@ class SummarySubSection extends Component {
                           credit={totalCredit[ValueIndex.TAKEN]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
                           focusedCredit={0}
-                          statusColor="#cccccc"
+                          colorIndex={0}
                         />
                       ),
                     },
@@ -127,7 +130,7 @@ class SummarySubSection extends Component {
                             credit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
                             totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
                             focusedCredit={0}
-                            statusColor="#cccccc"
+                            colorIndex={getColorOfCategory([i, j, k])}
                           />
                         ),
                       }
