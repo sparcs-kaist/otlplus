@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga';
+import { min } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
@@ -74,20 +75,28 @@ class PlannerTabs extends Component {
 
   _getPlannerStartYear = (user) => {
     const currentYear = (new Date()).getFullYear();
+
     if (!user) {
       return currentYear;
     }
-    if (!user.student_id
-      || user.student_id.length !== 8
-      || user.student_id[4] !== '0') {
-      return currentYear;
+
+    if (user.student_id
+      && user.student_id.length !== 8
+      && user.student_id[4] === '0') {
+      const userEntranceYear = parseInt(user.student_id.substring(0, 4), 10);
+      if (userEntranceYear >= 2000 && userEntranceYear <= currentYear) {
+        return userEntranceYear;
+      }
     }
 
-    const userEntranceYear = parseInt(user.student_id.substring(0, 4), 10);
-    if (userEntranceYear < 2000 && userEntranceYear > currentYear) {
-      return currentYear;
+    if (user.review_writable_lectures.length > 0) {
+      const firstTakenLectureYear = min(user.review_writable_lectures.map((l) => l.year));
+      if (firstTakenLectureYear >= 2000 && firstTakenLectureYear <= currentYear) {
+        return firstTakenLectureYear;
+      }
     }
-    return userEntranceYear;
+
+    return currentYear;
   }
 
   _getTakenLectures = (user, startYear, endYear) => {
