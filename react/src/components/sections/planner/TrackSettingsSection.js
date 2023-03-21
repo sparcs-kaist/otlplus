@@ -8,9 +8,30 @@ import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
 import { setIsTrackSettingsSectionOpen } from '../../../actions/planner/planner';
+import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
+import plannerShape from '../../../shapes/model/PlannerShape';
 
 
 class TrackSettingsSection extends Component {
+  constructor(props) {
+    super(props);
+
+    const { selectedPlanner } = props;
+
+    this.state = {
+      selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
+      selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
+      selectedAdditionalTracks: new Set([]),
+    };
+  }
+
+  updateCheckedValues = (filterName) => (checkedValues) => {
+    this.setState({
+      [filterName]: checkedValues,
+    });
+  }
+
+
   close = () => {
     const { setIsTrackSettingsSectionOpenDispatch } = this.props;
     setIsTrackSettingsSectionOpenDispatch(false);
@@ -18,7 +39,8 @@ class TrackSettingsSection extends Component {
 
 
   render() {
-    const { t } = this.props;
+    const { selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks } = this.state;
+    const { t, tracks } = this.props;
 
     return (
       <div className={classNames('section', 'section--modal')}>
@@ -27,25 +49,34 @@ class TrackSettingsSection extends Component {
           {t('ui.title.plannerSettings')}
         </div>
         <SearchFilter
-          updateCheckedValues={() => null}
+          updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
           inputName="general"
           titleName={t('ui.attribute.general')}
-          options={[]}
-          checkedValues={[]}
+          options={
+            tracks.general
+              .map((gt) => [gt.id.toString(), getGeneralTrackName(gt)])
+          }
+          checkedValues={selectedGeneralTracks}
         />
         <SearchFilter
-          updateCheckedValues={() => null}
+          updateCheckedValues={this.updateCheckedValues('selectedMajorTracks')}
           inputName="major"
           titleName={t('ui.attribute.major')}
-          options={[]}
-          checkedValues={[]}
+          options={
+            tracks.major
+              .map((mt) => [mt.id.toString(), getMajorTrackName(mt)])
+          }
+          checkedValues={new Set(selectedMajorTracks)}
         />
         <SearchFilter
-          updateCheckedValues={() => null}
+          updateCheckedValues={this.updateCheckedValues('selectedAdditionalTracks')}
           inputName="additional"
           titleName={t('ui.attribute.additional')}
-          options={[]}
-          checkedValues={[]}
+          options={
+            tracks.additional
+              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+          }
+          checkedValues={new Set(selectedAdditionalTracks)}
         />
       </div>
     );
@@ -53,6 +84,8 @@ class TrackSettingsSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  tracks: state.common.track.tracks,
+  selectedPlanner: state.planner.planner.selectedPlanner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,6 +95,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 TrackSettingsSection.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  tracks: PropTypes.any,
+  selectedPlanner: plannerShape.isRequired,
+
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
 };
 
