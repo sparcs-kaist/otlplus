@@ -23,10 +23,7 @@ class TrackSubSection extends Component {
 
     return (
       <>
-        <div
-          className={classNames('subsection', 'subsection--track')}
-          onClick={() => setIsTrackSettingsSectionOpenDispatch(true)} // TODO: Implement seperate button
-        >
+        <div className={classNames('subsection', 'subsection--track')}>
           <Attributes
             entries={[
               {
@@ -46,6 +43,14 @@ class TrackSubSection extends Component {
             ]}
             longInfo
           />
+          <div className={classNames('buttons')}>
+            <button
+              className={classNames('text-button')}
+              onClick={() => setIsTrackSettingsSectionOpenDispatch(true)}
+            >
+              {t('ui.button.change')}
+            </button>
+          </div>
         </div>
       </>
     );
