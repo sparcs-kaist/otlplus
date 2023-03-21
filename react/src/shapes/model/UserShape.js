@@ -11,6 +11,7 @@ const userShape = PropTypes.shape({
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   majors: PropTypes.arrayOf(departmentShape).isRequired,
+  department: departmentShape,
   departments: PropTypes.arrayOf(departmentShape).isRequired,
   favorite_departments: PropTypes.arrayOf(departmentShape),
   review_writable_lectures: PropTypes.arrayOf(lectureShape).isRequired,

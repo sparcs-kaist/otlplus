@@ -20,16 +20,23 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 
 class PlannerTabs extends Component {
   componentDidMount() {
-    this._fetchPlanners();
+    const { tracks } = this.props;
+
+    if (tracks) {
+      this._fetchPlanners();
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
-      user,
+      user, tracks,
       clearPlannersDispatch,
     } = this.props;
 
-    if (!prevProps.user && user) {
+    if (!prevProps.tracks && tracks) {
+      this._fetchPlanners();
+    }
+    if (tracks && !prevProps.user && user) {
       clearPlannersDispatch();
       this._fetchPlanners();
     }
@@ -99,6 +106,36 @@ class PlannerTabs extends Component {
     return currentYear;
   }
 
+  _getPlannerGeneralTrack = (user, startYear) => {
+    const { tracks } = this.props;
+
+    const targetTracks = tracks.general.filter((gt) => (
+      startYear >= gt.start_year
+        && startYear <= gt.end_year
+        && !gt.is_foreign
+    ));
+
+    if (targetTracks.length > 0) {
+      return targetTracks[0];
+    }
+    return tracks.general[0];
+  }
+
+  _getPlannerMajorTrack = (user, startYear) => {
+    const { tracks } = this.props;
+
+    const targetTracks = tracks.major.filter((mt) => (
+      startYear >= mt.start_year
+        && startYear <= mt.end_year
+        && mt.department.id === user?.department?.id
+    ));
+
+    if (targetTracks.length > 0) {
+      return targetTracks[0];
+    }
+    return tracks.major[0];
+  }
+
   _getTakenLectures = (user, startYear, endYear) => {
     if (!user) {
       return [];
@@ -128,6 +165,8 @@ class PlannerTabs extends Component {
 
     const startYear = this._getPlannerStartYear(user);
     const endYear = Math.max(startYear + 3, (new Date()).getFullYear());
+    const generalTrack = this._getPlannerGeneralTrack(user, startYear);
+    const majorTrack = this._getPlannerMajorTrack(user, startYear);
     const takenLectures = this._getTakenLectures(user, startYear, endYear);
 
     if (!user) {
@@ -135,7 +174,9 @@ class PlannerTabs extends Component {
         id: this._createRandomPlannerId(),
         start_year: startYear,
         end_year: endYear,
-        // TODO: Update tracks
+        general_track: generalTrack,
+        major_track: majorTrack,
+        additional_tracks: [],
         taken_items: [],
         future_items: [],
         generic_items: [],
@@ -148,9 +189,8 @@ class PlannerTabs extends Component {
         {
           start_year: startYear,
           end_year: endYear,
-          // TODO: Update tracks
-          general_track: 1,
-          major_track: 1,
+          general_track: generalTrack.id,
+          major_track: majorTrack.id,
           additional_tracks: [],
           taken_lectures: takenLectures.map((l) => l.id),
           taken_items: [],
@@ -347,6 +387,7 @@ class PlannerTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  tracks: state.common.track.tracks,
   planners: state.planner.planner.planners,
   selectedPlanner: state.planner.planner.selectedPlanner,
   myPlanner: state.planner.planner.myPlanner,
@@ -375,6 +416,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 PlannerTabs.propTypes = {
   user: userShape,
+  // eslint-disable-next-line react/forbid-prop-types
+  tracks: PropTypes.any,
   planners: PropTypes.arrayOf(plannerShape),
   selectedPlanner: plannerShape,
 
