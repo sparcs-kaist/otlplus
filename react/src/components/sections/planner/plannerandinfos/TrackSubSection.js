@@ -41,7 +41,7 @@ class TrackSubSection extends Component {
                 name: t('ui.attribute.additional'),
                 info: selectedPlanner.additional_tracks.map((at) => (
                   getAdditionalTrackName(at, 'ADDITIONAL')
-                )),
+                )).join(', '),
               },
             ]}
             longInfo
