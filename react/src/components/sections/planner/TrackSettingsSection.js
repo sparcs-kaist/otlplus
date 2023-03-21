@@ -21,7 +21,7 @@ class TrackSettingsSection extends Component {
     this.state = {
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
-      selectedAdditionalTracks: new Set([]),
+      selectedAdditionalTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
     };
   }
 
