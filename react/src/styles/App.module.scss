@@ -3150,6 +3150,9 @@ a {
                     margin-bottom: $attribute-info-margin-between;
                     margin-right: $attribute-info-margin-between;
                     white-space: nowrap;
+                    &:hover {
+                        color: $color-text-dark;
+                    }
 
                     & > i {
                         margin-left: 3px;
