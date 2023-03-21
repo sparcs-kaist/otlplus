@@ -3027,9 +3027,9 @@ a {
 }
 
 .course-status {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    &:not(:last-child) {
+        margin-bottom: $attribute-margin-bottom + 2px;
+    }
 
     &--name {
         font-weight: bold;
@@ -3038,12 +3038,14 @@ a {
 
     &--info {
         align-self: center;
-        width: 95%;
+        width: calc(100% - 8px);
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-bottom: $attribute-margin-bottom;
-        margin-left: $attribute-margin-bottom;
+        margin-left: 8px;
+        &:not(:last-child) {
+            margin-bottom: $attribute-margin-bottom;
+        }
 
         &--name {
             align-self: center;
@@ -4034,13 +4036,16 @@ i.icon {
 }
 
 .credit-bar {
+    $bar-height: 6px;
+    $margin-tb-base: ($line-height-normal - $bar-height - $line-height-smallest) / 2;
+
     position: relative;
-    width: 100px;
-    margin: (($line-height-normal - 6px - $line-height-smallest) / 2) 0;
+    width: 50%;
+    margin: ($margin-tb-base - 4px) 0 ($margin-tb-base + 4px) 0;
 
     &__body {
-        height: 6px;
-        border-radius: (6px / 2);
+        height: $bar-height;
+        border-radius: ($bar-height / 2);
         overflow: hidden;
         background-color: #EEEEEE;
         display: flex;
