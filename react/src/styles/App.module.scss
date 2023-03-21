@@ -2064,9 +2064,9 @@ a {
                 color: rgba(#000000,0.8);
                 margin: 0;
                 pointer-events: none;
-                .tile--timetable.tile--highlighted &,
-                .tile--timetable.tile--raised &,
-                .tile--timetable.tile--temp &
+                .tile--planner.tile--highlighted &,
+                .tile--planner.tile--raised &,
+                .tile--planner.tile--temp &
                  {
                     color: rgba(#FFFFFF,1);
                 }
