@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
-import { setIsTrackSettingsSectionOpen } from '../../../actions/planner/planner';
+import { setIsTrackSettingsSectionOpen, updatePlannerTracks } from '../../../actions/planner/planner';
 import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
 import plannerShape from '../../../shapes/model/PlannerShape';
 
@@ -29,6 +29,80 @@ class TrackSettingsSection extends Component {
     this.setState({
       [filterName]: checkedValues,
     });
+  }
+
+
+  submit = () => {
+    const { selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks } = this.state;
+    const { tracks, updatePlannerTracksDispatch } = this.props;
+
+    if (selectedGeneralTracks.size !== 1) {
+      // TODO: Prevent multiple selection
+      // eslint-disable-next-line no-alert
+      alert('BETA: 기본 요건은 하나만 선택해 주세요.');
+      return;
+    }
+    const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
+    const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
+
+    if (selectedMajorTracks.size !== 1) {
+      // TODO: Prevent multiple selection
+      // eslint-disable-next-line no-alert
+      alert('BETA: 전공 요건은 하나만 선택해 주세요.');
+      return;
+    }
+    const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
+    const majorTrack = tracks.major.find((nt) => (nt.id === majorTrackId));
+
+    const additionalTrackIds = Array.from(selectedAdditionalTracks).map((i) => parseInt(i, 10));
+    const additionalTracks = additionalTrackIds.map((i) => tracks.additional.find((at) => (at.id === i)));
+    if (additionalTracks.some((at) => (
+      (at.type === 'DOUBLE' || at.type === 'MINOR')
+      && at.department.id === majorTrack.department.id
+    ))) {
+      // eslint-disable-next-line no-alert
+      alert('전공과 동일한 학과의 부전공 또는 복수전공은 추가할 수 없습니다.');
+      return;
+    }
+    if (additionalTracks.some((at1) => (
+      (at1.type === 'DOUBLE' || at1.type === 'MINOR')
+      && (
+        additionalTracks.filter((at2) => (
+          (at2.type === 'DOUBLE' || at2.type === 'MINOR')
+          && at2.department.id === at1.department.id
+        )).length > 1
+      )
+    ))) {
+      // eslint-disable-next-line no-alert
+      alert('동일한 학과의 부전공 또는 복수전공을 여러 개 추가할 수 없습니다.');
+      return;
+    }
+    if (additionalTracks.some((at) => (
+      at.type === 'ADVANCED'
+      && at.department.id === majorTrack.department.id
+    ))) {
+      // eslint-disable-next-line no-alert
+      alert('전공과 다른 학과의 심화전공은 추가할 수 없습니다.');
+      return;
+    }
+    if (additionalTracks.filter((at) => (at.type === 'ADVANCED')).length > 1) {
+      // eslint-disable-next-line no-alert
+      alert('심화전공은 여러 개 추가할 수 없습니다.');
+      return;
+    }
+    if (additionalTracks.filter((at) => (at.type === 'INTERDISCIPLINARY')).length > 1) {
+      // eslint-disable-next-line no-alert
+      alert('자유융합전공은 여러 개 추가할 수 없습니다.');
+      return;
+    }
+
+    updatePlannerTracksDispatch(
+      generalTrack,
+      majorTrack,
+      additionalTracks,
+    );
+
+    this.close();
   }
 
 
@@ -78,6 +152,17 @@ class TrackSettingsSection extends Component {
           }
           checkedValues={new Set(selectedAdditionalTracks)}
         />
+        <div className={classNames('caption')}>
+          Beta UI: 기본과 전공 요건은 하나씩만 선택해 주세요.
+        </div>
+        <div className={classNames('buttons')}>
+          <button className={classNames('text-button')} onClick={this.submit}>
+            {t('ui.button.confirm')}
+          </button>
+          <button className={classNames('text-button')} onClick={this.close}>
+            {t('ui.button.cancel')}
+          </button>
+        </div>
       </div>
     );
   }
@@ -92,6 +177,9 @@ const mapDispatchToProps = (dispatch) => ({
   setIsTrackSettingsSectionOpenDispatch: (isTrackSettingsSectionOpen) => {
     dispatch(setIsTrackSettingsSectionOpen(isTrackSettingsSectionOpen));
   },
+  updatePlannerTracksDispatch: (generalTrack, majorTrack, additionalTracks) => {
+    dispatch(updatePlannerTracks(generalTrack, majorTrack, additionalTracks));
+  },
 });
 
 TrackSettingsSection.propTypes = {
@@ -100,6 +188,7 @@ TrackSettingsSection.propTypes = {
   selectedPlanner: plannerShape.isRequired,
 
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
+  updatePlannerTracksDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(

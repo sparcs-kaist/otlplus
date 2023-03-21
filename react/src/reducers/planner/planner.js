@@ -3,6 +3,7 @@ import {
   SET_PLANNERS, CLEAR_PLANNERS,
   SET_SELECTED_PLANNER,
   CREATE_PLANNER, DELETE_PLANNER, DUPLICATE_PLANNER,
+  UPDATE_PLANNER_TRACKS,
   ADD_ITEM_TO_PLANNER, REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
@@ -83,6 +84,23 @@ const planner = (state = initialState, action) => {
           ...state.planners,
           action.newPlanner,
         ],
+      });
+    }
+    case UPDATE_PLANNER_TRACKS: {
+      const newPlanner = {
+        ...state.selectedPlanner,
+        general_track: action.generalTrack,
+        major_track: action.majorTrack,
+        additional_tracks: [...action.additionalTracks],
+      };
+      const newPlanners = state.planners.map((t) => (
+        t.id === newPlanner.id
+          ? newPlanner
+          : t
+      ));
+      return Object.assign({}, state, {
+        selectedPlanner: newPlanner,
+        planners: newPlanners,
       });
     }
     case ADD_ITEM_TO_PLANNER: {
