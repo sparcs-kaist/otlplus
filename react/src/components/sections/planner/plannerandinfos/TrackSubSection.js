@@ -9,7 +9,7 @@ import Attributes from '../../../Attributes';
 import { setIsTrackSettingsSectionOpen } from '../../../../actions/planner/planner';
 
 
-class SettingsSubSection extends Component {
+class TrackSubSection extends Component {
   render() {
     const { t, setIsTrackSettingsSectionOpenDispatch } = this.props;
 
@@ -20,7 +20,7 @@ class SettingsSubSection extends Component {
     return (
       <>
         <div
-          className={classNames('subsection', 'subsection--planner-setting')}
+          className={classNames('subsection', 'subsection--track')}
           onClick={() => setIsTrackSettingsSectionOpenDispatch(true)} // TODO: Implement seperate button
         >
           <Attributes
@@ -46,12 +46,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-SettingsSubSection.propTypes = {
+TrackSubSection.propTypes = {
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(
   connect(mapStateToProps, mapDispatchToProps)(
-    SettingsSubSection
+    TrackSubSection
   )
 );

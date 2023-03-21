@@ -15,7 +15,7 @@ import PlannerSubSection from '../components/sections/planner/plannerandinfos/Pl
 import CourseListTabs from '../components/sections/planner/courselist/CourseListTabs';
 import CourseListSection from '../components/sections/planner/courselist/CourseListSection';
 import CourseManageSection from '../components/sections/planner/coursemanage/CourseManageSection';
-import SettingsSubSection from '../components/sections/planner/plannerandinfos/SettingsSubSection';
+import TrackSubSection from '../components/sections/planner/plannerandinfos/TrackSubSection';
 import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
 import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
@@ -54,7 +54,7 @@ class PlannerPage extends Component {
                 isVisible={true}
                 gridArea="divider-main"
               />
-              <SettingsSubSection />
+              <TrackSubSection />
               <Divider
                 orientation={Divider.Orientation.HORIZONTAL}
                 isVisible={{

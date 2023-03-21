@@ -1024,7 +1024,7 @@ a {
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content 1fr min-content min-content;
             grid-template-areas:
-                "planner  divider-main    planner-setting"
+                "planner  divider-main    track"
                 "planner  divider-main    divider-sub-1"
                 "planner  divider-main    planner-summary"
                 "planner  divider-main    divider-sub-2"
@@ -1865,8 +1865,8 @@ a {
         }
     }
 
-    &--planner-setting {
-        grid-area: planner-setting;
+    &--track {
+        grid-area: track;
     }
 
     &--planner-summary {
