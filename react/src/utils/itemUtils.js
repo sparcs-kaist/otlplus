@@ -164,14 +164,20 @@ export const getCategory = (planner, item) => {
 };
 
 export const getColorOfCategory = (planner, category) => {
-  if (category[0] === 4) {
-    return 17;
+  switch (category[0]) {
+    case 0:
+      return 1;
+    case 1:
+      return 3 + ((category[1] * 2) % 7);
+    case 2:
+      return 11;
+    case 3:
+      return 14;
+    case 4:
+      return 17;
+    default:
+      return 17;
   }
-  const numAdditionalMajors = planner?.additional_tracks ? planner.additional_tracks.length : 0;
-  if (category[0] > 1) {
-    return (((category[0] + numAdditionalMajors) * 3) % 16) + 1;
-  }
-  return (((category[0] + category[1]) * 3) % 16) + 1;
 };
 
 export const getColor = (planner, item) => {
