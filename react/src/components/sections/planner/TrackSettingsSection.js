@@ -79,7 +79,7 @@ class TrackSettingsSection extends Component {
     }
     if (additionalTracks.some((at) => (
       at.type === 'ADVANCED'
-      && at.department.id === majorTrack.department.id
+      && at.department.id !== majorTrack.department.id
     ))) {
       // eslint-disable-next-line no-alert
       alert('전공과 다른 학과의 심화전공은 추가할 수 없습니다.');
