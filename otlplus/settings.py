@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     "apps.subject.apps.SubjectConfig",
     "apps.timetable.apps.TimetableConfig",
     "apps.planner.apps.PlannerConfig",
+    "apps.graduation.apps.GraduationConfig",
 )
 
 MIDDLEWARE = [
