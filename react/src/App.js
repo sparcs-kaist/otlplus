@@ -27,6 +27,7 @@ import plannerReducer from './reducers/planner/index';
 
 import { setUser } from './actions/common/user';
 import { setSemesters } from './actions/common/semester';
+import { setTracks } from './actions/common/track';
 import { setIsPortrait } from './actions/common/media';
 
 
@@ -94,6 +95,23 @@ class App extends Component {
     )
       .then((response) => {
         store.dispatch(setSemesters(response.data));
+      })
+      .catch((error) => {
+      });
+
+    axios.get(
+      '/api/tracks',
+      {
+        params: {
+        },
+        metadata: {
+          gaCategory: 'Track',
+          gaVariable: 'GET / List',
+        },
+      },
+    )
+      .then((response) => {
+        store.dispatch(setTracks(response.data));
       })
       .catch((error) => {
       });
