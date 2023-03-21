@@ -8,6 +8,7 @@ import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
 import genericPlannerItemShape from '../../shapes/model/GenericPlannerItemShape';
 import { getColor } from '../../utils/itemUtils';
+import plannerShape from '../../shapes/model/PlannerShape';
 
 
 const PlannerTile = ({
@@ -15,6 +16,7 @@ const PlannerTile = ({
   item,
   yearIndex, semesterIndex, beginIndex, endIndex,
   cellWidth, cellHeight,
+  planner,
   isRaised, isHighlighted, isDimmed, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
 }) => {
@@ -63,7 +65,7 @@ const PlannerTile = ({
       className={classNames(
         'tile',
         'tile--planner',
-        `background-color--${getColor(null, item)}`,
+        `background-color--${getColor(planner, item)}`,
         (item.type === 'TAKEN' ? null : 'background-color--stripe'),
         (isRaised ? 'tile--raised' : null),
         (isHighlighted ? 'tile--highlighted' : null),
@@ -111,6 +113,7 @@ PlannerTile.propTypes = {
   endIndex: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
+  planner: plannerShape.isRequired,
   isRaised: PropTypes.bool.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,

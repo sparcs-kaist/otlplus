@@ -400,6 +400,7 @@ class PlannerSubSection extends Component {
           endIndex={sum(sizes.slice(0, index)) + sizes[index]}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
+          planner={selectedPlanner}
           isRaised={isTableClickedItem(i, itemFocus)}
           isHighlighted={isFocusedItem(i, itemFocus)}
           isDimmed={isDimmedItem(i, itemFocus)}

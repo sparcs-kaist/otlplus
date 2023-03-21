@@ -135,7 +135,7 @@ class SummarySubSection extends Component {
 
     if (itemFocus.from === ItemFocusFrom.LIST) {
       /* eslint-disable fp/no-mutation */
-      const category = getCategoryOfType(itemFocus.course.type_en);
+      const category = getCategoryOfType(selectedPlanner, itemFocus.course.type_en, itemFocus.course.department);
       totalCredit[ValueIndex.FOCUSED] += itemFocus.course.credit;
       totalAu[ValueIndex.FOCUSED] += itemFocus.course.credit_au;
       categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += itemFocus.course.credit + itemFocus.course.credit_au;
@@ -203,7 +203,7 @@ class SummarySubSection extends Component {
                             plannedCredit={categoryCreditAndAus[i][j][k][ValueIndex.PLANNED]}
                             focusedCredit={categoryCreditAndAus[i][j][k][ValueIndex.FOCUSED]}
                             totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
-                            colorIndex={getColorOfCategory([i, j, k])}
+                            colorIndex={getColorOfCategory(selectedPlanner, [i, j, k])}
                             focusFrom={itemFocus.from}
                           />
                         ),

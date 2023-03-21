@@ -87,7 +87,7 @@ export const getCreditAndAu = (item) => {
   return getCredit(item) + getAu(item);
 };
 
-export const getCategoryOfType = (type) => {
+export const getCategoryOfType = (planner, type, department) => {
   switch (type) {
     case 'Basic Required':
       return [0, 0, 0];
@@ -95,10 +95,16 @@ export const getCategoryOfType = (type) => {
       return [0, 0, 1];
     case 'Major Required':
       // TODO: Retrieve and check majors and minors from planner
-      return [1, 0, 0];
+      if (planner?.major_track?.department?.id === department.id) {
+        return [1, 0, 0];
+      }
+      return [1, 1, 0];
     case 'Major Elective':
       // TODO: Retrieve and check majors and minors from planner
-      return [1, 0, 1];
+      if (planner?.major_track?.department?.id === department.id) {
+        return [1, 0, 1];
+      }
+      return [1, 1, 1];
     case 'Thesis Study(Undergraduate)':
       return [2, 0, 0];
     case 'Individual Study':
@@ -124,17 +130,28 @@ export const getCategory = (planner, item) => {
         ? item.course.type_en
         : 'Other' // TODO: Update this
   );
+  const department = (
+    item.type === 'TAKEN'
+      ? item.lecture.department
+      : item.type === 'FUTURE'
+        ? item.course.department
+        : 'Other' // TODO: Update this
+  );
 
-  return getCategoryOfType(type);
+  return getCategoryOfType(planner, type, department);
 };
 
-export const getColorOfCategory = (category) => {
+export const getColorOfCategory = (planner, category) => {
   if (category[0] === 4) {
     return 17;
   }
-  return ((category[0] * 3) % 16) + 1;
+  const numAdditionalMajors = planner?.additional_tracks ? planner.additional_tracks.length : 0;
+  if (category[0] > 1) {
+    return (((category[0] + numAdditionalMajors) * 3) % 16) + 1;
+  }
+  return (((category[0] + category[1]) * 3) % 16) + 1;
 };
 
 export const getColor = (planner, item) => {
-  return getColorOfCategory(getCategory(planner, item));
+  return getColorOfCategory(planner, getCategory(planner, item));
 };
