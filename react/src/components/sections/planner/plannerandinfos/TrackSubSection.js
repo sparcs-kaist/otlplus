@@ -15,9 +15,8 @@ class TrackSubSection extends Component {
   render() {
     const { t, selectedPlanner, setIsTrackSettingsSectionOpenDispatch } = this.props;
 
-    if (!selectedPlanner?.general_track) {
+    if (!selectedPlanner) {
       // TODO: Implement placeholder before planners loaded
-      // TODO: support unsigned user
       return null;
     }
 

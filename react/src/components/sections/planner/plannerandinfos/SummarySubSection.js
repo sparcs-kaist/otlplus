@@ -30,12 +30,12 @@ class SummarySubSection extends Component {
   render() {
     const { t, itemFocus, selectedPlanner } = this.props;
 
-    const majors = selectedPlanner?.general_track
+    const majors = selectedPlanner
       ? [
         selectedPlanner.major_track.department,
         ...selectedPlanner.additional_tracks.map((at) => at.department),
       ]
-      : [{ id: 9999, name: '전산학부' }];
+      : [];
 
     const totalCredit = [0, 0, 0, 136];
     const totalAu = [0, 0, 0, 8];
