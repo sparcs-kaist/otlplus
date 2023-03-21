@@ -93,7 +93,15 @@ export const getSeparateMajorTracks = (planner) => {
     planner.major_track,
     ...(
       planner.additional_tracks
-        .filter((at) => (at.type !== 'ADVANCED'))
+        .filter((at) => (at.type === 'DOUBLE'))
+    ),
+    ...(
+      planner.additional_tracks
+        .filter((at) => (at.type === 'MINOR'))
+    ),
+    ...(
+      planner.additional_tracks
+        .filter((at) => (at.type === 'INTERDISCIPLINARY'))
     ),
   ];
 };
