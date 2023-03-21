@@ -10,7 +10,7 @@ export const getGeneralTrackName = (track) => {
 };
 
 export const getMajorTrackName = (track) => {
-  return `전공-${getYearName(track.department.name)} (${getYearName(track.start_year)}~${track.end_year})`;
+  return `전공-${getYearName(track.department.name)} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
 };
 
 export const getAdditionalTrackName = (track) => {
