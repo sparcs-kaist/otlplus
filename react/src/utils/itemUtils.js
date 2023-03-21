@@ -25,7 +25,8 @@ export const isTableClickedItem = (item, itemFocus) => (
 export const isFocusedItem = (item, itemFocus) => (
   isTableFocusedItem(item, itemFocus)
   || (
-    item.course
+    itemFocus.from === ItemFocusFrom.LIST
+    && item.course
     && itemFocus.course
     && item.course.id === itemFocus.course.id
   )
