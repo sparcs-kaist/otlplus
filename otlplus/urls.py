@@ -25,6 +25,7 @@ import apps.subject.views as subject_views
 import apps.support.views as support_views
 import apps.timetable.views as timetable_views
 import apps.planner.views as planner_views
+import apps.graduation.views as graduation_views
 
 
 urlpatterns = [
@@ -149,6 +150,9 @@ urlpatterns = [
 
     url(r"^api/rates$",
         support_views.RateListView.as_view()),
+
+    url(r"^api/tracks",
+        graduation_views.TrackListView.as_view()),
 
     url(r"^api/share/timetable/image$",
         timetable_views.ShareTimetableImageView.as_view()),
