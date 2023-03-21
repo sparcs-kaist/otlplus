@@ -98,13 +98,19 @@ export const getCategoryOfType = (planner, type, department) => {
       if (planner?.major_track?.department?.id === department.id) {
         return [1, 0, 0];
       }
-      return [1, 1, 0];
+      if (planner?.additional_tracks?.length) {
+        return [1, 1, 0];
+      }
+      break;
     case 'Major Elective':
       // TODO: Retrieve and check majors and minors from planner
       if (planner?.major_track?.department?.id === department.id) {
         return [1, 0, 1];
       }
-      return [1, 1, 1];
+      if (planner?.additional_tracks?.length) {
+        return [1, 1, 0];
+      }
+      break;
     case 'Thesis Study(Undergraduate)':
       return [2, 0, 0];
     case 'Individual Study':
@@ -120,6 +126,7 @@ export const getCategoryOfType = (planner, type, department) => {
     default:
       return [4, 0, 1];
   }
+  return [4, 0, 1];
 };
 
 export const getCategory = (planner, item) => {

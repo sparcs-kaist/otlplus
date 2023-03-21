@@ -135,6 +135,7 @@ class PlannerTabs extends Component {
         id: this._createRandomPlannerId(),
         start_year: startYear,
         end_year: endYear,
+        // TODO: Update tracks
         taken_items: [],
         future_items: [],
         generic_items: [],
@@ -147,6 +148,10 @@ class PlannerTabs extends Component {
         {
           start_year: startYear,
           end_year: endYear,
+          // TODO: Update tracks
+          general_track: 1,
+          major_track: 1,
+          additional_tracks: [],
           taken_lectures: takenLectures.map((l) => l.id),
           taken_items: [],
           future_items: [],
@@ -256,6 +261,9 @@ class PlannerTabs extends Component {
         {
           start_year: planner.start_year,
           end_year: planner.end_year,
+          general_track: planner.general_track.id,
+          major_track: planner.major_track.id,
+          additional_tracks: planner.additional_tracks.map((at) => at.id),
           taken_items: planner.taken_items.map((i) => i.id),
           future_items: planner.future_items.map((i) => i.id),
           generic_items: planner.generic_items.map((i) => i.id),

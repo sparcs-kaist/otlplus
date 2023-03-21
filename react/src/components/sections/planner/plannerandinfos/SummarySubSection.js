@@ -35,7 +35,7 @@ class SummarySubSection extends Component {
         selectedPlanner.major_track.department,
         ...selectedPlanner.additional_tracks.map((at) => at.department),
       ]
-      : [];
+      : [{ id: 9999, name: '전산학부' }];
 
     const totalCredit = [0, 0, 0, 136];
     const totalAu = [0, 0, 0, 8];

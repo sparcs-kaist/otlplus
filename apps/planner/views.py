@@ -9,6 +9,7 @@ from django.db import transaction
 
 from .models import Planner, TakenPlannerItem, FuturePlannerItem, GenericPlannerItem
 from apps.subject.models import Course, Lecture
+from apps.graduation.models import GeneralTrack, MajorTrack, AdditionalTrack
 from .services import reorder_planner
 
 from utils.decorators import login_required_ajax
@@ -43,6 +44,9 @@ class UserInstancePlannerListView(View):
         BODY_STRUCTURE = [
             ("start_year", ParseType.INT, True, []),
             ("end_year", ParseType.INT, True, []),
+            ("general_track", ParseType.INT, True, []),
+            ("major_track", ParseType.INT, True, []),
+            ("additional_tracks", ParseType.LIST_INT, False, []),
             ("taken_lectures", ParseType.LIST_INT, False, []),
             ("taken_items", ParseType.LIST_INT, True, []),
             ("future_items", ParseType.LIST_INT, True, []),
@@ -53,7 +57,10 @@ class UserInstancePlannerListView(View):
         if userprofile.id != int(user_id):
             return HttpResponse(status=401)
 
-        start_year, end_year, taken_lectures, taken_items, future_items, generic_items = parse_body(request.body, BODY_STRUCTURE)
+        start_year, end_year,\
+        general_track, major_track, additional_tracks,\
+        taken_lectures, taken_items, future_items, generic_items\
+            = parse_body(request.body, BODY_STRUCTURE)
 
         related_planners = Planner.get_related_planners(userprofile)
         if related_planners.exists():
@@ -62,7 +69,12 @@ class UserInstancePlannerListView(View):
             arrange_order = 0
 
         planner = Planner.objects.create(user=userprofile, start_year=start_year, end_year=end_year,
+                                         general_track=GeneralTrack.objects.get(id=general_track),
+                                         major_track=MajorTrack.objects.get(id=major_track),
                                          arrange_order=arrange_order)
+    
+        for at in additional_tracks:
+            planner.additional_tracks.add(AdditionalTrack.objects.get(id=at))
 
         if taken_lectures:
             for l in taken_lectures:
