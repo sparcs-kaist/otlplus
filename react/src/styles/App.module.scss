@@ -818,6 +818,27 @@ a {
     overflow: hidden;
 
 
+    &--modal {
+        position: absolute;
+        width: initial;
+        height: initial;
+        z-index: 200;
+        box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+        @media #{$media-landscape} {
+            top: $section-margin-top;
+            bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+            left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+            right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
+        }
+        @media #{$media-portrait} {
+            top: $section-margin-top;
+            bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+            left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+            right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
+        }
+    } 
+
+
     &--mobile-modal {
         @media #{$media-portrait} {
             position: absolute;
@@ -2072,6 +2093,10 @@ a {
 
         @media #{$media-landscape} {
             display: none;
+
+            .section--modal & {
+                display: initial;
+            }
         }
 }
 

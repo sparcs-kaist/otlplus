@@ -18,6 +18,7 @@ import CourseManageSection from '../components/sections/planner/coursemanage/Cou
 import SettingsSubSection from '../components/sections/planner/plannerandinfos/SettingsSubSection';
 import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
 import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
+import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
 
 
 class PlannerPage extends Component {
@@ -35,6 +36,8 @@ class PlannerPage extends Component {
 
 
   render() {
+    const { isTrackSettingsSectionOpen } = this.props;
+
     return (
       <>
         <section className={classNames('content', 'content--no-scroll')}>
@@ -73,6 +76,7 @@ class PlannerPage extends Component {
             </div>
             <CourseListSection />
             <CourseManageSection />
+            { isTrackSettingsSectionOpen && <TrackSettingsSection /> }
           </div>
         </section>
       </>
@@ -81,6 +85,7 @@ class PlannerPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  isTrackSettingsSectionOpen: state.planner.planner.isTrackSettingsSectionOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -99,6 +104,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 PlannerPage.propTypes = {
+  isTrackSettingsSectionOpen: PropTypes.bool.isRequired,
+
   resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,
   resetSearchDispatch: PropTypes.func.isRequired,

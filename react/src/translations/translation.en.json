@@ -35,6 +35,7 @@
       "famousHumanityReviews": "Famous Humanity Reviews",
       "rateOtl": "Rate OTL",
       "writeReview": "Write Review",
+      "plannerSettings": "Planner Settings",
       "myInformation": "My Information",
       "academicInformation": "Academic Information",
       "settings": "Settings",
@@ -98,7 +99,7 @@
       "all": "ALL",
       "basic": "Basic",
       "major": "Major",
-      "default": "Default",
+      "general": "General",
       "additional": "Additional"
     },
     "score": {

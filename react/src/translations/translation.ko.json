@@ -35,6 +35,7 @@
       "famousHumanityReviews": "사랑받는 교양후기",
       "rateOtl": "OTL 평가하기",
       "writeReview": "후기 작성",
+      "plannerSettings": "플래너 설정",
       "myInformation": "내 정보",
       "academicInformation": "학사 정보",
       "settings": "설정",
@@ -98,7 +99,7 @@
       "all": "전체",
       "basic": "기초",
       "major": "전공",
-      "default": "기본",
+      "general": "기본",
       "additional": "추가"
     },
     "score": {

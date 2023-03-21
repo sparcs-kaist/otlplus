@@ -12,6 +12,7 @@ export const ADD_ITEM_TO_PLANNER = BASE_STRING + 'ADD_ITEM_TO_PLANNER';
 export const REMOVE_ITEM_FROM_PLANNER = BASE_STRING + 'REMOVE_ITEM_FROM_PLANNER';
 export const REORDER_PLANNER = BASE_STRING + 'REORDER_PLANNER';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
+export const SET_IS_TRACK_SETTINGS_SECTION_OPEN = BASE_STRING + 'SET_IS_TRACK_SETTINGS_SECTION_OPEN';
 /* eslint-enable prefer-template */
 
 export function reset() {
@@ -88,5 +89,12 @@ export function updateCellSize(width, height) {
     type: UPDATE_CELL_SIZE,
     width: width,
     height: height,
+  };
+}
+
+export function setIsTrackSettingsSectionOpen(isTrackSettingsSectionOpen) {
+  return {
+    type: SET_IS_TRACK_SETTINGS_SECTION_OPEN,
+    isTrackSettingsSectionOpen: isTrackSettingsSectionOpen,
   };
 }
