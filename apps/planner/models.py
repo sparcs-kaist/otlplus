@@ -4,6 +4,7 @@ from django.db import models
 
 from apps.session.models import UserProfile
 from apps.subject.models import Course, Lecture
+from apps.graduation.models import GeneralTrack, MajorTrack, AdditionalTrack
 
 
 class Planner(models.Model):
@@ -11,6 +12,10 @@ class Planner(models.Model):
                              related_name="planners", on_delete=models.CASCADE, db_index=True)
     start_year = models.IntegerField(db_index=True)
     end_year = models.IntegerField(db_index=True)
+    general_track = models.ForeignKey(GeneralTrack, on_delete=models.PROTECT)
+    major_track = models.ForeignKey(MajorTrack, on_delete=models.PROTECT)
+    additional_tracks = models.ManyToManyField(AdditionalTrack)
+    
     arrange_order = models.SmallIntegerField(db_index=True)
 
     def to_json(self, nested=False):
@@ -18,6 +23,9 @@ class Planner(models.Model):
             "id": self.id,
             "start_year": self.start_year,
             "end_year": self.end_year,
+            "general_track": self.general_track.to_json(),
+            "major_track": self.major_track.to_json(),
+            "additional_tracks": [at.to_json() for at in self.additional_tracks.all()],
             "taken_items": [futurePlannerItem.to_json()
                              for futurePlannerItem in self.taken_items.all()],
             "future_items": [futurePlannerItem.to_json()
