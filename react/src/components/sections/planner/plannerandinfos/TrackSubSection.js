@@ -8,6 +8,7 @@ import Attributes from '../../../Attributes';
 
 import { setIsTrackSettingsSectionOpen } from '../../../../actions/planner/planner';
 import plannerShape from '../../../../shapes/model/PlannerShape';
+import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../../utils/trackUtils';
 
 
 class TrackSubSection extends Component {
@@ -20,13 +21,6 @@ class TrackSubSection extends Component {
       return null;
     }
 
-    const getYearName = (year) => {
-      if (year <= 2000 || year >= 2100) {
-        return '';
-      }
-      return year.toString();
-    };
-
     return (
       <>
         <div
@@ -37,16 +31,16 @@ class TrackSubSection extends Component {
             entries={[
               {
                 name: t('ui.attribute.general'),
-                info: `일반 (${getYearName(selectedPlanner.general_track.start_year)}~${getYearName(selectedPlanner.general_track.end_year)})`,
+                info: getGeneralTrackName(selectedPlanner.general_track, 'GENERAL'),
               },
               {
                 name: t('ui.attribute.major'),
-                info: `전공-${getYearName(selectedPlanner.major_track.department.name)} (${getYearName(selectedPlanner.major_track.start_year)}~${selectedPlanner.major_track.end_year})`,
+                info: getMajorTrackName(selectedPlanner.major_track, 'MAJOR'),
               },
               {
                 name: t('ui.attribute.additional'),
                 info: selectedPlanner.additional_tracks.map((at) => (
-                  `복수전공-${at.department.name} (${getYearName(at.start_year)}-${getYearName(at.end_year)})`
+                  getAdditionalTrackName(at, 'ADDITIONAL')
                 )),
               },
             ]}
