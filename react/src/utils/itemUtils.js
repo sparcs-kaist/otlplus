@@ -100,10 +100,8 @@ export const getCategoryOfType = (type) => {
       // TODO: Retrieve and check majors and minors from planner
       return [1, 0, 1];
     case 'Thesis Study(Undergraduate)':
-      // TODO: Retrieve and check majors and minors from planner
       return [2, 0, 0];
     case 'Individual Study':
-      // TODO: Retrieve and check majors and minors from planner
       return [2, 0, 1];
     case 'General Required':
       return [3, 0, 0];

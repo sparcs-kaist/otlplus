@@ -7,15 +7,18 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import Attributes from '../../../Attributes';
 
 import { setIsTrackSettingsSectionOpen } from '../../../../actions/planner/planner';
+import plannerShape from '../../../../shapes/model/PlannerShape';
 
 
 class TrackSubSection extends Component {
   render() {
-    const { t, setIsTrackSettingsSectionOpenDispatch } = this.props;
+    const { t, selectedPlanner, setIsTrackSettingsSectionOpenDispatch } = this.props;
 
-    // TODO: Retrieve data from planner
-    const plannerStartYear = 2020;
-    const majors = [];
+    if (!selectedPlanner?.general_track) {
+      // TODO: Implement placeholder before planners loaded
+      // TODO: support unsigned user
+      return null;
+    }
 
     return (
       <>
@@ -25,9 +28,20 @@ class TrackSubSection extends Component {
         >
           <Attributes
             entries={[
-              { name: t('ui.attribute.general'), info: plannerStartYear },
-              { name: t('ui.attribute.major'), info: majors.map((d) => d[t('js.property.name')]).join(', ') },
-              { name: t('ui.attribute.additional'), info: '복수 - 전산학부' },
+              {
+                name: t('ui.attribute.general'),
+                info: `일반 (${selectedPlanner.general_track.start_year}~${selectedPlanner.general_track.end_year})`,
+              },
+              {
+                name: t('ui.attribute.major'),
+                info: `전공-${selectedPlanner.major_track.department.name} (${selectedPlanner.major_track.start_year}~${selectedPlanner.major_track.end_year})`,
+              },
+              {
+                name: t('ui.attribute.additional'),
+                info: selectedPlanner.additional_tracks.map((at) => (
+                  `복수전공-${at.department.name} (${at.start_year}-${at.end_year})`
+                )),
+              },
             ]}
             longInfo
           />
@@ -38,6 +52,7 @@ class TrackSubSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  selectedPlanner: state.planner.planner.selectedPlanner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -47,6 +62,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 TrackSubSection.propTypes = {
+  selectedPlanner: plannerShape,
+
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
 };
 

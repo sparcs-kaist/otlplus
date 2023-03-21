@@ -30,8 +30,12 @@ class SummarySubSection extends Component {
   render() {
     const { t, itemFocus, selectedPlanner } = this.props;
 
-    // TODO: Retrieve data from planner
-    const majors = ['전산학부'];
+    const majors = selectedPlanner?.general_track
+      ? [
+        selectedPlanner.major_track.department,
+        ...selectedPlanner.additional_tracks.map((at) => at.department),
+      ]
+      : [];
 
     const totalCredit = [0, 0, 0, 136];
     const totalAu = [0, 0, 0, 8];
@@ -54,9 +58,9 @@ class SummarySubSection extends Component {
       // Basic
       0: [t('ui.type.basic')],
       // Major
-      1: majors.map((m) => `${t('ui.type.major')} - ${m}`),
+      1: majors.map((m) => `${t('ui.type.major')} - ${m.name}`),
       // Research
-      2: [`${t('ui.type.research')} - ${majors[0]}`],
+      2: [`${t('ui.type.research')}`],
       // General and humanity
       3: [t('ui.type.general')],
       // Others
@@ -74,6 +78,37 @@ class SummarySubSection extends Component {
       // Others
       4: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
     };
+
+    if (selectedPlanner?.general_track) {
+      // TODO: support unsigned user
+      const hasDoublemajor = selectedPlanner.additional_tracks.filter((at) => (at.type === 'DOUBLE')).length !== 0;
+      /* eslint-disable fp/no-mutation */
+      totalCredit[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_credit;
+      totalAu[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_au;
+      categoryCreditAndAus[0][0][0][ValueIndex.REQUIREMENT] = (
+        selectedPlanner.general_track.basic_required
+      );
+      categoryCreditAndAus[0][0][1][ValueIndex.REQUIREMENT] = (
+        hasDoublemajor
+          ? selectedPlanner.major_track.basic_elective_doublemajor
+          : selectedPlanner.general_track.basic_elective
+      );
+      categoryCreditAndAus[2][0][0][ValueIndex.REQUIREMENT] = (
+        hasDoublemajor
+          ? selectedPlanner.general_track.thesis_study_doublemajor
+          : selectedPlanner.general_track.thesis_study
+      );
+      categoryCreditAndAus[3][0][0][ValueIndex.REQUIREMENT] = (
+        selectedPlanner.general_track.general_required_credit
+          + selectedPlanner.general_track.general_required_au
+      );
+      categoryCreditAndAus[3][0][1][ValueIndex.REQUIREMENT] = (
+        hasDoublemajor
+          ? selectedPlanner.general_track.humanities_doublemajor
+          : selectedPlanner.general_track.humanities
+      );
+      /* eslint-enable fp/no-mutation */
+    }
 
     if (selectedPlanner) {
       /* eslint-disable fp/no-mutation */
