@@ -88,30 +88,44 @@ export const getCreditAndAu = (item) => {
   return getCredit(item) + getAu(item);
 };
 
+export const getSeparateMajorTracks = (planner) => {
+  return [
+    planner.major_track,
+    ...(
+      planner.additional_tracks
+        .filter((at) => (at.type !== 'ADVANCED'))
+    ),
+  ];
+};
+
 export const getCategoryOfType = (planner, type, department) => {
   switch (type) {
     case 'Basic Required':
       return [0, 0, 0];
     case 'Basic Elective':
       return [0, 0, 1];
-    case 'Major Required':
-      // TODO: Retrieve and check majors and minors from planner
-      if (planner?.major_track?.department?.id === department.id) {
-        return [1, 0, 0];
-      }
-      if (planner?.additional_tracks?.length) {
-        return [1, 1, 0];
-      }
-      break;
-    case 'Major Elective':
-      // TODO: Retrieve and check majors and minors from planner
-      if (planner?.major_track?.department?.id === department.id) {
-        return [1, 0, 1];
-      }
-      if (planner?.additional_tracks?.length) {
-        return [1, 1, 0];
+    case 'Major Required': {
+      const separateMajorTracks = getSeparateMajorTracks(planner);
+      const targetTrack = (
+        separateMajorTracks.find((smt) => (smt.department?.id === department.id))
+        || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
+      );
+      if (targetTrack) {
+        return [1, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 0];
       }
       break;
+    }
+    case 'Major Elective': {
+      const separateMajorTracks = getSeparateMajorTracks(planner);
+      const targetTrack = (
+        separateMajorTracks.find((smt) => (smt.department?.id === department.id))
+        || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
+      );
+      if (targetTrack) {
+        return [1, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 1];
+      }
+      break;
+    }
     case 'Thesis Study(Undergraduate)':
       return [2, 0, 0];
     case 'Individual Study':

@@ -88,7 +88,7 @@ class AdditionalTrack(models.Model):
             "start_year": self.start_year,
             "end_year": self.end_year,
             "type": self.type,
-            "department": self.department.to_json(nested=False),
+            "department": self.department.to_json(nested=False) if self.department else None,
             "major_required": self.major_required,
             "major_elective": self.major_elective,
         }

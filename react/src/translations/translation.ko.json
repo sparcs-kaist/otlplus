@@ -148,6 +148,10 @@
     "type": {
       "basic": "기초",
       "major": "전공",
+      "doubleMajor": "복수전공",
+      "minor": "부전공",
+      "advancedMajor": "심화전공",
+      "interdisciplinaryMajor": "자유융합전공",
       "research": "연구",
       "general": "교양",
       "basicRequired": "기초필수",

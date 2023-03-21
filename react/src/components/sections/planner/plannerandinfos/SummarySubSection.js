@@ -13,7 +13,7 @@ import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import {
   getCategory, getCategoryOfType, getColorOfCategory,
-  getCredit, getAu, getCreditAndAu,
+  getCredit, getAu, getCreditAndAu, getSeparateMajorTracks,
 } from '../../../../utils/itemUtils';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 
@@ -30,12 +30,12 @@ class SummarySubSection extends Component {
   render() {
     const { t, itemFocus, selectedPlanner } = this.props;
 
-    const majors = selectedPlanner
-      ? [
-        selectedPlanner.major_track.department,
-        ...selectedPlanner.additional_tracks.map((at) => at.department),
-      ]
+    const separateMajorTracks = selectedPlanner
+      ? getSeparateMajorTracks(selectedPlanner)
       : [];
+    const advancedMajorTrack = selectedPlanner
+      ? selectedPlanner.additional_tracks.find((at) => (at.type === 'ADVANCED'))
+      : undefined;
 
     const totalCredit = [0, 0, 0, 136];
     const totalAu = [0, 0, 0, 8];
@@ -45,7 +45,7 @@ class SummarySubSection extends Component {
       // Basic
       0: [[[0, 0, 0, 23], [0, 0, 0, 9]]],
       // Major
-      1: majors.map((m) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
+      1: separateMajorTracks.map((smt) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
       // Research
       2: [[[0, 0, 0, 3], [0, 0, 0, 0]]],
       // General and humanity
@@ -58,7 +58,22 @@ class SummarySubSection extends Component {
       // Basic
       0: [t('ui.type.basic')],
       // Major
-      1: majors.map((m) => `${t('ui.type.major')} - ${m.name}`),
+      1: separateMajorTracks.map((smt, index) => {
+        if (index === 0) {
+          const majorName = advancedMajorTrack ? t('ui.type.advancedMajor') : t('ui.type.major');
+          return `${majorName} - ${smt.department[t('js.property.name')]}`;
+        }
+        if (smt.type === 'DOUBLE') {
+          return `${t('ui.type.doubleMajor')} - ${smt.department[t('js.property.name')]}`;
+        }
+        if (smt.type === 'MINOR') {
+          return `${t('ui.type.minor')} - ${smt.department[t('js.property.name')]}`;
+        }
+        if (smt.type === 'INTERDISCIPLINARY') {
+          return `${t('ui.type.interdisciplinaryMajor')}`;
+        }
+        return 'Unknown';
+      }),
       // Research
       2: [`${t('ui.type.research')}`],
       // General and humanity
@@ -70,7 +85,7 @@ class SummarySubSection extends Component {
       // Basic
       0: [[t('ui.type.basicRequired'), t('ui.type.basicElective')]],
       // Major
-      1: majors.map((m) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
+      1: separateMajorTracks.map((smt) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
       // Research
       2: [[t('ui.type.thesisStudy'), t('ui.type.individualStudy')]],
       // General and humanity
@@ -107,6 +122,19 @@ class SummarySubSection extends Component {
           ? selectedPlanner.general_track.humanities_doublemajor
           : selectedPlanner.general_track.humanities
       );
+      /* eslint-enable fp/no-mutation */
+    }
+
+    separateMajorTracks.forEach((smt, index) => {
+      /* eslint-disable fp/no-mutation */
+      categoryCreditAndAus[1][index][0][ValueIndex.REQUIREMENT] = smt.major_required;
+      categoryCreditAndAus[1][index][1][ValueIndex.REQUIREMENT] = smt.major_elective;
+      /* eslint-enable fp/no-mutation */
+    });
+    if (advancedMajorTrack) {
+      /* eslint-disable fp/no-mutation */
+      categoryCreditAndAus[1][0][0][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_required;
+      categoryCreditAndAus[1][0][1][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_elective;
       /* eslint-enable fp/no-mutation */
     }
 

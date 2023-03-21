@@ -148,6 +148,10 @@
     "type": {
       "basic": "Basic",
       "major": "Major",
+      "doubleMajor": "Double Major",
+      "minor": "Minor",
+      "advancedMajor": "Advanced Major",
+      "interdisciplinaryMajor": "Interdisciplinary Major",
       "research": "Research",
       "general": "General",
       "basicRequired": "Basic Required",
