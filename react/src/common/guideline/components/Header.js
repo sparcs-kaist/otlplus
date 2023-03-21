@@ -123,6 +123,7 @@ class Header extends Component {
               <span>
                 <Link to="/planner">
                   {t('ui.menu.planner')}
+                  <sup>BETA</sup>
                 </Link>
               </span>
               <span>
