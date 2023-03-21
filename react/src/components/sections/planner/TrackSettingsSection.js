@@ -153,7 +153,7 @@ class TrackSettingsSection extends Component {
           checkedValues={new Set(selectedAdditionalTracks)}
         />
         <div className={classNames('caption')}>
-          Beta UI: 기본과 전공 요건은 하나씩만 선택해 주세요.
+          Beta UI: 본 UI는 완성되지 않았습니다. 기본과 전공 요건은 하나씩만 선택해 주세요.
         </div>
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')} onClick={this.submit}>
