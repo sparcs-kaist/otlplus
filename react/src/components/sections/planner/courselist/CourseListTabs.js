@@ -198,7 +198,7 @@ class CourseListTabs extends Component {
     const { user, selectedListCode } = this.props;
 
     return (
-      <div className={classNames('tabs', 'tabs--course-list')}>
+      <div className={classNames('tabs', 'tabs--course-list', 'mobile-hidden')}>
         <Scroller noScrollX={false} noScrollY={true} expandBottom={2}>
           <div className={classNames('tabs__flexbox')}>
             <div className={classNames('tabs__elem', (selectedListCode === CourseListCode.SEARCH ? 'tabs__elem--selected' : null))} onClick={() => this.changeTab(CourseListCode.SEARCH)}>

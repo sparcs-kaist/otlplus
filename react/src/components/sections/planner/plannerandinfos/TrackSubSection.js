@@ -22,7 +22,7 @@ class TrackSubSection extends Component {
 
     return (
       <>
-        <div className={classNames('subsection', 'subsection--track')}>
+        <div className={classNames('subsection', 'subsection--track', 'mobile-hidden')}>
           <Attributes
             entries={[
               {

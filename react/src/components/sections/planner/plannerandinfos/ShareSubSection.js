@@ -6,7 +6,7 @@ class ShareSubSection extends Component {
   render() {
     return (
       <>
-        <div className={classNames('subsection', 'subsection--planner-share')}>
+        <div className={classNames('subsection', 'subsection--planner-share', 'mobile-hidden')}>
           ShareSubSection
         </div>
       </>

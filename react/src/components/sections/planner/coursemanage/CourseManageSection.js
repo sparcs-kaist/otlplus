@@ -183,7 +183,7 @@ class CourseManageSection extends Component {
         <OtlplusPlaceholder />
       );
     return (
-      <div className={classNames('section', 'section--course-manage')}>
+      <div className={classNames('section', 'section--course-manage', 'mobile-hidden')}>
         {sectionContent}
       </div>
     );

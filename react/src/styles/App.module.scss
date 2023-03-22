@@ -414,20 +414,17 @@ a {
                 "course-list-tabs   course-list         .                   course-manage"
             ;
         }
-        // TODO: Implement mobile
-        // @media #{$media-portrait} {
-        //     grid-template-columns:
-        //         1fr
-        //     ;
-        //     grid-template-rows:
-        //         $tabs-height-horizontal
-        //         1fr
-        //     ;
-        //     grid-template-areas:
-        //         "course-list-tabs"
-        //         "course-list"
-        //     ;
-        // } 
+        @media #{$media-portrait} {
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                1fr
+            ;
+            grid-template-areas:
+                "planner-and-infos"
+            ;
+        } 
     } 
 
 
@@ -722,6 +719,11 @@ a {
 
     &--planner {
         grid-area: planner-tabs;
+
+        @media #{$media-portrait} {
+            // TODO: Remove this after mobile UI implemented
+            display: none;
+        }
 
         & .tabs__elem {
             display: inline-block;
@@ -1031,18 +1033,13 @@ a {
                 "planner  divider-main    planner-share"
             ;
         }
-        // TODO: Implement mobile
-        // @media #{$media-portrait} {
-        //     grid-template-columns: 1fr;
-        //     grid-template-rows: 1fr min-content min-content min-content min-content;
-        //     grid-template-areas:
-        //         "timetable"
-        //         "divider-main"
-        //         "summary"
-        //         "divider-sub-3"
-        //         "share"
-        //     ;
-        // }
+        @media #{$media-portrait} {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            grid-template-areas:
+                "planner"
+            ;
+        }
     }
 
     &--course-manage {

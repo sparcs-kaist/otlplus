@@ -51,7 +51,10 @@ class PlannerPage extends Component {
                   desktop: Divider.Orientation.VERTICAL,
                   mobile: Divider.Orientation.HORIZONTAL,
                 }}
-                isVisible={true}
+                isVisible={{
+                  desktop: true,
+                  mobile: false,
+                }}
                 gridArea="divider-main"
               />
               <TrackSubSection />
