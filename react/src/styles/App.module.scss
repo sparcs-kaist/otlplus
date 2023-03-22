@@ -405,12 +405,14 @@ a {
                 $tabs-height-horizontal
                 2fr
                 $section-margin-bottom
-                1fr
+                0.9fr
+                60px
             ;
             grid-template-areas:
                 ".                  planner-tabs        planner-tabs        planner-tabs"
                 ".                  planner-and-infos   planner-and-infos   planner-and-infos"
                 ".                  .                   .                   ."
+                "course-list-tabs   course-list         .                   course-manage"
                 "course-list-tabs   course-list         .                   course-manage"
             ;
         }
