@@ -123,7 +123,8 @@ export const getCategoryOfType = (planner, type, department) => {
       }
       break;
     }
-    case 'Major Elective': {
+    case 'Major Elective':
+    case 'Elective(Graduate)': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
       const targetTrack = (
         separateMajorTracks.find((smt) => (smt.department?.id === department.id))
@@ -139,7 +140,6 @@ export const getCategoryOfType = (planner, type, department) => {
     case 'Individual Study':
       return [2, 0, 1];
     case 'General Required':
-      return [3, 0, 0];
     case 'Mandatory General Courses':
       return [3, 0, 0];
     case 'Humanities & Social Elective':
