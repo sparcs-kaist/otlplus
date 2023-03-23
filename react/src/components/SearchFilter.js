@@ -48,7 +48,7 @@ class SearchFilter extends Component {
 
   render() {
     const {
-      inputName, titleName, options, checkedValues,
+      inputName, titleName, options, checkedValues, isRadio,
     } = this.props;
 
     const VALUE_INDEX = 0;
@@ -60,6 +60,7 @@ class SearchFilter extends Component {
         value={o[VALUE_INDEX]}
         name={inputName}
         label={o[LABEL_INDEX]}
+        isRadio={isRadio}
         onChange={(e) => this._handleValueCheckedChange(e.target.value, e.target.checked)}
         isChecked={checkedValues.has(o[VALUE_INDEX])}
       />

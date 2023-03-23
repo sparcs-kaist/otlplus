@@ -3930,6 +3930,25 @@ i.icon {
         }
     }
 
+    &--radio {
+        width:10px;
+        height:12px;
+        background-image: url(../static/icons/radio_unselected.svg);
+        margin: (($line-height-normal - 12px) / 2) 0;
+
+        *:hover > & {
+            background-image: url(../static/icons/radio_unselected_hover.svg);
+        }
+
+        *:checked + & {
+            background-image: url(../static/icons/radio_selected.svg);
+        }
+
+        *:hover > *:checked + & {
+            background-image: url(../static/icons/radio_selected_hover.svg);
+        }
+    }
+
     &--lecture-selector {
         width:10px;
         height:12px;

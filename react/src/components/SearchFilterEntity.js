@@ -7,7 +7,7 @@ import { appBoundClassNames } from '../common/boundClassNames';
 class SearchFilterEntity extends Component {
   render() {
     const {
-      value, name, label, onChange, isChecked,
+      value, name, label, isRadio, onChange, isChecked,
     } = this.props;
     const isAll = (value === 'ALL');
     const inputId = `${name}-${value}`;
@@ -24,7 +24,7 @@ class SearchFilterEntity extends Component {
           checked={isChecked}
         />
         { label }
-        <i className={appBoundClassNames('icon', 'icon--checkbox')} />
+        <i className={appBoundClassNames('icon', (isRadio ? 'icon--radio' : 'icon--checkbox'))} />
       </label>
     );
   }
@@ -34,6 +34,7 @@ SearchFilterEntity.propTypes = {
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  isRadio: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
 };
