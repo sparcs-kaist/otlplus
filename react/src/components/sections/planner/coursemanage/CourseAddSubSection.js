@@ -121,6 +121,11 @@ class CourseCustomizeSubSection extends Component {
             }
             fixedWidthName
           />
+          <div className={classNames('caption')} style={{ marginTop: 8 }}>
+            Beta UI:
+            <br />
+            본 UI는 완성되지 않은 임시 UI입니다.
+          </div>
         </Scroller>
       </>
     );
