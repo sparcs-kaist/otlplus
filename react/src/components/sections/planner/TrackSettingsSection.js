@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CloseButton from '../../CloseButton';
@@ -19,6 +20,8 @@ class TrackSettingsSection extends Component {
     const { selectedPlanner } = props;
 
     this.state = {
+      selectedStartYears: new Set([selectedPlanner.start_year.toString()]),
+      selectedDurations: new Set([(selectedPlanner.end_year - selectedPlanner.start_year + 1).toString()]),
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
       selectedAdditionalTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
@@ -113,7 +116,10 @@ class TrackSettingsSection extends Component {
 
 
   render() {
-    const { selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks } = this.state;
+    const {
+      selectedStartYears, selectedDurations,
+      selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks,
+    } = this.state;
     const { t, tracks } = this.props;
 
     return (
@@ -122,6 +128,24 @@ class TrackSettingsSection extends Component {
         <div className={classNames('title')}>
           {t('ui.title.plannerSettings')}
         </div>
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedStartYears')}
+          inputName="startYear"
+          titleName={t('ui.attribute.startYear')}
+          options={
+            range(2015, (new Date()).getFullYear() + 1).map((y) => [y.toString(), y.toString()])
+          }
+          checkedValues={selectedStartYears}
+        />
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedDurations')}
+          inputName="duration"
+          titleName={t('ui.attribute.duration')}
+          options={
+            range(4, 9).map((d) => [d.toString(), d.toString()])
+          }
+          checkedValues={selectedDurations}
+        />
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
           inputName="general"
@@ -156,6 +180,8 @@ class TrackSettingsSection extends Component {
           Beta UI:
           <br />
           본 UI는 완성되지 않은 임시 UI입니다.
+          <br />
+          시작년도와 기간은 하나씩만 선택해 주세요.
           <br />
           기본과 전공 요건은 하나씩만 선택해 주세요.
           <br />

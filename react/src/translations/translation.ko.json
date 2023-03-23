@@ -98,6 +98,8 @@
       "name": "이름",
       "email": "메일",
       "studentId": "학번",
+      "startYear": "시작",
+      "duration": "기간",
       "all": "전체",
       "basic": "기초",
       "major": "전공",

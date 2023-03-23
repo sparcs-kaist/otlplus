@@ -98,6 +98,8 @@
       "name": "Name",
       "email": "Email",
       "studentId": "Student ID",
+      "startYear": "Beginning",
+      "duration": "Duration",
       "all": "ALL",
       "basic": "Basic",
       "major": "Major",
