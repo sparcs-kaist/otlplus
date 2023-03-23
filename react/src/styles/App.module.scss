@@ -349,13 +349,34 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            // See issue #???
-            // Change to grid after grid animation supported
-            display: flex;
-            flex-direction: column;
-            margin-bottom: -$section-margin-bottom;
-            padding-bottom: $section-margin-bottom;
-            overflow: hidden;
+            padding-bottom: 0px !important;
+            grid-template-columns:
+                1fr
+            ;
+            grid-template-rows:
+                1fr
+                $section-margin-bottom
+                0
+                0fr
+                0
+            ;
+            grid-template-areas:
+                "timetable-and-infos"
+                "."
+                "lecture-list-tabs"
+                "lecture-list"
+                "."
+            ;
+            transition: grid-template-rows $transition-duration-normal ease-out;
+            &--mobile-expanded {
+                grid-template-rows:
+                    1fr
+                    $section-margin-bottom
+                    $tabs-height-horizontal
+                    1fr
+                    $section-margin-bottom
+                ;
+            }
         } 
     } 
 
@@ -633,15 +654,7 @@ a {
 
 
     &--lecture-list {
-        @media #{$media-landscape} {
-            grid-area: lecture-list-tabs;
-        }
-        @media #{$media-portrait} {
-            // See issue #???
-            // Change to grid after grid animation supported
-            order: 2;
-            flex: 0 0 auto;
-        }
+        grid-area: lecture-list-tabs;
     }
 
 
@@ -922,9 +935,9 @@ a {
 
     &--timetable-and-infos {
         display: grid;
+        grid-area: timetable-and-infos;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
-            grid-area: timetable-and-infos;
             grid-template-columns: 1fr min-content calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
             grid-template-rows: min-content min-content min-content min-content 1fr min-content min-content;
             grid-template-areas:
@@ -938,18 +951,6 @@ a {
             ;
         }
         @media #{$media-portrait} {
-            // See issue #???
-            // Change to grid after grid animation supported
-            order: 1;
-            flex: 0 0 auto;
-            height: 100%;
-            max-height: 100%;
-            margin-bottom: $section-margin-bottom;
-            transition: max-height $transition-duration-normal ease-out;
-            .page-grid--timetable--mobile-expanded & {
-                max-height: calc((100% - #{$section-margin-bottom}) / 2);
-            }
-
             grid-template-columns: 1fr;
             grid-template-rows: 1fr min-content min-content min-content min-content;
             grid-template-areas:
@@ -999,18 +1000,18 @@ a {
 
     &--lecture-list {
         position: relative;
+        grid-area: lecture-list;
         @media #{$media-landscape} {
             border-top-left-radius: 0;
-            grid-area: lecture-list;
         }
         @media #{$media-portrait} {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
-            // See issue #???
-            // Change to grid after grid animation supported
-            order: 3;
-            flex: 0 0 auto;
-            height: calc((100% - #{$section-margin-bottom}) / 2 - #{$tabs-height-horizontal});
+
+            .page-grid--timetable:not(.page-grid--timetable--mobile-expanded) & {
+                padding-top: 0px;
+                padding-bottom: 0px;
+            }
         }
     }
 
