@@ -15,11 +15,6 @@ class TrackSubSection extends Component {
   render() {
     const { t, selectedPlanner, setIsTrackSettingsSectionOpenDispatch } = this.props;
 
-    if (!selectedPlanner) {
-      // TODO: Implement placeholder before planners loaded
-      return null;
-    }
-
     return (
       <>
         <div className={classNames('subsection', 'subsection--track', 'mobile-hidden')}>
@@ -27,17 +22,29 @@ class TrackSubSection extends Component {
             entries={[
               {
                 name: t('ui.attribute.general'),
-                info: getGeneralTrackName(selectedPlanner.general_track, 'GENERAL'),
+                info: (
+                  selectedPlanner
+                    ? getGeneralTrackName(selectedPlanner.general_track, 'GENERAL')
+                    : '-'
+                ),
               },
               {
                 name: t('ui.attribute.major'),
-                info: getMajorTrackName(selectedPlanner.major_track, 'MAJOR'),
+                info: (
+                  selectedPlanner
+                    ? getMajorTrackName(selectedPlanner.major_track, 'MAJOR')
+                    : '-'
+                ),
               },
               {
                 name: t('ui.attribute.additional'),
-                info: selectedPlanner.additional_tracks.map((at) => (
-                  getAdditionalTrackName(at, 'ADDITIONAL')
-                )).join(', '),
+                info: (
+                  selectedPlanner
+                    ? selectedPlanner.additional_tracks
+                      .map((at) => (getAdditionalTrackName(at, 'ADDITIONAL')))
+                      .join(', ')
+                    : '-'
+                ),
               },
             ]}
             longInfo
