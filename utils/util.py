@@ -133,6 +133,10 @@ def patch_object(object_, update_fields):
     for k, v in update_fields.items():
         if v is None:
             continue
-        setattr(object_, k, v)
+        elif isinstance(v, (list, QuerySet)):
+            getattr(object_, k).clear()
+            getattr(object_, k).add(*v)
+        else:
+            setattr(object_, k, v)
 
     object_.save()

@@ -126,10 +126,13 @@ class UserInstancePlannerInstanceView(View):
 
     def patch(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
-            ("start_year", ParseType.INT, True, []),
+            ("start_year", ParseType.INT, False, []),
+            ("general_track", ParseType.INT, False, []),
+            ("major_track", ParseType.INT, False, []),
+            ("additional_tracks", ParseType.LIST_INT, False, []),
         ]
 
-        start_year, = parse_body(request.body, BODY_STRUCTURE)
+        start_year, general_track, major_track, additional_tracks = parse_body(request.body, BODY_STRUCTURE)
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -140,10 +143,12 @@ class UserInstancePlannerInstanceView(View):
         patch_object(
             planner,
             {
-                "start_year": start_year,
+                "general_track": GeneralTrack.objects.get(id=general_track),
+                "major_track": MajorTrack.objects.get(id=major_track),
+                "additional_tracks": [AdditionalTrack.objects.get(id=at) for at in additional_tracks],
             },
         )
-        return JsonResponse(planner.to_json(user=request.user), safe=False)
+        return JsonResponse(planner.to_json(), safe=False)
 
     def delete(self, request, user_id, planner_id):
         userprofile = request.user.userprofile

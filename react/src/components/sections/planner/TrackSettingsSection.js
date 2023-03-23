@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { range } from 'lodash';
 
@@ -11,6 +12,7 @@ import SearchFilter from '../../SearchFilter';
 import { setIsTrackSettingsSectionOpen, updatePlannerTracks } from '../../../actions/planner/planner';
 import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
 import plannerShape from '../../../shapes/model/PlannerShape';
+import userShape from '../../../shapes/model/UserShape';
 
 
 class TrackSettingsSection extends Component {
@@ -36,8 +38,17 @@ class TrackSettingsSection extends Component {
 
 
   submit = () => {
-    const { selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks } = this.state;
-    const { tracks, updatePlannerTracksDispatch } = this.props;
+    const {
+      selectedStartYears, selectedDurations,
+      selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks,
+    } = this.state;
+    const {
+      user, selectedPlanner, tracks,
+      updatePlannerTracksDispatch,
+    } = this.props;
+
+    const startYear = parseInt(Array.from(selectedStartYears)[0], 10);
+    const duration = parseInt(Array.from(selectedDurations)[0], 10);
 
     const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
     const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
@@ -87,13 +98,43 @@ class TrackSettingsSection extends Component {
       return;
     }
 
-    updatePlannerTracksDispatch(
-      generalTrack,
-      majorTrack,
-      additionalTracks,
-    );
+    if (!user) {
+      updatePlannerTracksDispatch(
+        generalTrack,
+        majorTrack,
+        additionalTracks,
+      );
 
-    this.close();
+      this.close();
+      return;
+    }
+
+    axios.patch(
+      `/api/users/${user.id}/planners/${selectedPlanner.id}`,
+      {
+        start_year: startYear,
+        duration: duration,
+        general_track: generalTrack.id,
+        major_track: majorTrack.id,
+        additional_tracks: additionalTracks.map((at) => at.id),
+      },
+      {
+        metadata: {
+          gaCategory: 'Review',
+          gaVariable: 'POST / List',
+        },
+      },
+    )
+      .then((response) => {
+        updatePlannerTracksDispatch(
+          generalTrack,
+          majorTrack,
+          additionalTracks,
+        );
+        this.close();
+      })
+      .catch((error) => {
+      });
   }
 
 
@@ -193,6 +234,7 @@ class TrackSettingsSection extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  user: state.common.user.user,
   tracks: state.common.track.tracks,
   selectedPlanner: state.planner.planner.selectedPlanner,
 });
@@ -207,6 +249,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 TrackSettingsSection.propTypes = {
+  user: userShape,
   // eslint-disable-next-line react/forbid-prop-types
   tracks: PropTypes.any,
   selectedPlanner: plannerShape.isRequired,
