@@ -13,9 +13,12 @@ class SearchFilter extends Component {
   }
 
   _handleValueCheckedChange = (value, isChecked) => {
-    const { checkedValues, updateCheckedValues } = this.props;
+    const { isRadio, checkedValues, updateCheckedValues } = this.props;
 
-    if (isChecked) {
+    if (isRadio) {
+      updateCheckedValues(new Set([value]));
+    }
+    else if (isChecked) {
       if (value === 'ALL') {
         updateCheckedValues(new Set(['ALL']));
       }
@@ -80,6 +83,7 @@ SearchFilter.propTypes = {
   titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   checkedValues: PropTypes.instanceOf(Set).isRequired,
+  isRadio: PropTypes.bool,
 };
 
 export default SearchFilter;

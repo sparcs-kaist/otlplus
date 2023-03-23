@@ -39,21 +39,9 @@ class TrackSettingsSection extends Component {
     const { selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks } = this.state;
     const { tracks, updatePlannerTracksDispatch } = this.props;
 
-    if (selectedGeneralTracks.size !== 1) {
-      // TODO: Prevent multiple selection
-      // eslint-disable-next-line no-alert
-      alert('BETA: 기본 요건은 하나만 선택해 주세요.');
-      return;
-    }
     const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
     const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
 
-    if (selectedMajorTracks.size !== 1) {
-      // TODO: Prevent multiple selection
-      // eslint-disable-next-line no-alert
-      alert('BETA: 전공 요건은 하나만 선택해 주세요.');
-      return;
-    }
     const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
     const majorTrack = tracks.major.find((nt) => (nt.id === majorTrackId));
 
@@ -136,6 +124,7 @@ class TrackSettingsSection extends Component {
             range(2015, (new Date()).getFullYear() + 1).map((y) => [y.toString(), y.toString()])
           }
           checkedValues={selectedStartYears}
+          isRadio={true}
         />
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedDurations')}
@@ -145,6 +134,7 @@ class TrackSettingsSection extends Component {
             range(4, 9).map((d) => [d.toString(), d.toString()])
           }
           checkedValues={selectedDurations}
+          isRadio={true}
         />
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
@@ -155,6 +145,7 @@ class TrackSettingsSection extends Component {
               .map((gt) => [gt.id.toString(), getGeneralTrackName(gt)])
           }
           checkedValues={selectedGeneralTracks}
+          isRadio={true}
         />
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedMajorTracks')}
@@ -165,6 +156,7 @@ class TrackSettingsSection extends Component {
               .map((mt) => [mt.id.toString(), getMajorTrackName(mt)])
           }
           checkedValues={new Set(selectedMajorTracks)}
+          isRadio={true}
         />
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedAdditionalTracks')}
