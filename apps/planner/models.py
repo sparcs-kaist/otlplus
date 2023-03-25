@@ -26,12 +26,12 @@ class Planner(models.Model):
             "general_track": self.general_track.to_json(),
             "major_track": self.major_track.to_json(),
             "additional_tracks": [at.to_json() for at in self.additional_tracks.all()],
-            "taken_items": [futurePlannerItem.to_json()
-                             for futurePlannerItem in self.taken_items.all()],
+            "taken_items": [takenPlannerItem.to_json()
+                             for takenPlannerItem in self.taken_items.all()],
             "future_items": [futurePlannerItem.to_json()
                              for futurePlannerItem in self.future_items.all()],
-            "generic_items": [futurePlannerItem.to_json()
-                             for futurePlannerItem in self.generic_items.all()],
+            "generic_items": [genericPlannerItem.to_json()
+                             for genericPlannerItem in self.generic_items.all()],
             "arrange_order": self.arrange_order,
         }
         return result

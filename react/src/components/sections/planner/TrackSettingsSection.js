@@ -113,10 +113,11 @@ class TrackSettingsSection extends Component {
       `/api/users/${user.id}/planners/${selectedPlanner.id}`,
       {
         start_year: startYear,
-        duration: duration,
+        end_year: startYear + duration - 1,
         general_track: generalTrack.id,
         major_track: majorTrack.id,
         additional_tracks: additionalTracks.map((at) => at.id),
+        should_update_taken_semesters: true,
       },
       {
         metadata: {

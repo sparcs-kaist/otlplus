@@ -124,12 +124,16 @@ class UserInstancePlannerInstanceView(View):
     def patch(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
             ("start_year", ParseType.INT, False, []),
+            ("end_year", ParseType.INT, False, []),
             ("general_track", ParseType.INT, False, []),
             ("major_track", ParseType.INT, False, []),
             ("additional_tracks", ParseType.LIST_INT, False, []),
+            ("should_update_taken_semesters", ParseType.BOOL, False, []),
         ]
 
-        start_year, general_track, major_track, additional_tracks = parse_body(request.body, BODY_STRUCTURE)
+        start_year, end_year,\
+            general_track, major_track, additional_tracks,\
+            should_update_taken_semesters = parse_body(request.body, BODY_STRUCTURE)
 
         userprofile = request.user.userprofile
         if userprofile.id != int(user_id):
@@ -137,14 +141,24 @@ class UserInstancePlannerInstanceView(View):
 
         planner = get_object_or_404(Planner, id=planner_id)
 
+        if should_update_taken_semesters:
+            taken_lectures = userprofile.review_writable_lectures.filter(year__gte=start_year, year__lte=end_year)
+            for l in taken_lectures:
+                TakenPlannerItem.objects.get_or_create(planner=planner, lecture=l)
+
         patch_object(
             planner,
             {
+                "start_year": start_year,
+                "end_year": end_year,
                 "general_track": GeneralTrack.objects.get(id=general_track),
                 "major_track": MajorTrack.objects.get(id=major_track),
                 "additional_tracks": [AdditionalTrack.objects.get(id=at) for at in additional_tracks],
             },
         )
+        planner.taken_items.exclude(lecture__year__gte=start_year, lecture__year__lte=end_year).delete()
+        planner.future_items.exclude(year__gte=start_year, year__lte=end_year).delete()
+        planner.generic_items.exclude(year__gte=start_year, year__lte=end_year).delete()
         return JsonResponse(planner.to_json(), safe=False)
 
     def delete(self, request, user_id, planner_id):
