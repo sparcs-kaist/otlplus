@@ -47,7 +47,7 @@ class UserInstancePlannerListView(View):
             ("general_track", ParseType.INT, True, []),
             ("major_track", ParseType.INT, True, []),
             ("additional_tracks", ParseType.LIST_INT, False, []),
-            ("taken_lectures", ParseType.LIST_INT, False, []),
+            ("should_update_taken_semesters", ParseType.BOOL, False, []),
             ("taken_items", ParseType.LIST_INT, True, []),
             ("future_items", ParseType.LIST_INT, True, []),
             ("generic_items", ParseType.LIST_INT, True, []),
@@ -59,7 +59,7 @@ class UserInstancePlannerListView(View):
 
         start_year, end_year,\
         general_track, major_track, additional_tracks,\
-        taken_lectures, taken_items, future_items, generic_items\
+        should_update_taken_semesters, taken_items, future_items, generic_items\
             = parse_body(request.body, BODY_STRUCTURE)
 
         related_planners = Planner.get_related_planners(userprofile)
@@ -76,13 +76,10 @@ class UserInstancePlannerListView(View):
         for at in additional_tracks:
             planner.additional_tracks.add(AdditionalTrack.objects.get(id=at))
 
-        if taken_lectures:
+        if should_update_taken_semesters:
+            taken_lectures = userprofile.review_writable_lectures.filter(year__gte=start_year, year__lte=end_year)
             for l in taken_lectures:
-                try:
-                    lecture = Lecture.objects.get(id = l)
-                except Lecture.DoesNotExist:
-                    HttpResponseBadRequest("No such lecture")
-                TakenPlannerItem.objects.create(planner=planner, lecture=lecture)
+                TakenPlannerItem.objects.create(planner=planner, lecture=l)
 
         for i in taken_items:
             try:

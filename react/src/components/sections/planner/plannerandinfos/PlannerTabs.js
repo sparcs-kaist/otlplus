@@ -136,15 +136,6 @@ class PlannerTabs extends Component {
     return tracks.major[0];
   }
 
-  _getTakenLectures = (user, startYear, endYear) => {
-    if (!user) {
-      return [];
-    }
-    return user.review_writable_lectures.filter((l) => (
-      (l.year >= startYear) && (l.year <= endYear)
-    ));
-  }
-
   changeTab = (planner) => {
     const { setSelectedPlannerDispatch } = this.props;
 
@@ -167,7 +158,6 @@ class PlannerTabs extends Component {
     const endYear = Math.max(startYear + 3, (new Date()).getFullYear());
     const generalTrack = this._getPlannerGeneralTrack(user, startYear);
     const majorTrack = this._getPlannerMajorTrack(user, startYear);
-    const takenLectures = this._getTakenLectures(user, startYear, endYear);
 
     if (!user) {
       createPlannerDispatch({
@@ -192,7 +182,7 @@ class PlannerTabs extends Component {
           general_track: generalTrack.id,
           major_track: majorTrack.id,
           additional_tracks: [],
-          taken_lectures: takenLectures.map((l) => l.id),
+          should_update_taken_semesters: true,
           taken_items: [],
           future_items: [],
           generic_items: [],
