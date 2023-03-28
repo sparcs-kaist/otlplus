@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
-import { setIsTrackSettingsSectionOpen, updatePlannerTracks } from '../../../actions/planner/planner';
+import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
 import plannerShape from '../../../shapes/model/PlannerShape';
 import userShape from '../../../shapes/model/UserShape';
@@ -44,7 +44,7 @@ class TrackSettingsSection extends Component {
     } = this.state;
     const {
       user, selectedPlanner, tracks,
-      updatePlannerTracksDispatch,
+      updatePlannerDispatch,
     } = this.props;
 
     const startYear = parseInt(Array.from(selectedStartYears)[0], 10);
@@ -99,11 +99,12 @@ class TrackSettingsSection extends Component {
     }
 
     if (!user) {
-      updatePlannerTracksDispatch(
-        generalTrack,
-        majorTrack,
-        additionalTracks,
-      );
+      updatePlannerDispatch({
+        ...selectedPlanner,
+        general_track: generalTrack,
+        major_track: majorTrack,
+        additional_tracks: additionalTracks,
+      });
 
       this.close();
       return;
@@ -127,11 +128,7 @@ class TrackSettingsSection extends Component {
       },
     )
       .then((response) => {
-        updatePlannerTracksDispatch(
-          generalTrack,
-          majorTrack,
-          additionalTracks,
-        );
+        updatePlannerDispatch(response.data);
         this.close();
       })
       .catch((error) => {
@@ -244,8 +241,8 @@ const mapDispatchToProps = (dispatch) => ({
   setIsTrackSettingsSectionOpenDispatch: (isTrackSettingsSectionOpen) => {
     dispatch(setIsTrackSettingsSectionOpen(isTrackSettingsSectionOpen));
   },
-  updatePlannerTracksDispatch: (generalTrack, majorTrack, additionalTracks) => {
-    dispatch(updatePlannerTracks(generalTrack, majorTrack, additionalTracks));
+  updatePlannerDispatch: (updatedPlanner) => {
+    dispatch(updatePlanner(updatedPlanner));
   },
 });
 
@@ -256,7 +253,7 @@ TrackSettingsSection.propTypes = {
   selectedPlanner: plannerShape.isRequired,
 
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
-  updatePlannerTracksDispatch: PropTypes.func.isRequired,
+  updatePlannerDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(

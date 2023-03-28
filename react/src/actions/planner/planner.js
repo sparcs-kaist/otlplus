@@ -8,7 +8,7 @@ export const SET_SELECTED_PLANNER = BASE_STRING + 'SET_SELECTED_PLANNER';
 export const CREATE_PLANNER = BASE_STRING + 'CREATE_PLANNER';
 export const DELETE_PLANNER = BASE_STRING + 'DELETE_PLANNER';
 export const DUPLICATE_PLANNER = BASE_STRING + 'DUPLICATE_PLANNER';
-export const UPDATE_PLANNER_TRACKS = BASE_STRING + 'UPDATE_PLANNER_TRACKS';
+export const UPDATE_PLANNER = BASE_STRING + 'UPDATE_PLANNER';
 export const ADD_ITEM_TO_PLANNER = BASE_STRING + 'ADD_ITEM_TO_PLANNER';
 export const REMOVE_ITEM_FROM_PLANNER = BASE_STRING + 'REMOVE_ITEM_FROM_PLANNER';
 export const REORDER_PLANNER = BASE_STRING + 'REORDER_PLANNER';
@@ -63,12 +63,10 @@ export function duplicatePlanner(newPlanner) {
   };
 }
 
-export function updatePlannerTracks(generalTrack, majorTrack, additionalTracks) {
+export function updatePlanner(updatedPlanner) {
   return {
-    type: UPDATE_PLANNER_TRACKS,
-    generalTrack: generalTrack,
-    majorTrack: majorTrack,
-    additionalTracks: additionalTracks,
+    type: UPDATE_PLANNER,
+    updatedPlanner: updatedPlanner,
   };
 }
 
