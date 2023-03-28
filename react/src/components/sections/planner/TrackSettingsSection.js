@@ -101,9 +101,20 @@ class TrackSettingsSection extends Component {
     if (!user) {
       updatePlannerDispatch({
         ...selectedPlanner,
+        start_year: startYear,
+        end_year: startYear + duration - 1,
         general_track: generalTrack,
         major_track: majorTrack,
         additional_tracks: additionalTracks,
+        taken_items: selectedPlanner.taken_items.filter((ti) => (
+          ti.lecture.year >= startYear && ti.lecture.year < startYear + duration
+        )),
+        future_items: selectedPlanner.future_items.filter((fi) => (
+          fi.year >= startYear && fi.year < startYear + duration
+        )),
+        generic_items: selectedPlanner.generic_items.filter((gi) => (
+          gi.year >= startYear && gi.year < startYear + duration
+        )),
       });
 
       this.close();
