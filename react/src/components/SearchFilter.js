@@ -6,6 +6,10 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import SearchFilterEntity from './SearchFilterEntity';
 
 
+const VALUE_INDEX = 0;
+const LABEL_INDEX = 1;
+
+
 class SearchFilter extends Component {
   _isChecked = (value) => {
     const { checkedValues } = this.props;
@@ -13,7 +17,9 @@ class SearchFilter extends Component {
   }
 
   _handleValueCheckedChange = (value, isChecked) => {
-    const { isRadio, checkedValues, updateCheckedValues } = this.props;
+    const {
+      isRadio, options, checkedValues, updateCheckedValues,
+    } = this.props;
 
     if (isRadio) {
       updateCheckedValues(new Set([value]));
@@ -37,7 +43,7 @@ class SearchFilter extends Component {
       else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.delete(value);
-        if (checkedValuesCopy.size === 0) {
+        if (checkedValuesCopy.size === 0 && options.some((o) => (o[VALUE_INDEX] === 'ALL'))) {
           checkedValuesCopy.add('ALL');
         }
         updateCheckedValues(checkedValuesCopy);
@@ -50,9 +56,6 @@ class SearchFilter extends Component {
     const {
       inputName, titleName, options, checkedValues, isRadio,
     } = this.props;
-
-    const VALUE_INDEX = 0;
-    const LABEL_INDEX = 1;
 
     const mapCircle = (o) => (
       <SearchFilterEntity
