@@ -49,6 +49,7 @@ class TrackSettingsSection extends Component {
 
     const startYear = parseInt(Array.from(selectedStartYears)[0], 10);
     const duration = parseInt(Array.from(selectedDurations)[0], 10);
+    const endYear = startYear + duration - 1;
 
     const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
     const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
@@ -102,18 +103,18 @@ class TrackSettingsSection extends Component {
       updatePlannerDispatch({
         ...selectedPlanner,
         start_year: startYear,
-        end_year: startYear + duration - 1,
+        end_year: endYear,
         general_track: generalTrack,
         major_track: majorTrack,
         additional_tracks: additionalTracks,
         taken_items: selectedPlanner.taken_items.filter((ti) => (
-          ti.lecture.year >= startYear && ti.lecture.year < startYear + duration
+          ti.lecture.year >= startYear && ti.lecture.year <= endYear
         )),
         future_items: selectedPlanner.future_items.filter((fi) => (
-          fi.year >= startYear && fi.year < startYear + duration
+          fi.year >= startYear && fi.year <= endYear
         )),
         generic_items: selectedPlanner.generic_items.filter((gi) => (
-          gi.year >= startYear && gi.year < startYear + duration
+          gi.year >= startYear && gi.year <= endYear
         )),
       });
 
@@ -125,7 +126,7 @@ class TrackSettingsSection extends Component {
       `/api/users/${user.id}/planners/${selectedPlanner.id}`,
       {
         start_year: startYear,
-        end_year: startYear + duration - 1,
+        end_year: endYear,
         general_track: generalTrack.id,
         major_track: majorTrack.id,
         additional_tracks: additionalTracks.map((at) => at.id),
