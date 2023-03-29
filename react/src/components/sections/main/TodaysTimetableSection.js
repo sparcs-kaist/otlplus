@@ -16,6 +16,7 @@ import userShape from '../../../shapes/model/UserShape';
 import semesterShape from '../../../shapes/model/SemesterShape';
 
 import { getOngoingSemester } from '../../../utils/semesterUtils';
+import { getColorNumber } from '../../../utils/lectureUtils';
 
 
 class TodaysTimetableSection extends Component {
@@ -185,6 +186,7 @@ class TodaysTimetableSection extends Component {
                     classtime={ct}
                     beginIndex={ct.begin / 30 - TIMETABLE_START_HOUR * 2}
                     endIndex={ct.end / 30 - TIMETABLE_START_HOUR * 2}
+                    color={getColorNumber(l)}
                     cellWidth={cellWidth}
                     cellHeight={cellHeight}
                   />

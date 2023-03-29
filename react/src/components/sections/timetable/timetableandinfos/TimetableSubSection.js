@@ -24,7 +24,7 @@ import { getDayStr, getRangeStr } from '../../../../utils/timeUtils';
 
 import {
   inTimetable,
-  isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures,
+  isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures, getColorNumber,
 } from '../../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../../common/commonOperations';
 import TimetableDragTile from '../../../tiles/TimetableDragTile';
@@ -293,6 +293,7 @@ class TimetableSubSection extends Component {
           endIndex={isUntimed
             ? 3
             : (classtime.end / 30 - TIMETABLE_START_HOUR * 2)}
+          color={getColorNumber(lecture)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isTimetableReadonly={!selectedTimetable || Boolean(selectedTimetable.isReadOnly)}

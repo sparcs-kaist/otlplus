@@ -18,7 +18,7 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import {
-  getCategory, getCreditAndAu,
+  getCategory, getColor, getCreditAndAu,
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
@@ -398,6 +398,7 @@ class PlannerSubSection extends Component {
           semesterIndex={semester <= 2 ? 0 : 1}
           beginIndex={sum(sizes.slice(0, index))}
           endIndex={sum(sizes.slice(0, index)) + sizes[index]}
+          color={getColor(selectedPlanner, i)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           planner={selectedPlanner}

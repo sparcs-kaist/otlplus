@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
-import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
+import { getProfessorsShortStr } from '../../utils/lectureUtils';
 
 import lectureShape from '../../shapes/model/LectureShape';
 import classtimeShape from '../../shapes/model/ClasstimeShape';
@@ -14,6 +14,7 @@ const TimetableTile = ({
   t,
   lecture, classtime,
   tableIndex, dayIndex, beginIndex, endIndex,
+  color,
   cellWidth, cellHeight,
   isTimetableReadonly, isRaised, isHighlighted, isDimmed, isTemp, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
@@ -62,7 +63,7 @@ const TimetableTile = ({
       className={classNames(
         'tile',
         'tile--timetable',
-        `background-color--${getColorNumber(lecture)}`,
+        `background-color--${color}`,
         (isRaised ? 'tile--raised' : null),
         (isTemp ? 'tile--temp' : null),
         (isHighlighted ? 'tile--highlighted' : null),
@@ -121,6 +122,7 @@ TimetableTile.propTypes = {
   dayIndex: PropTypes.number.isRequired,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,
+  color: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isTimetableReadonly: PropTypes.bool.isRequired,
