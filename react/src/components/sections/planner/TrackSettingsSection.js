@@ -234,10 +234,6 @@ class TrackSettingsSection extends Component {
           <br />
           본 UI는 완성되지 않은 임시 UI입니다.
           <br />
-          시작년도와 기간은 하나씩만 선택해 주세요.
-          <br />
-          기본과 전공 요건은 하나씩만 선택해 주세요.
-          <br />
           일부 요건은 함께 선택할 수 없습니다.
         </div>
         <div className={classNames('buttons')}>
