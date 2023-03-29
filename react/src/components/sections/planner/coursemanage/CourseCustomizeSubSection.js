@@ -11,12 +11,14 @@ import CourseStatus from '../../../CourseStatus';
 import CountController from '../../../CountController';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { getSemesterOfItem } from '../../../../utils/itemUtils';
 
 class CourseCustomizeSubSection extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      selectedSemester: new Set(['NORMAL']),
+      selectedSemester: new Set([getSemesterOfItem(props.itemFocus.item) % 2 === 1 ? 'NORMAL' : 'SEASONAL']),
       selectedRetake: new Set(['NORMAL']),
       basicRequired: 0,
       basicElective: 0,

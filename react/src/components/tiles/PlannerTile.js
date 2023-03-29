@@ -15,6 +15,7 @@ const PlannerTile = ({
   yearIndex, semesterIndex, beginIndex, endIndex,
   color,
   cellWidth, cellHeight,
+  isPlannerWithSummer, isPlannerWithWinter,
   isRaised, isHighlighted, isDimmed, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
 }) => {
@@ -39,7 +40,7 @@ const PlannerTile = ({
   };
 
   const getTop = () => {
-    const base = 17 + (cellHeight * 24);
+    const base = 17 + (isPlannerWithSummer ? 15 : 0) + (cellHeight * 24);
     if (semesterIndex === 0) {
       return base - (cellHeight * endIndex) + 2;
     }
@@ -112,6 +113,8 @@ PlannerTile.propTypes = {
   color: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
+  isPlannerWithSummer: PropTypes.bool.isRequired,
+  isPlannerWithWinter: PropTypes.bool.isRequired,
   isRaised: PropTypes.bool.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,

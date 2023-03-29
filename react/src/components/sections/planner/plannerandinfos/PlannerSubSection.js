@@ -410,8 +410,11 @@ class PlannerSubSection extends Component {
       );
     };
 
-    const getTiles = (year, semester) => {
-      const items = this._getItemsForSemester(selectedPlanner, year, semester);
+    const getTiles = (year, semester, shouldIncludeSeasonal) => {
+      const items = [
+        ...this._getItemsForSemester(selectedPlanner, year, semester),
+        ...(shouldIncludeSeasonal ? this._getItemsForSemester(selectedPlanner, year, semester + 1) : []),
+      ];
       const sizes = items.map((i) => getCreditAndAuOfItem(i));
       return items.map((i, index) => (
         <PlannerTile
@@ -423,6 +426,8 @@ class PlannerSubSection extends Component {
           color={getColorOfItem(selectedPlanner, i)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
+          isPlannerWithSummer={hasSummerSemester}
+          isPlannerWithWinter={hasWinterSemester}
           isRaised={isTableClickedItem(i, itemFocus)}
           isHighlighted={isFocusedItem(i, itemFocus)}
           isDimmed={isDimmedItem(i, itemFocus)}
@@ -447,8 +452,8 @@ class PlannerSubSection extends Component {
           }
           {
             plannerYears.map((y) => (
-              [1, 2, 3, 4].map((s) => (
-                getTiles(y, s)
+              [1, 3].map((s) => (
+                getTiles(y, s, true)
               ))
             ))
           }
