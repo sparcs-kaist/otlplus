@@ -51,6 +51,16 @@ class TrackSettingsSection extends Component {
     const duration = parseInt(Array.from(selectedDurations)[0], 10);
     const endYear = startYear + duration - 1;
 
+    const removedItemCount = (
+      selectedPlanner.taken_items.filter((ti) => (ti.lecture.year < startYear || ti.lecture.year > endYear)).length
+        + selectedPlanner.future_items.filter((fi) => (fi.year < startYear || fi.year > endYear)).length
+        + selectedPlanner.generic_items.filter((gi) => (gi.year < startYear || gi.year > endYear)).length
+    );
+    // eslint-disable-next-line no-alert
+    if (removedItemCount > 0 && !window.confirm(`플래너 기간을 ${startYear}~${endYear}년으로 변경하면 ${removedItemCount}개의 과목이 삭제됩니다. 정말 변경하시겠습니까?`)) {
+      return;
+    }
+
     const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
     const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
 
