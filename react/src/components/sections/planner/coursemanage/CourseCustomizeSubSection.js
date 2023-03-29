@@ -60,8 +60,8 @@ class CourseCustomizeSubSection extends Component {
       }
     };
 
-    const sectionHead = (
-      <>
+    return (
+      <div className={classNames('subsection', 'subsection--course-manage-right')}>
         <div className={classNames('detail-title-area')}>
           <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div>
           <div className={classNames('subtitle')}>{getSubtitle()}</div>
@@ -69,10 +69,6 @@ class CourseCustomizeSubSection extends Component {
             <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
           </div>
         </div>
-      </>
-    );
-    const sectionBody = (
-      <>
         <Scroller>
           <SearchFilter
             updateCheckedValues={this.updateCheckedValues('selectedSemester')}
@@ -131,14 +127,6 @@ class CourseCustomizeSubSection extends Component {
             ]}
           />
         </Scroller>
-      </>
-
-    );
-
-    return (
-      <div className={classNames('subsection', 'subsection--course-manage-right')}>
-        {sectionHead}
-        {sectionBody}
       </div>
     );
   }
