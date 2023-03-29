@@ -7,6 +7,7 @@ $color-tab-background-darker: #D8D8D8;
 $color-block-background: #EEEEEE;
 $color-block-background-dark: #DDDDDD;
 $color-block-background-highlight: #F9F0F0;
+$color-tile-background-highlight: #E0546F;
 
 $color-text-dark: #000000;
 $color-text-normal: #333333;
@@ -1933,7 +1934,7 @@ a {
     line-height: $line-height-small;
     transition: margin $transition-duration-short ease-out, box-shadow $transition-duration-short ease-out;
     &.tile--highlighted {
-        background: #E0546F !important;
+        background: $color-tile-background-highlight !important;
     }
     &.tile--raised {
         margin-top: -3px;
@@ -1941,7 +1942,7 @@ a {
         box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
     }
     &.tile--temp {
-        background-color: #E0546F;
+        background-color: $color-tile-background-highlight;
         opacity: 0.85;
         z-index: 3;
         cursor: initial;
@@ -1961,7 +1962,7 @@ a {
             position: absolute;
             cursor: pointer;
             padding: 4px;
-            background-color: rgba(#E0546F,0.8);
+            background-color: rgba($color-tile-background-highlight, 0.8);
             .tile--timetable:not(:hover) &,
             .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
                 display: none;
@@ -2013,9 +2014,9 @@ a {
     }
 
     &--timetable-drag {
-        background-color:rgba(#E0546F,0.8);
-        pointer-events:none;
-        z-index:1;
+        background-color: rgba($color-tile-background-highlight, 0.8);
+        pointer-events: none;
+        z-index: 1;
     }
 
     &--horizonatal-timetable {
@@ -2027,13 +2028,13 @@ a {
             max-height: 100%;
 
             &__title {
-                color: rgba(#000000,0.8);
+                color: rgba(#000000, 0.8);
                 margin: 0;
                 margin-bottom: 1px;
             }
 
             &__info {
-                color: rgba(#000000,0.5);
+                color: rgba(#000000, 0.5);
                 margin: 0;
                 margin-top: 1px;
             }
@@ -2049,7 +2050,7 @@ a {
             position: absolute;
             cursor: pointer;
             padding: 4px;
-            background-color: rgba(#E0546F,0.8);
+            background-color: rgba($color-tile-background-highlight, 0.8);
             .tile--planner:not(:hover) &,
             .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
                 display: none;
@@ -2068,27 +2069,28 @@ a {
 
             &__title {
                 flex: 1 1 auto;
-                color: rgba(#000000,0.8);
+                color: rgba(#000000, 0.8);
                 margin: 0;
                 pointer-events: none;
                 .tile--planner.tile--highlighted &,
                 .tile--planner.tile--raised &,
                 .tile--planner.tile--temp &
                  {
-                    color: rgba(#FFFFFF,0.9);
+                    color: rgba(#FFFFFF, 0.9);
                 }
             }
 
             &__label {
                 $size: $line-height-normal;
                 $padding-tb-base: ($size - $line-height-smallest) / 2;
+                $offset-y: 1px;
 
                 flex: 0 0 auto;
                 width: $size;
                 height: $size;
                 border-radius: 50%;
                 text-align: center;
-                padding: ($padding-tb-base + 1px) 0 ($padding-tb-base - 1px) 0;
+                padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
                 font-weight: bold;
                 font-size: $font-size-smallest;
                 line-height: $line-height-smallest;
@@ -2363,6 +2365,8 @@ a {
 
 
         &__score {
+            $option-size: 18px;
+
             width: fit-content;
             position: relative;
             &:not(:last-child) {
@@ -2371,25 +2375,30 @@ a {
 
             &__name {
                 margin-right: $attribute-name-margin-right;
-                padding: ((18px - $line-height-normal) / 2) 0;
+                padding: (($option-size - $line-height-normal) / 2) 0;
             }
 
             &__option {
-                margin-right: $attribute-info-margin-between;
                 cursor: pointer;
+                &:not(:last-child) {
+                    margin-right: $attribute-info-margin-between;
+                }
 
                 input {
                     display: none;
                 }
 
                 & > span {
+                    $padding-tb-base: ($option-size - $line-height-smaller) / 2;
+                    $offset-y: 1px;
+
                     display: inline-block;
-                    width: 18px;
-                    height: 18px;
+                    width: $option-size;
+                    height: $option-size;
                     border-radius: 50%;
                     background-color: #D6D6D6;
                     text-align: center;
-                    padding: ((18px - $line-height-smaller) / 2 + 1px) 0 ((18px - $line-height-smaller) / 2 - 1px) 0;
+                    padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
                     font-weight: bold;
                     font-size: $font-size-smaller;
                     line-height: $line-height-smaller;
@@ -2406,14 +2415,16 @@ a {
             }
 
             &::before {
+                $thickness: 2px;
+
                 content: '';
                 display: block;
-                width: (18px * 5 + 6px * 4);
-                height: 2px;
+                width: ($option-size * 5 + $attribute-info-margin-between * 4);
+                height: $thickness;
                 background-color: #D6D6D6;
                 position: absolute;
-                top: calc(50% - 2px / 2);
-                right: 6px;
+                top: calc(50% - #{$thickness} / 2);
+                right: 0;
             }
         }
 
