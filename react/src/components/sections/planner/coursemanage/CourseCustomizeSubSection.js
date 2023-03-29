@@ -62,6 +62,23 @@ class CourseCustomizeSubSection extends Component {
       }
     };
 
+    const getSemesterOptions = () => {
+      if (itemFocus.item.type !== 'TAKEN') {
+        return [
+          ['NORMAL', t('ui.semesterInfo.normal')],
+          ['SEASONAL', t('ui.semesterInfo.seasonal')],
+        ];
+      }
+      if (itemFocus.item.lecture.semester % 2 === 1) {
+        return [
+          ['NORMAL', t('ui.semesterInfo.normal')],
+        ];
+      }
+      return [
+        ['SEASONAL', t('ui.semesterInfo.seasonal')],
+      ];
+    };
+
     return (
       <div className={classNames('subsection', 'subsection--course-manage-right')}>
         <div className={classNames('detail-title-area')}>
@@ -76,10 +93,7 @@ class CourseCustomizeSubSection extends Component {
             updateCheckedValues={this.updateCheckedValues('selectedSemester')}
             inputName="semester"
             titleName={t('ui.search.semester')}
-            options={[
-              ['NORMAL', t('ui.semesterInfo.normal')],
-              ['SEASONAL', t('ui.semesterInfo.seasonal')],
-            ]}
+            options={getSemesterOptions()}
             checkedValues={selectedSemester}
             isRadio={true}
           />
