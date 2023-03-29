@@ -2063,8 +2063,11 @@ a {
             padding: $tile-padding-tb $tile-padding-lr;
             overflow: hidden;
             max-height: 100%;
+            display: flex;
+            flex-direction: row;
 
             &__title {
+                flex: 1 1 auto;
                 color: rgba(#000000,0.8);
                 margin: 0;
                 pointer-events: none;
@@ -2074,6 +2077,22 @@ a {
                  {
                     color: rgba(#FFFFFF,0.9);
                 }
+            }
+
+            &__label {
+                $size: $line-height-normal;
+                $padding-tb-base: ($size - $line-height-smallest) / 2;
+
+                flex: 0 0 auto;
+                width: $size;
+                height: $size;
+                border-radius: 50%;
+                text-align: center;
+                padding: ($padding-tb-base + 1px) 0 ($padding-tb-base - 1px) 0;
+                font-weight: bold;
+                font-size: $font-size-smallest;
+                line-height: $line-height-smallest;
+                color: #FFFFFF;
             }
         }
     }

@@ -7,6 +7,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
 import genericPlannerItemShape from '../../shapes/model/GenericPlannerItemShape';
+import { getSemesterOfItem } from '../../utils/itemUtils';
 
 
 const PlannerTile = ({
@@ -97,6 +98,20 @@ const PlannerTile = ({
         <p className={classNames('tile--planner__content__title', (isSimple ? 'mobile-hidden' : null))}>
           {getTitle()}
         </p>
+        {
+          (getSemesterOfItem(item) % 2 === 0) && (
+            <p
+              className={classNames(
+                'tile--planner__content__label',
+                isSimple ? 'mobile-hidden' : null,
+                `background-color--${color}`,
+                'background-color--dark'
+              )}
+            >
+              S
+            </p>
+          )
+        }
       </div>
     </div>
   );
