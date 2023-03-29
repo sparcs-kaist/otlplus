@@ -7,7 +7,6 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
 import genericPlannerItemShape from '../../shapes/model/GenericPlannerItemShape';
-import plannerShape from '../../shapes/model/PlannerShape';
 
 
 const PlannerTile = ({
@@ -16,7 +15,6 @@ const PlannerTile = ({
   yearIndex, semesterIndex, beginIndex, endIndex,
   color,
   cellWidth, cellHeight,
-  planner,
   isRaised, isHighlighted, isDimmed, isSimple,
   onMouseOver, onMouseOut, onClick, deleteLecture,
 }) => {
@@ -114,7 +112,6 @@ PlannerTile.propTypes = {
   color: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
-  planner: plannerShape.isRequired,
   isRaised: PropTypes.bool.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,

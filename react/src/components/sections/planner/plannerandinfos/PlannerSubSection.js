@@ -401,7 +401,6 @@ class PlannerSubSection extends Component {
           color={getColor(selectedPlanner, i)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
-          planner={selectedPlanner}
           isRaised={isTableClickedItem(i, itemFocus)}
           isHighlighted={isFocusedItem(i, itemFocus)}
           isDimmed={isDimmedItem(i, itemFocus)}
