@@ -219,7 +219,10 @@ class TimetableSubSection extends Component {
   }
 
   deleteLectureFromTimetable = (lecture) => {
-    const { selectedTimetable, user, removeLectureFromTimetableDispatch } = this.props;
+    const {
+      selectedTimetable, user,
+      removeLectureFromTimetableDispatch, clearLectureFocusDispatch,
+    } = this.props;
 
     if (!selectedTimetable) {
       return;
@@ -234,6 +237,7 @@ class TimetableSubSection extends Component {
       }
       // TODO: Fix timetable not updated when semester unchanged and timetable changed
       removeLectureFromTimetableDispatch(lecture);
+      clearLectureFocusDispatch();
     };
     performDeleteFromTable(
       lecture, selectedTimetable, user, 'Timetable',

@@ -126,7 +126,10 @@ class PlannerSubSection extends Component {
   }
 
   deleteItemFromPlanner = (item) => {
-    const { selectedPlanner, user, removeItemFromPlannerDispatch } = this.props;
+    const {
+      selectedPlanner, user,
+      removeItemFromPlannerDispatch, clearItemFocusDispatch,
+    } = this.props;
 
     if (!selectedPlanner) {
       return;
@@ -134,6 +137,7 @@ class PlannerSubSection extends Component {
 
     if (!user) {
       removeItemFromPlannerDispatch(item);
+      clearItemFocusDispatch();
     }
     else {
       axios.post(
@@ -155,6 +159,7 @@ class PlannerSubSection extends Component {
             return;
           }
           removeItemFromPlannerDispatch(item);
+          clearItemFocusDispatch();
         })
         .catch((error) => {
         });
