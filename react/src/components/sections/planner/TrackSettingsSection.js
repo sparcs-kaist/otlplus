@@ -190,7 +190,7 @@ class TrackSettingsSection extends Component {
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedStartYears')}
           inputName="startYear"
-          titleName={t('ui.attribute.startYear')}
+          titleName={t('ui.attribute.entranceYear')}
           options={
             range(2015, (new Date()).getFullYear() + 1).map((y) => [y.toString(), y.toString()])
           }
@@ -200,9 +200,9 @@ class TrackSettingsSection extends Component {
         <SearchFilter
           updateCheckedValues={this.updateCheckedValues('selectedDurations')}
           inputName="duration"
-          titleName={t('ui.attribute.duration')}
+          titleName={t('ui.attribute.enrollmentPeriod')}
           options={
-            range(4, 9).map((d) => [d.toString(), d.toString()])
+            range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])
           }
           checkedValues={selectedDurations}
           isRadio={true}
