@@ -47,6 +47,9 @@ class TakenPlannerItem(models.Model):
                                 related_name="taken_items", on_delete=models.CASCADE, db_index=True)
 
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
+
+    class Meta:
+        unique_together = [["planner", "lecture"]]
     
     def to_json(self):
         result = {

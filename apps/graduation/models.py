@@ -19,6 +19,9 @@ class GeneralTrack(models.Model):
     humanities = models.IntegerField()
     humanities_doublemajor = models.IntegerField()
 
+    class Meta:
+        unique_together = [["start_year", "is_foreign"], ["end_year", "is_foreign"]]
+
     def to_json(self):
         result = {
             "id": self.id,
@@ -49,6 +52,9 @@ class MajorTrack(models.Model):
     basic_elective_doublemajor = models.IntegerField()
     major_required = models.IntegerField()
     major_elective = models.IntegerField()
+
+    class Meta:
+        unique_together = [["start_year", "department"], ["end_year", "department"]]
 
     def to_json(self):
         result = {
@@ -81,6 +87,9 @@ class AdditionalTrack(models.Model):
 
     major_required = models.IntegerField()
     major_elective = models.IntegerField()
+
+    class Meta:
+        unique_together = [["start_year", "type", "department"], ["end_year", "type", "department"]]
 
     def to_json(self):
         result = {
