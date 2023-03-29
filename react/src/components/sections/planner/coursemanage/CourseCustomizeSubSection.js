@@ -28,17 +28,6 @@ class CourseCustomizeSubSection extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    const { itemFocus } = this.props;
-    if (!itemFocus.course || !itemFocus.lectures) {
-      return;
-    }
-
-    if (!prevProps.itemFocus.lectures && itemFocus.lectures) {
-      this.initialize2(itemFocus);
-    }
-  }
-
   updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
@@ -48,47 +37,6 @@ class CourseCustomizeSubSection extends Component {
   updateCredits = (optionName) => (creditValues) => {
     this.setState({
       [optionName]: creditValues,
-    });
-  }
-
-  initialize = () => {
-    this.setState({
-      selectedSemester: new Set(['NORMAL']),
-      selectedRetake: new Set(['NORMAL']),
-      basicRequired: 0,
-      basicElective: 0,
-      generalRequired: 0,
-      generalElective: 0,
-      majorRequired: 0,
-      majorElective: 0,
-      secondMajorRequired: 0,
-      secondMajorElective: 0,
-      totalCredit: 0,
-    });
-  }
-
-  initialize2 = () => {
-    const { t } = this.props;
-    const { itemFocus } = this.props;
-
-    const recentLecture = itemFocus.lectures[itemFocus.lectures.length - 1];
-    const credit = recentLecture.credit >= 1
-      ? recentLecture.credit
-      : recentLecture.credit_au;
-    const lectureType = itemFocus.course[t('js.property.type')];
-
-    this.setState({
-      selectedSemester: new Set(['NORMAL']),
-      selectedRetake: new Set(['NORMAL']),
-      basicRequired: lectureType === '기초필수' ? credit : 0,
-      basicElective: lectureType === '기초선택' ? credit : 0,
-      generalRequired: lectureType === '교양필수' ? credit : 0,
-      generalElective: lectureType === '교양선택' ? credit : 0,
-      majorRequired: lectureType === '전공필수' ? credit : 0,
-      majorElective: lectureType === '전공선택' ? credit : 0,
-      secondMajorRequired: lectureType === '전공필수' ? credit : 0,
-      secondMajorElective: lectureType === '전공선택' ? credit : 0,
-      totalCredit: 0,
     });
   }
 
