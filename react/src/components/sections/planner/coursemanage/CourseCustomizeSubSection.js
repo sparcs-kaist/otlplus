@@ -7,9 +7,6 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import Scroller from '../../../Scroller';
 import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
-import {
-  getSemesterOptions, getRetakeOptions,
-} from '../../../../common/searchOptions';
 import CourseStatus from '../../../CourseStatus';
 import CountController from '../../../CountController';
 import { getSemesterName } from '../../../../utils/semesterUtils';
@@ -19,8 +16,8 @@ class CourseCustomizeSubSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedSemester: new Set(['ALL']),
-      selectedRetake: new Set(['ALL']),
+      selectedSemester: new Set(['NORMAL']),
+      selectedRetake: new Set(['NORMAL']),
       basicRequired: 0,
       basicElective: 0,
       majorRequired: 0,
@@ -56,8 +53,8 @@ class CourseCustomizeSubSection extends Component {
 
   initialize = () => {
     this.setState({
-      selectedSemester: new Set(['ALL']),
-      selectedRetake: new Set(['ALL']),
+      selectedSemester: new Set(['NORMAL']),
+      selectedRetake: new Set(['NORMAL']),
       basicRequired: 0,
       basicElective: 0,
       generalRequired: 0,
@@ -81,8 +78,8 @@ class CourseCustomizeSubSection extends Component {
     const lectureType = itemFocus.course[t('js.property.type')];
 
     this.setState({
-      selectedSemester: new Set(['ALL']),
-      selectedRetake: new Set(['ALL']),
+      selectedSemester: new Set(['NORMAL']),
+      selectedRetake: new Set(['NORMAL']),
       basicRequired: lectureType === '기초필수' ? credit : 0,
       basicElective: lectureType === '기초선택' ? credit : 0,
       generalRequired: lectureType === '교양필수' ? credit : 0,
@@ -133,15 +130,23 @@ class CourseCustomizeSubSection extends Component {
             updateCheckedValues={this.updateCheckedValues('selectedSemester')}
             inputName="semester"
             titleName={t('ui.search.semester')}
-            options={getSemesterOptions()}
+            options={[
+              ['NORMAL', t('ui.semesterInfo.normal')],
+              ['SEASONAL', t('ui.semesterInfo.seasonal')],
+            ]}
             checkedValues={selectedSemester}
+            isRadio={true}
           />
           <SearchFilter
             updateCheckedValues={this.updateCheckedValues('selectedRetake')}
             inputName="retake"
             titleName={t('ui.search.retake')}
-            options={getRetakeOptions()}
+            options={[
+              ['NORMAL', t('ui.retake.normal')],
+              ['RETAKE', t('ui.retake.retake')],
+            ]}
             checkedValues={selectedRetake}
+            isRadio={true}
           />
           <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <CourseStatus
