@@ -109,6 +109,16 @@ class TrackSettingsSection extends Component {
       return;
     }
 
+    const unmatchingPeriodTracksCount = (
+      ((generalTrack.start_year > startYear || generalTrack.end_year < startYear) ? 1 : 0)
+        + ((majorTrack.start_year > startYear || majorTrack.end_year < startYear) ? 1 : 0)
+        + additionalTracks.filter((at) => (at.start_year > startYear || at.end_year < endYear)).length
+    );
+    // eslint-disable-next-line no-alert
+    if (unmatchingPeriodTracksCount > 0 && !window.confirm(`선택한 졸업요건 중 ${unmatchingPeriodTracksCount}개의 졸업요건은 입학년도가 ${startYear}년일 경우 적용이 불가능할 수 있습니다. 정말 변경하시겠습니까? 해당 요건의 적용 가능 여부는 학사요람을 참고 바랍니다.`)) {
+      return;
+    }
+
     if (!user) {
       updatePlannerDispatch({
         ...selectedPlanner,
