@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
-import { range, sortBy, sum } from 'lodash';
+import {
+  range, sortBy, sum, sumBy,
+} from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
@@ -18,7 +20,8 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import {
-  getCategory, getColor, getCreditAndAu,
+  getCategory, getColor,
+  getCredit, getAu, getCreditAndAu,
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
@@ -180,6 +183,16 @@ class PlannerSubSection extends Component {
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 4).length)
       .some((l) => (l > 0));
 
+    const getCreditMessageForSemester = (year, semester) => {
+      const items = this._getItemsForSemester(selectedPlanner, year, semester);
+      const credit = sumBy(items, (i) => getCredit(i));
+      const au = sumBy(items, (i) => getAu(i));
+      if (au === 0) {
+        return `${t('ui.others.creditCount', { count: credit })}`;
+      }
+      return `${t('ui.others.creditCount', { count: credit })} ${t('ui.others.auCount', { count: au })}`;
+    };
+
     const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
     const getHeadColumn = () => {
       const springArea = [
@@ -247,11 +260,13 @@ class PlannerSubSection extends Component {
       const springArea = [
         hasSummerSemester && (
           <div className={classNames('subsection--planner__table__body__toptitle')} key="title:summer">
-            {`${year} ${t('ui.semester.summer')}`}
+            <span>{`${year} ${t('ui.semester.summer')}`}</span>
+            <span>{getCreditMessageForSemester(year, 2)}</span>
           </div>
         ),
         <div className={classNames('subsection--planner__table__body__toptitle')} key="title:spring">
-          {`${year} ${t('ui.semester.spring')}`}
+          <span>{`${year} ${t('ui.semester.spring')}`}</span>
+          <span>{getCreditMessageForSemester(year, 1)}</span>
         </div>,
         <div
           className={classNames(
@@ -367,11 +382,13 @@ class PlannerSubSection extends Component {
           key="line:24"
         />,
         <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
-          {`${year} ${t('ui.semester.fall')}`}
+          <span>{`${year} ${t('ui.semester.fall')}`}</span>
+          <span>{getCreditMessageForSemester(year, 3)}</span>
         </div>,
         hasWinterSemester && (
           <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:winter">
-            {`${year} ${t('ui.semester.winter')}`}
+            <span>{`${year} ${t('ui.semester.winter')}`}</span>
+            <span>{getCreditMessageForSemester(year, 4)}</span>
           </div>
         ),
       ];

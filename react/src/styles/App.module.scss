@@ -1806,6 +1806,10 @@ a {
                     font-size: $font-size-smallest;
                     line-height: $line-height-smallest;
                     color: $color-text-lighter;
+
+                    & > span:last-child {
+                        float: right;
+                    }
                 }
 
                 &__toptitle {
