@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
-import CreditStatusBar from '../../../CreditBar';
+import CreditBar from '../../../CreditBar';
 import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
@@ -194,7 +194,7 @@ class SummarySubSection extends Component {
                     {
                       name: t('ui.type.totalCredit'),
                       controller: (
-                        <CreditStatusBar
+                        <CreditBar
                           takenCredit={totalCredit[ValueIndex.TAKEN]}
                           plannedCredit={totalCredit[ValueIndex.PLANNED]}
                           focusedCredit={totalCredit[ValueIndex.FOCUSED]}
@@ -207,7 +207,7 @@ class SummarySubSection extends Component {
                     {
                       name: t('ui.type.totalAu'),
                       controller: (
-                        <CreditStatusBar
+                        <CreditBar
                           takenCredit={totalAu[ValueIndex.TAKEN]}
                           plannedCredit={totalAu[ValueIndex.PLANNED]}
                           focusedCredit={totalAu[ValueIndex.FOCUSED]}
@@ -226,7 +226,7 @@ class SummarySubSection extends Component {
                       {
                         name: categoryTitles[i][j][k],
                         controller: (
-                          <CreditStatusBar
+                          <CreditBar
                             takenCredit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
                             plannedCredit={categoryCreditAndAus[i][j][k][ValueIndex.PLANNED]}
                             focusedCredit={categoryCreditAndAus[i][j][k][ValueIndex.FOCUSED]}
