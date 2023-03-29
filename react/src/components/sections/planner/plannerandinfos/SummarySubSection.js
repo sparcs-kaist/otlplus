@@ -12,8 +12,8 @@ import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import {
-  getCategory, getCategoryOfType, getColorOfCategory,
-  getCredit, getAu, getCreditAndAu, getSeparateMajorTracks,
+  getCategoryOfItem, getCategoryOfType, getColorOfCategory,
+  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem, getSeparateMajorTracks,
 } from '../../../../utils/itemUtils';
 import plannerShape from '../../../../shapes/model/PlannerShape';
 
@@ -141,22 +141,22 @@ class SummarySubSection extends Component {
     if (selectedPlanner) {
       /* eslint-disable fp/no-mutation */
       selectedPlanner.taken_items.forEach((i) => {
-        const category = getCategory(selectedPlanner, i);
-        totalCredit[ValueIndex.TAKEN] += getCredit(i);
-        totalAu[ValueIndex.TAKEN] += getAu(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAu(i);
+        const category = getCategoryOfItem(selectedPlanner, i);
+        totalCredit[ValueIndex.TAKEN] += getCreditOfItem(i);
+        totalAu[ValueIndex.TAKEN] += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAuOfItem(i);
       });
       selectedPlanner.future_items.forEach((i) => {
-        const category = getCategory(selectedPlanner, i);
-        totalCredit[ValueIndex.PLANNED] += getCredit(i);
-        totalAu[ValueIndex.PLANNED] += getAu(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
+        const category = getCategoryOfItem(selectedPlanner, i);
+        totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
+        totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
       });
       selectedPlanner.generic_items.forEach((i) => {
-        const category = getCategory(selectedPlanner, i);
-        totalCredit[ValueIndex.PLANNED] += getCredit(i);
-        totalAu[ValueIndex.PLANNED] += getAu(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAu(i);
+        const category = getCategoryOfItem(selectedPlanner, i);
+        totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
+        totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
       });
       /* eslint-enable fp/no-mutation */
     }
@@ -175,10 +175,10 @@ class SummarySubSection extends Component {
       || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
     ) {
       /* eslint-disable fp/no-mutation */
-      const category = getCategory(selectedPlanner, itemFocus.item);
-      totalCredit[ValueIndex.FOCUSED] += getCredit(itemFocus.item);
-      totalAu[ValueIndex.FOCUSED] += getAu(itemFocus.item);
-      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += getCreditAndAu(itemFocus.item);
+      const category = getCategoryOfItem(selectedPlanner, itemFocus.item);
+      totalCredit[ValueIndex.FOCUSED] += getCreditOfItem(itemFocus.item);
+      totalAu[ValueIndex.FOCUSED] += getAuOfItem(itemFocus.item);
+      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += getCreditAndAuOfItem(itemFocus.item);
       /* eslint-enable fp/no-mutation */
     }
 

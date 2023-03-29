@@ -54,7 +54,7 @@ export const isDimmedListCourse = (course, itemFocus) => (
   && itemFocus.course.id !== course.id
 );
 
-export const getDefaultCredit = (item) => {
+export const getDefaultCreditOfItem = (item) => {
   if (item.type === 'TAKEN') {
     return item.lecture.credit;
   }
@@ -67,11 +67,11 @@ export const getDefaultCredit = (item) => {
   return 0;
 };
 
-export const getCredit = (item) => {
-  return getDefaultCredit(item); // TODO: Implement additional customization
+export const getCreditOfItem = (item) => {
+  return getDefaultCreditOfItem(item); // TODO: Implement additional customization
 };
 
-export const getAu = (item) => {
+export const getAuOfItem = (item) => {
   if (item.type === 'TAKEN') {
     return item.lecture.credit_au;
   }
@@ -84,8 +84,8 @@ export const getAu = (item) => {
   return 0;
 };
 
-export const getCreditAndAu = (item) => {
-  return getCredit(item) + getAu(item);
+export const getCreditAndAuOfItem = (item) => {
+  return getCreditOfItem(item) + getAuOfItem(item);
 };
 
 export const getSeparateMajorTracks = (planner) => {
@@ -152,7 +152,7 @@ export const getCategoryOfType = (planner, type, department) => {
   return [4, 0, 1];
 };
 
-export const getCategory = (planner, item) => {
+export const getCategoryOfItem = (planner, item) => {
   const type = (
     item.type === 'TAKEN'
       ? item.lecture.type_en
@@ -188,6 +188,6 @@ export const getColorOfCategory = (planner, category) => {
   }
 };
 
-export const getColor = (planner, item) => {
-  return getColorOfCategory(planner, getCategory(planner, item));
+export const getColorOfItem = (planner, item) => {
+  return getColorOfCategory(planner, getCategoryOfItem(planner, item));
 };

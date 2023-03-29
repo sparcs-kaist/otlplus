@@ -20,8 +20,8 @@ import plannerShape from '../../../../shapes/model/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
 
 import {
-  getCategory, getColor,
-  getCredit, getAu, getCreditAndAu,
+  getCategoryOfItem, getColorOfItem,
+  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
@@ -59,11 +59,11 @@ class PlannerSubSection extends Component {
         )),
       ],
       (i) => {
-        const category = getCategory(planner, i);
+        const category = getCategoryOfItem(planner, i);
         return category[0] * (100 ** 3)
         + category[1] * (100 ** 2)
         + category[2] * 100
-        + (100 - getCreditAndAu(i));
+        + (100 - getCreditAndAuOfItem(i));
       }
     );
   }
@@ -190,8 +190,8 @@ class PlannerSubSection extends Component {
 
     const getCreditMessageForSemester = (year, semester) => {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
-      const credit = sumBy(items, (i) => getCredit(i));
-      const au = sumBy(items, (i) => getAu(i));
+      const credit = sumBy(items, (i) => getCreditOfItem(i));
+      const au = sumBy(items, (i) => getAuOfItem(i));
       if (au === 0) {
         return `${t('ui.others.creditCount', { count: credit })}`;
       }
@@ -412,7 +412,7 @@ class PlannerSubSection extends Component {
 
     const getTiles = (year, semester) => {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
-      const sizes = items.map((i) => getCreditAndAu(i));
+      const sizes = items.map((i) => getCreditAndAuOfItem(i));
       return items.map((i, index) => (
         <PlannerTile
           item={i}
@@ -420,7 +420,7 @@ class PlannerSubSection extends Component {
           semesterIndex={semester <= 2 ? 0 : 1}
           beginIndex={sum(sizes.slice(0, index))}
           endIndex={sum(sizes.slice(0, index)) + sizes[index]}
-          color={getColor(selectedPlanner, i)}
+          color={getColorOfItem(selectedPlanner, i)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isRaised={isTableClickedItem(i, itemFocus)}
