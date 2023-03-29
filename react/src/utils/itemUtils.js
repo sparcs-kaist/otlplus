@@ -54,6 +54,32 @@ export const isDimmedListCourse = (course, itemFocus) => (
   && itemFocus.course.id !== course.id
 );
 
+export const getYearOfItem = (item) => {
+  switch (item.type) {
+    case 'TAKEN':
+      return item.lecture.year;
+    case 'FUTURE':
+      return item.year;
+    case 'GENERIC':
+      return item.year;
+    default:
+      return 2000;
+  }
+};
+
+export const getSemesterOfItem = (item) => {
+  switch (item.type) {
+    case 'TAKEN':
+      return item.lecture.semester;
+    case 'FUTURE':
+      return item.semester;
+    case 'GENERIC':
+      return item.semester;
+    default:
+      return 2000;
+  }
+};
+
 export const getDefaultCreditOfItem = (item) => {
   if (item.type === 'TAKEN') {
     return item.lecture.credit;
