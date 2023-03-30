@@ -600,8 +600,8 @@ class Course(models.Model):
             "title_en": self.title_en,
             "summary": self.summury if len(self.summury) > 0 else "등록되지 않았습니다.",
             "review_total_weight": self.review_total_weight,
-            "credit": representative_lecture.credit,
-            "credit_au": representative_lecture.credit_au,
+            "credit": representative_lecture.credit if representative_lecture else 0,
+            "credit_au": representative_lecture.credit_au if representative_lecture else 0,
         }
 
         if nested:
