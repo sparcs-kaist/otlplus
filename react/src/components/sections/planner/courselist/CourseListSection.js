@@ -193,18 +193,11 @@ class CourseListSection extends Component {
                 <PlannerCourseBlock
                   course={c}
                   key={c.id}
-                  shouldShowReadStatus={true}
                   isRaised={isClickedListCourse(c, itemFocus)}
                   isDimmed={isDimmedListCourse(c, itemFocus)}
                   onMouseOver={this.focusCourseWithHover}
                   onMouseOut={this.unfocusCourseWithHover}
                   onClick={this.focusCourseWithClick}
-                // inCart={inCart(l, lists[CourseListCode.CART])}
-                // fromCart={(selectedListCode === CourseListCode.CART)}
-                // addToCart={this.addLectureToCart}
-                // addToTable={this.addLectureToTable}
-                // deleteFromCart={this.deleteLectureFromCart}
-                // 나중에 장바구니 만들어야 함!
                 />
               ))
             }

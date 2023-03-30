@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import courseShape from '../../shapes/model/CourseShape';
-import linkShape from '../../shapes/LinkShape';
 
 
 const PlannerCourseBlock = ({
@@ -13,7 +12,6 @@ const PlannerCourseBlock = ({
   course,
   isRaised, isDimmed,
   onMouseOver, onMouseOut, onClick,
-  linkTo,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
@@ -43,7 +41,6 @@ const PlannerCourseBlock = ({
       onClick={handleClick}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      to={linkTo}
     >
       <div className={classNames('block--planner-course__title')}>
         { course[t('js.property.title')] }
@@ -62,7 +59,6 @@ PlannerCourseBlock.propTypes = {
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
-  linkTo: linkShape,
 };
 
 
