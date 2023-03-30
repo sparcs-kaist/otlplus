@@ -12,7 +12,7 @@ export const isTableFocusedItem = (item, itemFocus) => (
   (
     itemFocus.from === ItemFocusFrom.TABLE_TAKEN
     || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-    || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
+    || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY
   )
   && isIdenticalItem(item, itemFocus.item)
 );
@@ -60,7 +60,7 @@ export const getYearOfItem = (item) => {
       return item.lecture.year;
     case 'FUTURE':
       return item.year;
-    case 'GENERIC':
+    case 'ARBITRARY':
       return item.year;
     default:
       return 2000;
@@ -73,7 +73,7 @@ export const getSemesterOfItem = (item) => {
       return item.lecture.semester;
     case 'FUTURE':
       return item.semester;
-    case 'GENERIC':
+    case 'ARBITRARY':
       return item.semester;
     default:
       return 2000;
@@ -87,7 +87,7 @@ export const getDefaultCreditOfItem = (item) => {
   if (item.type === 'FUTURE') {
     return item.course.credit;
   }
-  if (item.type === 'GENERIC') {
+  if (item.type === 'ARBITRARY') {
     return 3; // TODO: Update this
   }
   return 0;
@@ -104,7 +104,7 @@ export const getAuOfItem = (item) => {
   if (item.type === 'FUTURE') {
     return item.course.credit_au;
   }
-  if (item.type === 'GENERIC') {
+  if (item.type === 'ARBITRARY') {
     return 0;
   }
   return 0;

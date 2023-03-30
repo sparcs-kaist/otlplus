@@ -30,8 +30,8 @@ class Planner(models.Model):
                              for takenPlannerItem in self.taken_items.all()],
             "future_items": [futurePlannerItem.to_json()
                              for futurePlannerItem in self.future_items.all()],
-            "generic_items": [genericPlannerItem.to_json()
-                             for genericPlannerItem in self.generic_items.all()],
+            "arbitrary_items": [arbitraryPlannerItem.to_json()
+                             for arbitraryPlannerItem in self.arbitrary_items.all()],
             "arrange_order": self.arrange_order,
         }
         return result
@@ -82,9 +82,9 @@ class FuturePlannerItem(models.Model):
         return result
 
 
-class GenericPlannerItem(models.Model):
+class ArbitraryPlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
-                                related_name="generic_items", on_delete=models.CASCADE,
+                                related_name="arbitrary_items", on_delete=models.CASCADE,
                                 db_index=True)
     
     year = models.IntegerField(db_index=True)
@@ -93,7 +93,7 @@ class GenericPlannerItem(models.Model):
     def to_json(self):
         result = {
             "id": self.id,
-            "type": "GENERIC",
+            "type": "ARBITRARY",
             "year": self.year,
             "semester": self.semester,
         }

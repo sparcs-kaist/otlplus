@@ -55,7 +55,7 @@ class CourseCustomizeSubSection extends Component {
           return `수강 완료 - ${itemFocus.item.lecture.year} ${getSemesterName(itemFocus.item.lecture.semester)}`;
         case ItemFocusFrom.TABLE_FUTURE:
           return `수강 예정 - ${itemFocus.item.year} ${getSemesterName(itemFocus.item.semester)}`;
-        case ItemFocusFrom.TABLE_GENERIC:
+        case ItemFocusFrom.TABLE_ARBITRARY:
           return `수강 예정 - ${itemFocus.item.year} ${getSemesterName(itemFocus.item.semester)}`;
         default:
           return 'Unknown';

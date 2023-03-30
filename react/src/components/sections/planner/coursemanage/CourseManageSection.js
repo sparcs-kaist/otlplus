@@ -45,7 +45,7 @@ class CourseManageSection extends Component {
     if ((
       itemFocus.from === ItemFocusFrom.TABLE_TAKEN
         || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-        || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
+        || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY
     )
       && prevProps.selectedPlanner.id !== selectedPlanner.id) {
       clearItemFocusDispatch();

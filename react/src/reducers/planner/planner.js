@@ -26,8 +26,8 @@ const getListNameOfType = (type) => {
       return 'taken_items';
     case 'FUTURE':
       return 'future_items';
-    case 'GENERIC':
-      return 'generic_items';
+    case 'ARBITRARY':
+      return 'arbitrary_items';
     default:
       return undefined;
   }

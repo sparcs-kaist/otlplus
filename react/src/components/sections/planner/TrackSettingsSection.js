@@ -54,7 +54,7 @@ class TrackSettingsSection extends Component {
     const removedItemCount = (
       selectedPlanner.taken_items.filter((ti) => (ti.lecture.year < startYear || ti.lecture.year > endYear)).length
         + selectedPlanner.future_items.filter((fi) => (fi.year < startYear || fi.year > endYear)).length
-        + selectedPlanner.generic_items.filter((gi) => (gi.year < startYear || gi.year > endYear)).length
+        + selectedPlanner.arbitrary_items.filter((gi) => (gi.year < startYear || gi.year > endYear)).length
     );
     // eslint-disable-next-line no-alert
     if (removedItemCount > 0 && !window.confirm(`플래너 기간을 ${startYear}~${endYear}년으로 변경하면 ${removedItemCount}개의 과목이 삭제됩니다. 정말 변경하시겠습니까?`)) {
@@ -133,7 +133,7 @@ class TrackSettingsSection extends Component {
         future_items: selectedPlanner.future_items.filter((fi) => (
           fi.year >= startYear && fi.year <= endYear
         )),
-        generic_items: selectedPlanner.generic_items.filter((gi) => (
+        arbitrary_items: selectedPlanner.arbitrary_items.filter((gi) => (
           gi.year >= startYear && gi.year <= endYear
         )),
       });

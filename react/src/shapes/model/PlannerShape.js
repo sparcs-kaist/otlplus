@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import takenPlannerItemShape from './TakenPlannerItemShape';
 import futurePlannerItemShape from './FuturePlannerItemShape';
-import genericPlannerItemShape from './GenericPlannerItemShape';
+import arbitraryPlannerItemShape from './ArbitraryPlannerItemShape';
 
 
 const plannerShape = PropTypes.shape({
@@ -11,7 +11,7 @@ const plannerShape = PropTypes.shape({
   end_year: PropTypes.number.isRequired,
   taken_items: PropTypes.arrayOf(takenPlannerItemShape).isRequired,
   future_items: PropTypes.arrayOf(futurePlannerItemShape).isRequired,
-  generic_items: PropTypes.arrayOf(genericPlannerItemShape).isRequired,
+  arbitrary_items: PropTypes.arrayOf(arbitraryPlannerItemShape).isRequired,
   arrange_order: PropTypes.number.isRequired,
 });
 

@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.db import transaction
 
-from .models import Planner, TakenPlannerItem, FuturePlannerItem, GenericPlannerItem
+from .models import Planner, TakenPlannerItem, FuturePlannerItem, ArbitraryPlannerItem
 from apps.subject.models import Course, Lecture
 from apps.graduation.models import GeneralTrack, MajorTrack, AdditionalTrack
 from .services import reorder_planner
@@ -50,7 +50,7 @@ class UserInstancePlannerListView(View):
             ("should_update_taken_semesters", ParseType.BOOL, False, []),
             ("taken_items", ParseType.LIST_INT, True, []),
             ("future_items", ParseType.LIST_INT, True, []),
-            ("generic_items", ParseType.LIST_INT, True, []),
+            ("arbitrary_items", ParseType.LIST_INT, True, []),
         ]
 
         userprofile = request.user.userprofile
@@ -59,7 +59,7 @@ class UserInstancePlannerListView(View):
 
         start_year, end_year,\
         general_track, major_track, additional_tracks,\
-        should_update_taken_semesters, taken_items, future_items, generic_items\
+        should_update_taken_semesters, taken_items, future_items, arbitrary_items\
             = parse_body(request.body, BODY_STRUCTURE)
 
         related_planners = Planner.get_related_planners(userprofile)
@@ -96,12 +96,12 @@ class UserInstancePlannerListView(View):
             FuturePlannerItem.objects.create(planner=planner,
                                              year=target_item.year, semester=target_item.semester,
                                              course=target_item.course)
-        for i in generic_items:
+        for i in arbitrary_items:
             try:
-                target_item = GenericPlannerItem.objects.get(planner__user=userprofile, id=i)
-            except GenericPlannerItem.DoesNotExist:
+                target_item = ArbitraryPlannerItem.objects.get(planner__user=userprofile, id=i)
+            except ArbitraryPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
-            GenericPlannerItem.objects.create(planner=planner,
+            ArbitraryPlannerItem.objects.create(planner=planner,
                                               year=target_item.year, semester=target_item.semester,)
 
         return JsonResponse(planner.to_json())
@@ -158,7 +158,7 @@ class UserInstancePlannerInstanceView(View):
         )
         planner.taken_items.exclude(lecture__year__gte=start_year, lecture__year__lte=end_year).delete()
         planner.future_items.exclude(year__gte=start_year, year__lte=end_year).delete()
-        planner.generic_items.exclude(year__gte=start_year, year__lte=end_year).delete()
+        planner.arbitrary_items.exclude(year__gte=start_year, year__lte=end_year).delete()
         return JsonResponse(planner.to_json(), safe=False)
 
     def delete(self, request, user_id, planner_id):

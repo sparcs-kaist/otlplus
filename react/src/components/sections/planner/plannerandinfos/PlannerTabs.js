@@ -169,7 +169,7 @@ class PlannerTabs extends Component {
         additional_tracks: [],
         taken_items: [],
         future_items: [],
-        generic_items: [],
+        arbitrary_items: [],
         arrange_order: planners ? planners.length : 0,
       });
     }
@@ -185,7 +185,7 @@ class PlannerTabs extends Component {
           should_update_taken_semesters: true,
           taken_items: [],
           future_items: [],
-          generic_items: [],
+          arbitrary_items: [],
         },
         {
           metadata: {
@@ -277,7 +277,7 @@ class PlannerTabs extends Component {
           ...i,
           id: this._createRandomPlannerId(),
         })),
-        generic_items: planner.generic_items.map((i) => ({
+        arbitrary_items: planner.arbitrary_items.map((i) => ({
           ...i,
           id: this._createRandomPlannerId(),
         })),
@@ -296,7 +296,7 @@ class PlannerTabs extends Component {
           additional_tracks: planner.additional_tracks.map((at) => at.id),
           taken_items: planner.taken_items.map((i) => i.id),
           future_items: planner.future_items.map((i) => i.id),
-          generic_items: planner.generic_items.map((i) => i.id),
+          arbitrary_items: planner.arbitrary_items.map((i) => i.id),
         },
         {
           metadata: {

@@ -54,7 +54,7 @@ class PlannerSubSection extends Component {
         ...planner.future_items.filter((i) => (
           i.year === year && i.semester === semester
         )),
-        ...planner.generic_items.filter((i) => (
+        ...planner.arbitrary_items.filter((i) => (
           i.year === year && i.semester === semester
         )),
       ],
@@ -92,8 +92,8 @@ class PlannerSubSection extends Component {
     if (item.type === 'FUTURE') {
       return ItemFocusFrom.TABLE_FUTURE;
     }
-    if (item.type === 'GENERIC') {
-      return ItemFocusFrom.TABLE_GENERIC;
+    if (item.type === 'ARBITRARY') {
+      return ItemFocusFrom.TABLE_ARBITRARY;
     }
     return '';
   }

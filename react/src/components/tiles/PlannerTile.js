@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
-import genericPlannerItemShape from '../../shapes/model/GenericPlannerItemShape';
+import arbitraryPlannerItemShape from '../../shapes/model/ArbitraryPlannerItemShape';
 import { getSemesterOfItem } from '../../utils/itemUtils';
 
 
@@ -57,7 +57,7 @@ const PlannerTile = ({
     if (item.type === 'FUTURE') {
       return item.course[t('js.property.title')];
     }
-    return 'Generic';
+    return 'Arbitrary';
   };
 
   return (
@@ -119,7 +119,7 @@ const PlannerTile = ({
 
 PlannerTile.propTypes = {
   item: PropTypes.oneOfType([
-    takenPlannerItemShape, futurePlannerItemShape, genericPlannerItemShape,
+    takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
   ]).isRequired,
   yearIndex: PropTypes.number.isRequired,
   semesterIndex: PropTypes.oneOf([0, 1]).isRequired,

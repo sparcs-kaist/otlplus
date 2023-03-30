@@ -152,7 +152,7 @@ class SummarySubSection extends Component {
         totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
       });
-      selectedPlanner.generic_items.forEach((i) => {
+      selectedPlanner.arbitrary_items.forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
         totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
         totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
@@ -172,7 +172,7 @@ class SummarySubSection extends Component {
     else if (
       itemFocus.from === ItemFocusFrom.TABLE_TAKEN
       || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-      || itemFocus.from === ItemFocusFrom.TABLE_GENERIC
+      || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY
     ) {
       /* eslint-disable fp/no-mutation */
       const category = getCategoryOfItem(selectedPlanner, itemFocus.item);
