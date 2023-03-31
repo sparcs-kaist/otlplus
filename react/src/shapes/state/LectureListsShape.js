@@ -6,7 +6,7 @@ import lectureShape from '../model/LectureShape';
 const lectureGroupShape = PropTypes.arrayOf(lectureShape);
 
 
-const lectureListsShape = PropTypes.exact({
+const lectureListsShape = PropTypes.shape({
   search: PropTypes.exact({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
   }).isRequired,

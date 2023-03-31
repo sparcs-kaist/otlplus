@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import courseShape from '../model/CourseShape';
 
 
-const courseListsShape = PropTypes.exact({
+const courseListsShape = PropTypes.shape({
   search: PropTypes.exact({
     courses: PropTypes.arrayOf(courseShape),
   }).isRequired,

@@ -27,7 +27,7 @@ import ExamSubSection from '../components/sections/timetable/timetableandinfos/E
 import ShareSubSection from '../components/sections/timetable/timetableandinfos/ShareSubSection';
 
 import semesterShape from '../shapes/model/SemesterShape';
-import timetableShape from '../shapes/model/TimetableShape';
+import { myTimetableShape } from '../shapes/model/TimetableShape';
 import userShape from '../shapes/model/UserShape';
 
 
@@ -142,7 +142,7 @@ TimetablePage.propTypes = {
   }).isRequired,
 
   user: userShape,
-  myTimetable: timetableShape.isRequired,
+  myTimetable: myTimetableShape.isRequired,
   mobileIsTimetableTabsOpen: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
 

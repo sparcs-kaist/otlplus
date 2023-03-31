@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import nestedCourseShape from './NestedCourseShape';
+import courseShape from './CourseShape';
 
 
 const futurePlannerItemShape = PropTypes.exact({
@@ -7,7 +7,7 @@ const futurePlannerItemShape = PropTypes.exact({
   type: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
-  course: nestedCourseShape.isRequired,
+  course: courseShape.isRequired,
 });
 
 export default futurePlannerItemShape;

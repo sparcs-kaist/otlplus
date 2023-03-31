@@ -22,7 +22,7 @@ import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/UserShape';
 import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
-import timetableShape from '../../../../shapes/model/TimetableShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
 
 import {
   inTimetable, inCart,
@@ -586,7 +586,7 @@ LectureDetailSection.propTypes = {
   isPortrait: PropTypes.bool.isRequired,
   lectureFocus: lectureFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
-  selectedTimetable: timetableShape,
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   lists: lectureListsShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,

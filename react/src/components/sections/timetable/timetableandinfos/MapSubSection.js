@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
-import timetableShape from '../../../../shapes/model/TimetableShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
 
 import {
   isSingleFocused,
@@ -161,7 +161,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 MapSubSection.propTypes = {
-  selectedTimetable: timetableShape,
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
 
   setMultipleFocusDispatch: PropTypes.func.isRequired,

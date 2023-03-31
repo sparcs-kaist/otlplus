@@ -22,7 +22,7 @@ import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/UserShape';
 import lectureListsShape from '../../../../shapes/state/LectureListsShape';
-import timetableShape from '../../../../shapes/model/TimetableShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
 import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
 import lectureLastSearchOptionShape from '../../../../shapes/state/LectureLastSearchOptionShape';
 
@@ -487,7 +487,7 @@ LectureListSection.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   lists: lectureListsShape.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
-  selectedTimetable: timetableShape,
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.number,

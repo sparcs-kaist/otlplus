@@ -21,12 +21,15 @@ const nestedLectureShape = PropTypes.exact({
   limit: PropTypes.number.isRequired,
   num_people: PropTypes.number.isRequired,
   is_english: PropTypes.bool.isRequired,
+  num_classes: PropTypes.number.isRequired,
+  num_labs: PropTypes.number.isRequired,
   credit: PropTypes.number.isRequired,
   credit_au: PropTypes.number.isRequired,
   common_title: PropTypes.string.isRequired,
   common_title_en: PropTypes.string.isRequired,
   class_title: PropTypes.string.isRequired,
   class_title_en: PropTypes.string.isRequired,
+  review_total_weight: PropTypes.number.isRequired,
   professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
 });
 
