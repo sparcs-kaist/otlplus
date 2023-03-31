@@ -18,10 +18,10 @@ import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 import { clearItemFocus, setLectures, setReviews } from '../../../../actions/planner/itemFocus';
 
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import CourseAddSubSection from './CourseAddSubSection';
-import plannerShape from '../../../../shapes/model/PlannerShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 
 class CourseManageSection extends Component {

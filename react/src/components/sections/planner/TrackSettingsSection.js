@@ -11,8 +11,8 @@ import SearchFilter from '../../SearchFilter';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
-import plannerShape from '../../../shapes/model/PlannerShape';
-import userShape from '../../../shapes/model/UserShape';
+import plannerShape from '../../../shapes/model/planner/PlannerShape';
+import userShape from '../../../shapes/model/session/UserShape';
 
 
 class TrackSettingsSection extends Component {

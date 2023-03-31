@@ -15,8 +15,8 @@ import {
   setMobileIsTimetableTabsOpen,
 } from '../../../../actions/timetable/timetable';
 
-import userShape from '../../../../shapes/model/UserShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 
 class TimetableTabs extends Component {

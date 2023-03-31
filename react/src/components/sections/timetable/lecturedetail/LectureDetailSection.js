@@ -20,9 +20,9 @@ import { addLectureToTimetable, removeLectureFromTimetable } from '../../../../a
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
-import userShape from '../../../../shapes/model/UserShape';
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 import {
   inTimetable, inCart,
@@ -32,7 +32,7 @@ import {
 import {
   performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
 } from '../../../../common/commonOperations';
-import lectureListsShape from '../../../../shapes/state/LectureListsShape';
+import lectureListsShape from '../../../../shapes/state/timetable/LectureListsShape';
 import Divider from '../../../Divider';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import Attributes from '../../../Attributes';

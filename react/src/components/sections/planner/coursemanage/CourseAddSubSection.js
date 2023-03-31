@@ -8,10 +8,10 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import Scroller from '../../../Scroller';
 
-import userShape from '../../../../shapes/model/UserShape';
-import semesterShape from '../../../../shapes/model/SemesterShape';
-import plannerShape from '../../../../shapes/model/PlannerShape';
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import semesterShape from '../../../../shapes/model/subject/SemesterShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import { getSemesterName, getTimetableSemester } from '../../../../utils/semesterUtils';
 import Attributes from '../../../Attributes';

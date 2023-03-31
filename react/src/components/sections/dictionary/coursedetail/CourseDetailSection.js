@@ -17,8 +17,8 @@ import CourseReviewsSubSection from './CourseReviewsSubSection';
 import { clearCourseFocus, setLectures, setReviews } from '../../../../actions/dictionary/courseFocus';
 import { addCourseRead } from '../../../../actions/dictionary/list';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
-import userShape from '../../../../shapes/model/UserShape';
+import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 
 

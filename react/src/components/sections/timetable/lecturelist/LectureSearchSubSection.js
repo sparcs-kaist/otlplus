@@ -21,7 +21,7 @@ import { clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
 
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
+import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 
 import { getTypeOptions, getDepartmentOptions, getLevelOptions } from '../../../../common/searchOptions';
 

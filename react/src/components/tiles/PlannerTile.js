@@ -4,9 +4,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import takenPlannerItemShape from '../../shapes/model/TakenPlannerItemShape';
-import futurePlannerItemShape from '../../shapes/model/FuturePlannerItemShape';
-import arbitraryPlannerItemShape from '../../shapes/model/ArbitraryPlannerItemShape';
+import takenPlannerItemShape from '../../shapes/model/planner/TakenPlannerItemShape';
+import futurePlannerItemShape from '../../shapes/model/planner/FuturePlannerItemShape';
+import arbitraryPlannerItemShape from '../../shapes/model/planner/ArbitraryPlannerItemShape';
 import { getSemesterOfItem } from '../../utils/itemUtils';
 
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import lectureShape from './LectureShape';
+import lectureShape from '../subject/LectureShape';
 
 
 export const myTimetableShape = PropTypes.exact({

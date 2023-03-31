@@ -17,9 +17,9 @@ import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../..
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
-import userShape from '../../../../shapes/model/UserShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 import { getDayStr, getRangeStr } from '../../../../utils/timeUtils';
 
 import {

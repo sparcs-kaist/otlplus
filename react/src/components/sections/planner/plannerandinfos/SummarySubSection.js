@@ -5,7 +5,7 @@ import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import CreditBar from '../../../CreditBar';
 import CourseStatus from '../../../CourseStatus';
@@ -15,7 +15,7 @@ import {
   getCategoryOfItem, getCategoryOfType, getColorOfCategory,
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem, getSeparateMajorTracks,
 } from '../../../../utils/itemUtils';
-import plannerShape from '../../../../shapes/model/PlannerShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 
 const ValueIndex = {

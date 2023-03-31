@@ -8,8 +8,8 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import ReviewBlock from '../../blocks/ReviewBlock';
 
-import reviewShape from '../../../shapes/model/ReviewShape';
-import departmentShape from '../../../shapes/model/DepartmentShape';
+import reviewShape from '../../../shapes/model/review/ReviewShape';
+import departmentShape from '../../../shapes/model/subject/DepartmentShape';
 
 
 class FamousMajorReviewFeedSection extends Component {

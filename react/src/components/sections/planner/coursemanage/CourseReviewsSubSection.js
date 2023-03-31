@@ -6,7 +6,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import ReviewBlock from '../../../blocks/ReviewBlock';
 
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 
 class CourseReviewsSubSection extends Component {

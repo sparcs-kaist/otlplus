@@ -14,8 +14,8 @@ import {
   createPlanner, deletePlanner, duplicatePlanner,
 } from '../../../../actions/planner/planner';
 
-import userShape from '../../../../shapes/model/UserShape';
-import plannerShape from '../../../../shapes/model/PlannerShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 
 class PlannerTabs extends Component {

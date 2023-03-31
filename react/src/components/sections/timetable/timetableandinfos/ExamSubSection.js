@@ -9,8 +9,8 @@ import Scroller from '../../../Scroller';
 
 import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timetable/lectureFocus';
 
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
+import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 import {
   getOverallLectures, isSingleFocused,

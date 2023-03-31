@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import userShape from '../shapes/model/UserShape';
+import userShape from '../shapes/model/session/UserShape';
 
 import Scroller from '../components/Scroller';
 

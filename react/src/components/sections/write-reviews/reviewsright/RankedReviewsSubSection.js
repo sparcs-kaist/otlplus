@@ -16,10 +16,10 @@ import SemesterBlock from '../../../blocks/SemesterBlock';
 import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
 import { addSemesterReviews, setSemesterReviewCount } from '../../../../actions/write-reviews/rankedReviews';
 
-import reviewsFocusShape from '../../../../shapes/state/ReviewsFocusShape';
+import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
 import { getSemesterName } from '../../../../utils/semesterUtils';
-import semesterShape from '../../../../shapes/model/SemesterShape';
-import reviewShape from '../../../../shapes/model/ReviewShape';
+import semesterShape from '../../../../shapes/model/subject/SemesterShape';
+import reviewShape from '../../../../shapes/model/review/ReviewShape';
 import Scores from '../../../Scores';
 
 

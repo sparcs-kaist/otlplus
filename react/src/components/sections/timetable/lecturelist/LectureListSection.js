@@ -20,11 +20,11 @@ import { addLectureToTimetable } from '../../../../actions/timetable/timetable';
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
-import userShape from '../../../../shapes/model/UserShape';
-import lectureListsShape from '../../../../shapes/state/LectureListsShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
-import lectureFocusShape from '../../../../shapes/state/LectureFocusShape';
-import lectureLastSearchOptionShape from '../../../../shapes/state/LectureLastSearchOptionShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import lectureListsShape from '../../../../shapes/state/timetable/LectureListsShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
+import lectureLastSearchOptionShape from '../../../../shapes/state/timetable/LectureLastSearchOptionShape';
 
 import {
   isListClicked,

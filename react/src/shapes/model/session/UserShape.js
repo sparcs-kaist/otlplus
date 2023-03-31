@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import lectureShape from './LectureShape';
-import reviewShape from './ReviewShape';
-import departmentShape from './DepartmentShape';
+import lectureShape from '../subject/LectureShape';
+import reviewShape from '../review/ReviewShape';
+import departmentShape from '../subject/DepartmentShape';
 
 
 const userShape = PropTypes.exact({

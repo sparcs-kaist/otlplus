@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import takenPlannerItemShape from './TakenPlannerItemShape';
 import futurePlannerItemShape from './FuturePlannerItemShape';
 import arbitraryPlannerItemShape from './ArbitraryPlannerItemShape';
-import generalTrackShape from './GeneralTrackShape';
-import majorTrackShape from './MajorTrackShape';
-import additionalTrackShape from './AdditionalTrackShape';
+import generalTrackShape from '../graduation/GeneralTrackShape';
+import majorTrackShape from '../graduation/MajorTrackShape';
+import additionalTrackShape from '../graduation/AdditionalTrackShape';
 
 
 const plannerShape = PropTypes.exact({

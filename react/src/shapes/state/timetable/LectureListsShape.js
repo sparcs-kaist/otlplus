@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import lectureShape from '../model/LectureShape';
+import lectureShape from '../../model/subject/LectureShape';
 
 
 const lectureGroupShape = PropTypes.arrayOf(lectureShape);

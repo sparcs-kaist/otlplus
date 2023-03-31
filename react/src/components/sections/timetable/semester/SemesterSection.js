@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import { setSemester } from '../../../../actions/timetable/semester';
 
-import semesterShape from '../../../../shapes/model/SemesterShape';
+import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 
 import { getTimetableSemester, getSemesterName } from '../../../../utils/semesterUtils';
 

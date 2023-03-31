@@ -10,7 +10,7 @@ import SearchFilter from '../../SearchFilter';
 
 import { setUser } from '../../../actions/common/user';
 
-import userShape from '../../../shapes/model/UserShape';
+import userShape from '../../../shapes/model/session/UserShape';
 
 
 class FavoriteDepartmentsSubSection extends Component {

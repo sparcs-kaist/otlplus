@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { LectureFocusFrom } from '../../reducers/timetable/lectureFocus';
-import lectureShape from '../model/LectureShape';
-import reviewShape from '../model/ReviewShape';
+import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
+import lectureShape from '../../model/subject/LectureShape';
+import reviewShape from '../../model/review/ReviewShape';
 
 
 const lectureFocusShape = PropTypes.exact({

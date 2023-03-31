@@ -19,10 +19,10 @@ import {
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
-import courseListsShape from '../../../../shapes/state/CourseListsShape';
-import userShape from '../../../../shapes/model/UserShape';
-import courseLastSearchOptionShape from '../../../../shapes/state/CourseLastSearchOptionShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
+import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import courseLastSearchOptionShape from '../../../../shapes/state/dictionary/CourseLastSearchOptionShape';
 
 import {
   getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import courseShape from '../model/CourseShape';
+import courseShape from '../../model/subject/CourseShape';
 
 
 const courseListsShape = PropTypes.shape({

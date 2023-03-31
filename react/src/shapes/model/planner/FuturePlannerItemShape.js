@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import courseShape from './CourseShape';
+import courseShape from '../subject/CourseShape';
 
 
 const futurePlannerItemShape = PropTypes.exact({

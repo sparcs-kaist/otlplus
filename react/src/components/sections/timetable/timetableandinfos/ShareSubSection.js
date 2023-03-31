@@ -10,8 +10,8 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { setMobileIsLectureListOpen } from '../../../../actions/timetable/list';
 import { setMobileIsTimetableTabsOpen } from '../../../../actions/timetable/timetable';
 
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/TimetableShape';
-import userShape from '../../../../shapes/model/UserShape';
+import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import userShape from '../../../../shapes/model/session/UserShape';
 
 
 class ShareSubSection extends Component {

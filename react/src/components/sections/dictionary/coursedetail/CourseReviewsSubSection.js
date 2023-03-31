@@ -13,8 +13,8 @@ import SearchFilter from '../../../SearchFilter';
 import { updateReview } from '../../../../actions/dictionary/courseFocus';
 import { updateUserReview } from '../../../../actions/common/user';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
-import userShape from '../../../../shapes/model/UserShape';
+import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
 import { calcAverage, getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Scores from '../../../Scores';
 

@@ -15,8 +15,8 @@ import ReviewBlock from '../../../blocks/ReviewBlock';
 import { addReviews } from '../../../../actions/write-reviews/latestReviews';
 import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
 
-import reviewShape from '../../../../shapes/model/ReviewShape';
-import reviewsFocusShape from '../../../../shapes/state/ReviewsFocusShape';
+import reviewShape from '../../../../shapes/model/review/ReviewShape';
+import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
 
 
 class LatestReviewsSubSection extends Component {

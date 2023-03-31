@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import departmentShape from './DepartmentShape';
+import departmentShape from '../subject/DepartmentShape';
 
 
 const majorTrackShape = PropTypes.exact({

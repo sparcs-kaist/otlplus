@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import Scroller from '../../../Scroller';
 import CourseSimpleBlock from '../../../blocks/CourseSimpleBlock';
 
-import courseFocusShape from '../../../../shapes/state/CourseFocusShape';
+import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 
 
 class CourseRelatedCoursesSubSection extends Component {

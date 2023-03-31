@@ -14,9 +14,9 @@ import ReviewBlock from '../../../blocks/ReviewBlock';
 import { setReviews } from '../../../../actions/write-reviews/likedReviews';
 import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
 
-import userShape from '../../../../shapes/model/UserShape';
-import reviewsFocusShape from '../../../../shapes/state/ReviewsFocusShape';
-import reviewShape from '../../../../shapes/model/ReviewShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
+import reviewShape from '../../../../shapes/model/review/ReviewShape';
 
 
 class LikedReviewsSubSection extends Component {

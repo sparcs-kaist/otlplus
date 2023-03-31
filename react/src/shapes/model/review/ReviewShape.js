@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
-import nestedCourseShape from './NestedCourseShape';
-import nestedLectureShape from './NestedLectureShape';
+import nestedCourseShape from '../subject/NestedCourseShape';
+import nestedLectureShape from '../subject/NestedLectureShape';
 
 
 const reviewShape = PropTypes.exact({

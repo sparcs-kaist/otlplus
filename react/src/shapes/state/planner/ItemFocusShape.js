@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 
-import { ItemFocusFrom } from '../../reducers/planner/itemFocus';
-import courseShape from '../model/CourseShape';
-import departmentShape from '../model/DepartmentShape';
-import futurePlannerItemShape from '../model/FuturePlannerItemShape';
-import arbitraryPlannerItemShape from '../model/ArbitraryPlannerItemShape';
-import lectureShape from '../model/LectureShape';
-import reviewShape from '../model/ReviewShape';
-import takenPlannerItemShape from '../model/TakenPlannerItemShape';
+import { ItemFocusFrom } from '../../../reducers/planner/itemFocus';
+import courseShape from '../../model/subject/CourseShape';
+import departmentShape from '../../model/subject/DepartmentShape';
+import futurePlannerItemShape from '../../model/planner/FuturePlannerItemShape';
+import arbitraryPlannerItemShape from '../../model/planner/ArbitraryPlannerItemShape';
+import lectureShape from '../../model/subject/LectureShape';
+import reviewShape from '../../model/review/ReviewShape';
+import takenPlannerItemShape from '../../model/planner/TakenPlannerItemShape';
 
 
 export const arbitraryCourseShape = PropTypes.exact({

@@ -15,9 +15,9 @@ import { removeItemFromPlanner, updateCellSize } from '../../../../actions/plann
 
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
-import userShape from '../../../../shapes/model/UserShape';
-import plannerShape from '../../../../shapes/model/PlannerShape';
-import itemFocusShape from '../../../../shapes/state/ItemFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
   getCategoryOfItem, getColorOfItem,

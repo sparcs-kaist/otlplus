@@ -17,8 +17,8 @@ import { setReviews, clearReviewsFocus } from '../../../../actions/write-reviews
 import { updateUserReview } from '../../../../actions/common/user';
 import { updateReview as UpdateLatestReview } from '../../../../actions/write-reviews/latestReviews';
 
-import userShape from '../../../../shapes/model/UserShape';
-import reviewsFocusShape from '../../../../shapes/state/ReviewsFocusShape';
+import userShape from '../../../../shapes/model/session/UserShape';
+import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
 
 
 class LectureReviewsSubSection extends Component {

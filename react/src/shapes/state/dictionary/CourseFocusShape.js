@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import courseShape from '../model/CourseShape';
-import lectureShape from '../model/LectureShape';
-import reviewShape from '../model/ReviewShape';
+import courseShape from '../../model/subject/CourseShape';
+import lectureShape from '../../model/subject/LectureShape';
+import reviewShape from '../../model/review/ReviewShape';
 
 
 const courseFocusShape = PropTypes.exact({
