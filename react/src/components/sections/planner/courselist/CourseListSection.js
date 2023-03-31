@@ -12,7 +12,10 @@ import Scroller from '../../../Scroller';
 import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
-import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemUtils';
+import {
+  isDimmedListCourse, isClickedListCourse,
+  getTitleOfArbitrary, getTitleEnOfArbitrary, getOldCodeOfArbitrary,
+} from '../../../../utils/itemUtils';
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
@@ -87,6 +90,60 @@ class CourseListSection extends Component {
         label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
       });
     }
+  }
+
+
+  _getArbitraryCourses = () => {
+    const { user, selectedListCode } = this.props;
+
+    if (selectedListCode === CourseListCode.HUMANITY) {
+      return [
+        {
+          id: -991,
+          isArbitrary: true,
+          department: null,
+          type: '인문사회선택',
+          type_en: 'Humanities & Social Elective',
+          credit: 3,
+          credit_au: 0,
+          title: getTitleOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
+          title_en: getTitleEnOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
+          old_code: getOldCodeOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
+        },
+      ];
+    }
+
+    const matchingDepartment = user?.departments?.find((d) => (selectedListCode === d.code));
+    if (matchingDepartment) {
+      return [
+        {
+          id: -(matchingDepartment.id * 100 + 1),
+          isArbitrary: true,
+          department: matchingDepartment,
+          type: '전공필수',
+          type_en: 'Major Required',
+          credit: 3,
+          credit_au: 0,
+          title: getTitleOfArbitrary('전공필수', 'Major Required', matchingDepartment),
+          title_en: getTitleEnOfArbitrary('전공필수', 'Major Required', matchingDepartment),
+          old_code: getOldCodeOfArbitrary('전공필수', 'Major Required', matchingDepartment),
+        },
+        {
+          id: -(matchingDepartment.id * 100 + 2),
+          isArbitrary: true,
+          department: matchingDepartment,
+          type: '전공선택',
+          type_en: 'Major Elective',
+          credit: 3,
+          credit_au: 0,
+          title: getTitleOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
+          title_en: getTitleEnOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
+          old_code: getOldCodeOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
+        },
+      ];
+    }
+
+    return [];
   }
 
 
@@ -188,6 +245,19 @@ class CourseListSection extends Component {
             'block-list--two-columns'
           )}
           >
+            {
+              this._getArbitraryCourses(selectedListCode).map((c) => (
+                <PlannerCourseBlock
+                  course={c}
+                  key={c.id}
+                  isRaised={isClickedListCourse(c, itemFocus)}
+                  isDimmed={isDimmedListCourse(c, itemFocus)}
+                  onMouseOver={this.focusCourseWithHover}
+                  onMouseOut={this.unfocusCourseWithHover}
+                  onClick={this.focusCourseWithClick}
+                />
+              ))
+            }
             {
               courses.map((c) => (
                 <PlannerCourseBlock

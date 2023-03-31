@@ -217,3 +217,19 @@ export const getColorOfCategory = (planner, category) => {
 export const getColorOfItem = (planner, item) => {
   return getColorOfCategory(planner, getCategoryOfItem(planner, item));
 };
+
+export const getTitleOfArbitrary = (type, typeEn, department) => {
+  return `임의의 ${type}`;
+};
+
+export const getTitleEnOfArbitrary = (type, typeEn, department) => {
+  return `Arbitrary ${typeEn}`;
+};
+
+
+export const getOldCodeOfArbitrary = (type, typeEn, department) => {
+  if (typeEn.startsWith('Major')) {
+    return `${department.code}---`;
+  }
+  return 'HSS---';
+};

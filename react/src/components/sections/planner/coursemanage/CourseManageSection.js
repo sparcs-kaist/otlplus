@@ -66,6 +66,10 @@ class CourseManageSection extends Component {
   _fetchLectures = () => {
     const { itemFocus, setLecturesDispatch } = this.props;
 
+    if (itemFocus.course.isArbitrary) {
+      return;
+    }
+
     axios.get(
       `/api/courses/${itemFocus.course.id}/lectures`,
       {
@@ -93,6 +97,10 @@ class CourseManageSection extends Component {
     const LIMIT = 100;
 
     const { itemFocus, setReviewsDispatch } = this.props;
+
+    if (itemFocus.course.isArbitrary) {
+      return;
+    }
 
     axios.get(
       `/api/courses/${itemFocus.course.id}/reviews`,
@@ -130,6 +138,7 @@ class CourseManageSection extends Component {
 
   render() {
     const { t, itemFocus } = this.props;
+
     const sectionContent = itemFocus.course
       ? (
         <>
@@ -145,7 +154,11 @@ class CourseManageSection extends Component {
                 </div>
                 <div className={classNames('buttons')}>
                   <Link
-                    className={classNames('text-button', 'text-button--right')}
+                    className={classNames(
+                      'text-button',
+                      'text-button--right',
+                      itemFocus.course.isArbitrary ? 'text-button--disabled' : ''
+                    )}
                     to={{
                       pathname: '/dictionary',
                       search: qs.stringify({ startCourseId: itemFocus.course.id }),
@@ -157,11 +170,15 @@ class CourseManageSection extends Component {
                   </Link>
                 </div>
               </div>
-              <Scroller key={itemFocus.course.id}>
-                <CourseInfoSubSection />
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                <CourseReviewsSubSection />
-              </Scroller>
+              {
+                !itemFocus.course.isArbitrary && (
+                  <Scroller key={itemFocus.course.id}>
+                    <CourseInfoSubSection />
+                    <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                    <CourseReviewsSubSection />
+                  </Scroller>
+                )
+              }
             </div>
           </div>
           <Divider
