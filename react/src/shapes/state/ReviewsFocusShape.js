@@ -6,7 +6,7 @@ import lectureShape from '../model/LectureShape';
 import reviewShape from '../model/ReviewShape';
 
 
-const reviewsFocusShape = PropTypes.shape({
+const reviewsFocusShape = PropTypes.exact({
   from: PropTypes.oneOf(Object.values(ReviewsFocusFrom)).isRequired,
   lecture: lectureShape,
   reviews: PropTypes.arrayOf(reviewShape),

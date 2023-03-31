@@ -10,7 +10,7 @@ import reviewShape from '../model/ReviewShape';
 import takenPlannerItemShape from '../model/TakenPlannerItemShape';
 
 
-export const arbitraryCourseShape = PropTypes.shape({
+export const arbitraryCourseShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   isArbitrary: PropTypes.oneOf([true]).isRequired,
   department: departmentShape,
@@ -24,7 +24,7 @@ export const arbitraryCourseShape = PropTypes.shape({
 });
 
 
-const itemFocusShape = PropTypes.shape({
+const itemFocusShape = PropTypes.exact({
   from: PropTypes.oneOf(Object.values(ItemFocusFrom)).isRequired,
   clicked: PropTypes.bool.isRequired,
   item: PropTypes.oneOfType([

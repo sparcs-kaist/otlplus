@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import nestedProfessorShape from './NestedProfessorShape';
 
 
-const nestedLectureShape = PropTypes.shape({
+const nestedLectureShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   title_en: PropTypes.string.isRequired,

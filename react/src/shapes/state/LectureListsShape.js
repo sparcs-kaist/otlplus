@@ -6,17 +6,17 @@ import lectureShape from '../model/LectureShape';
 const lectureGroupShape = PropTypes.arrayOf(lectureShape);
 
 
-const lectureListsShape = PropTypes.shape({
-  search: PropTypes.shape({
+const lectureListsShape = PropTypes.exact({
+  search: PropTypes.exact({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
   }).isRequired,
-  basic: PropTypes.shape({
+  basic: PropTypes.exact({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
   }).isRequired,
-  humanity: PropTypes.shape({
+  humanity: PropTypes.exact({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
   }).isRequired,
-  cart: PropTypes.shape({
+  cart: PropTypes.exact({
     lectureGroups: PropTypes.arrayOf(lectureGroupShape),
   }).isRequired,
 });

@@ -5,7 +5,7 @@ import lectureShape from '../model/LectureShape';
 import reviewShape from '../model/ReviewShape';
 
 
-const courseFocusShape = PropTypes.shape({
+const courseFocusShape = PropTypes.exact({
   course: courseShape,
   reviews: PropTypes.arrayOf(reviewShape),
   lectures: PropTypes.arrayOf(lectureShape),

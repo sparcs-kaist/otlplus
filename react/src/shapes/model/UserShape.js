@@ -4,7 +4,7 @@ import reviewShape from './ReviewShape';
 import departmentShape from './DepartmentShape';
 
 
-const userShape = PropTypes.shape({
+const userShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
   student_id: PropTypes.string.isRequired,

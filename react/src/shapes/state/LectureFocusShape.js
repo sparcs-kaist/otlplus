@@ -5,14 +5,14 @@ import lectureShape from '../model/LectureShape';
 import reviewShape from '../model/ReviewShape';
 
 
-const lectureFocusShape = PropTypes.shape({
+const lectureFocusShape = PropTypes.exact({
   from: PropTypes.oneOf(Object.values(LectureFocusFrom)).isRequired,
   clicked: PropTypes.bool.isRequired,
   lecture: lectureShape,
   reviews: PropTypes.arrayOf(reviewShape),
   multipleTitle: PropTypes.string.isRequired,
   multipleDetails: PropTypes.arrayOf(
-    PropTypes.shape({
+    PropTypes.exact({
       lecture: lectureShape,
       name: PropTypes.string.isRequired,
       info: PropTypes.string.isRequired,

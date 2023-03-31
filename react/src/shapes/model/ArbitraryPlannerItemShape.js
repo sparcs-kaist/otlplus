@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 
-const arbitraryPlannerItemShape = PropTypes.shape({
+const arbitraryPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,

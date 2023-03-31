@@ -5,7 +5,7 @@ import nestedCourseShape from './NestedCourseShape';
 import nestedProfessorShape from './NestedProfessorShape';
 
 
-const courseShape = PropTypes.shape({
+const courseShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   old_code: PropTypes.string.isRequired,
   department: departmentShape,

@@ -3,7 +3,7 @@ import nestedCourseShape from './NestedCourseShape';
 import nestedLectureShape from './NestedLectureShape';
 
 
-const takenPlannerItemShape = PropTypes.shape({
+const takenPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   lecture: nestedLectureShape.isRequired,

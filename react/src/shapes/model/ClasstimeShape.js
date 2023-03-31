@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 
-const classtimeShape = PropTypes.shape({
+const classtimeShape = PropTypes.exact({
   building_code: PropTypes.string.isRequired,
   classroom: PropTypes.string.isRequired,
   classroom_en: PropTypes.string.isRequired,

@@ -10,7 +10,7 @@ export const SCHEDULE_FIELDS = [
   'gradePosting',
 ];
 
-const semesterShape = PropTypes.shape({
+const semesterShape = PropTypes.exact({
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
   beginning: PropTypes.string.isRequired,

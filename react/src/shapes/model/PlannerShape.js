@@ -5,7 +5,7 @@ import futurePlannerItemShape from './FuturePlannerItemShape';
 import arbitraryPlannerItemShape from './ArbitraryPlannerItemShape';
 
 
-const plannerShape = PropTypes.shape({
+const plannerShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   start_year: PropTypes.number.isRequired,
   end_year: PropTypes.number.isRequired,
