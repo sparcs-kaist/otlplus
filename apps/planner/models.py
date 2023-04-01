@@ -101,7 +101,7 @@ class ArbitraryPlannerItem(models.Model):
             "item_type": "ARBITRARY",
             "year": self.year,
             "semester": self.semester,
-            "department": self.department.to_json(nested=False),
+            "department": self.department.to_json(nested=False) if self.department else None,
             "type": self.type,
             "type_en": self.type_en,
             "credit": self.credit,

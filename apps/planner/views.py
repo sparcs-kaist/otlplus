@@ -213,7 +213,7 @@ class UserInstancePlannerInstanceAddArbitraryItemView(View):
         BODY_STRUCTURE = [
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
-            ("department", ParseType.INT, True, []),
+            ("department", ParseType.INT, False, []),
             ("type", ParseType.STR, True, []),
             ("type_en", ParseType.STR, True, []),
             ("credit", ParseType.INT, True, []),
@@ -235,7 +235,7 @@ class UserInstancePlannerInstanceAddArbitraryItemView(View):
         try:
             department = Department.objects.get(id=department)
         except Department.DoesNotExist:
-            return HttpResponseBadRequest("Wrong field 'department' in request data")
+            department=None
         item = ArbitraryPlannerItem.objects.create(planner=planner, year=year, semester=semester,
                                                    department=department, type=type_, type_en=type_en,
                                                    credit=credit, credit_au=credit_au)

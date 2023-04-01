@@ -105,7 +105,7 @@ class CourseCustomizeSubSection extends Component {
         {
           year: year,
           semester: semester,
-          department: course.department.id,
+          department: course.department ? course.department.id : undefined,
           type: course.type,
           type_en: course.type_en,
           credit: course.credit,
