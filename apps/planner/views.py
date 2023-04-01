@@ -179,10 +179,9 @@ class UserInstancePlannerInstanceView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserInstancePlannerInstanceAddItemView(View):
+class UserInstancePlannerInstanceAddFutureItemView(View):
     def post(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
-            ("type", ParseType.STR, True, []),
             ("course", ParseType.INT, True, []),
             ("year", ParseType.INT, True, []),
             ("semester", ParseType.INT, True, []),
@@ -197,24 +196,22 @@ class UserInstancePlannerInstanceAddItemView(View):
         except Planner.DoesNotExist:
             return HttpResponseNotFound()
 
-        type_, course, year, semester = parse_body(request.body, BODY_STRUCTURE)
+        course, year, semester = parse_body(request.body, BODY_STRUCTURE)
 
-        if type_ == 'FUTURE':
-            try:
-                course = Course.objects.get(id=course)
-            except Course.DoesNotExist:
-                return HttpResponseBadRequest("Wrong field 'course' in request data")
-            item = FuturePlannerItem.objects.create(planner=planner, year=year, semester=semester,
-                                                    course=course)
+        try:
+            course = Course.objects.get(id=course)
+        except Course.DoesNotExist:
+            return HttpResponseBadRequest("Wrong field 'course' in request data")
+        item = FuturePlannerItem.objects.create(planner=planner, year=year, semester=semester,
+                                                course=course)
         return JsonResponse(item.to_json())
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserInstancePlannerInstanceRemoveItemView(View):
+class UserInstancePlannerInstanceRemoveFutureItemView(View):
     def post(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
             ("item", ParseType.INT, True, []),
-            ("type", ParseType.STR, True, []),
         ]
 
         userprofile = request.user.userprofile
@@ -226,17 +223,13 @@ class UserInstancePlannerInstanceRemoveItemView(View):
         except Planner.DoesNotExist:
             return HttpResponseNotFound()
 
-        item, type_ = parse_body(request.body, BODY_STRUCTURE)
+        item, = parse_body(request.body, BODY_STRUCTURE)
 
-        if type_ == 'TAKEN':
-            return HttpResponseBadRequest("Planner item with type 'taken' can't be deleted")
-        if type_ == 'FUTURE':
-            try:
-                target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
-            except FuturePlannerItem.DoesNotExist:
-                HttpResponseBadRequest("No such planner item")
-            target_item.delete()
-
+        try:
+            target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
+        except FuturePlannerItem.DoesNotExist:
+            HttpResponseBadRequest("No such planner item")
+        target_item.delete()
         return JsonResponse(planner.to_json())
 
 
