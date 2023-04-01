@@ -5,10 +5,10 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import Scroller from '../../../Scroller';
-import Divider from '../../../Divider';
+// import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
-import CourseStatus from '../../../CourseStatus';
-import CountController from '../../../CountController';
+// import CourseStatus from '../../../CourseStatus';
+// import CountController from '../../../CountController';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import { getSemesterOfItem } from '../../../../utils/itemUtils';
@@ -20,13 +20,6 @@ class CourseCustomizeSubSection extends Component {
     this.state = {
       selectedSemester: new Set([getSemesterOfItem(props.itemFocus.item) % 2 === 1 ? 'NORMAL' : 'SEASONAL']),
       selectedRetake: new Set(['NORMAL']),
-      basicRequired: 0,
-      basicElective: 0,
-      majorRequired: 0,
-      majorElective: 0,
-      secondMajorRequired: 0,
-      secondMajorElective: 0,
-      totalCredit: 0,
     };
   }
 
@@ -46,7 +39,8 @@ class CourseCustomizeSubSection extends Component {
   render() {
     const { t, itemFocus } = this.props;
     const {
-      selectedSemester, selectedRetake, totalCredit, basicRequired, basicElective, generalRequired, generalElective, majorRequired, majorElective, secondMajorRequired, secondMajorElective,
+      selectedSemester, selectedRetake,
+      // totalCredit, basicRequired, basicElective, generalRequired, generalElective, majorRequired, majorElective, secondMajorRequired, secondMajorElective,
     } = this.state;
 
     const getSubtitle = () => {
@@ -108,7 +102,8 @@ class CourseCustomizeSubSection extends Component {
             checkedValues={selectedRetake}
             isRadio={true}
           />
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          {/* TODO: Implement credit customization */}
+          {/* <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
           <CourseStatus
             entries={[
               { name: '전체', info: [{ name: '총학점', controller: <CountController count={totalCredit} updateCount={this.updateCredits('totalCredit')} /> }] },
@@ -141,7 +136,7 @@ class CourseCustomizeSubSection extends Component {
                 ],
               },
             ]}
-          />
+          /> */}
         </Scroller>
       </div>
     );

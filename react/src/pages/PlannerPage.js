@@ -17,7 +17,7 @@ import CourseListSection from '../components/sections/planner/courselist/CourseL
 import CourseManageSection from '../components/sections/planner/coursemanage/CourseManageSection';
 import TrackSubSection from '../components/sections/planner/plannerandinfos/TrackSubSection';
 import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
-import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
+// import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
 
 
@@ -67,7 +67,8 @@ class PlannerPage extends Component {
                 gridArea="divider-sub-1"
               />
               <SummarySubSection />
-              <Divider
+              {/* TODO: Implement ShareSubSection */}
+              {/* <Divider
                 orientation={Divider.Orientation.HORIZONTAL}
                 isVisible={{
                   desktop: true,
@@ -75,7 +76,7 @@ class PlannerPage extends Component {
                 }}
                 gridArea="divider-sub-2"
               />
-              <ShareSubSection />
+              <ShareSubSection /> */}
             </div>
             <CourseListSection />
             <CourseManageSection />
