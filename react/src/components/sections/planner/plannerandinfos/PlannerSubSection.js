@@ -22,8 +22,10 @@ import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import {
   getCourseOfItem, getCategoryOfItem, getColorOfItem,
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
-  isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
+import {
+  isDimmedItem, isFocusedItem, isTableClickedItem,
+} from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 
 

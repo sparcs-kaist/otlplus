@@ -13,9 +13,11 @@ import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
 import {
-  isDimmedListCourse, isClickedListCourse,
-  getTitleOfArbitrary, getTitleEnOfArbitrary, getOldCodeOfArbitrary,
+  getTitleOfArbitrary, getTitleEnOfArbitrary, getOldCodeOfArbitrary, getIdOfArbitrary,
 } from '../../../../utils/itemUtils';
+import {
+  isDimmedListCourse, isClickedListCourse,
+} from '../../../../utils/itemFocusUtils';
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
@@ -99,7 +101,7 @@ class CourseListSection extends Component {
     if (selectedListCode === CourseListCode.HUMANITY) {
       return [
         {
-          id: -991,
+          id: getIdOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
           isArbitrary: true,
           department: null,
           type: '인문사회선택',
@@ -117,7 +119,7 @@ class CourseListSection extends Component {
     if (matchingDepartment) {
       return [
         {
-          id: -(matchingDepartment.id * 100 + 1),
+          id: getIdOfArbitrary('전공선택', 'Major Required', matchingDepartment),
           isArbitrary: true,
           department: matchingDepartment,
           type: '전공필수',
@@ -129,7 +131,7 @@ class CourseListSection extends Component {
           old_code: getOldCodeOfArbitrary('전공필수', 'Major Required', matchingDepartment),
         },
         {
-          id: -(matchingDepartment.id * 100 + 2),
+          id: getIdOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
           isArbitrary: true,
           department: matchingDepartment,
           type: '전공선택',
