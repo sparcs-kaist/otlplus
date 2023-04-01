@@ -179,22 +179,16 @@ export const getCategoryOfType = (planner, type, department) => {
 };
 
 export const getCategoryOfItem = (planner, item) => {
-  const type = (
-    item.item_type === 'TAKEN'
-      ? item.lecture.type_en
-      : item.item_type === 'FUTURE'
-        ? item.course.type_en
-        : 'Other' // TODO: Update this
-  );
-  const department = (
-    item.item_type === 'TAKEN'
-      ? item.lecture.department
-      : item.item_type === 'FUTURE'
-        ? item.course.department
-        : 'Other' // TODO: Update this
-  );
-
-  return getCategoryOfType(planner, type, department);
+  switch (item.item_type) {
+    case ('TAKEN'):
+      return getCategoryOfType(planner, item.lecture.type_en, item.lecture.department);
+    case ('FUTURE'):
+      return getCategoryOfType(planner, item.course.type_en, item.course.department);
+    case ('ARBITRARY'):
+      return getCategoryOfType(planner, item.type_en, item.department);
+    default:
+      return getCategoryOfType(planner, '', '');
+  }
 };
 
 export const getColorOfCategory = (planner, category) => {
@@ -256,7 +250,7 @@ export const getCourseOfItem = (item) => {
         credit: item.credit,
         credit_au: item.credit_au,
         title: getTitleOfArbitrary(item.type, item.type_en, item.department),
-        title_en: getTitleOfArbitrary(item.type, item.type_en, item.department),
+        title_en: getTitleEnOfArbitrary(item.type, item.type_en, item.department),
         old_code: getOldCodeOfArbitrary(item.type, item.type_en, item.department),
       };
     default:

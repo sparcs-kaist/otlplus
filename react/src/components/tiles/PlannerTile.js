@@ -7,7 +7,7 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import takenPlannerItemShape from '../../shapes/model/planner/TakenPlannerItemShape';
 import futurePlannerItemShape from '../../shapes/model/planner/FuturePlannerItemShape';
 import arbitraryPlannerItemShape from '../../shapes/model/planner/ArbitraryPlannerItemShape';
-import { getSemesterOfItem } from '../../utils/itemUtils';
+import { getCourseOfItem, getSemesterOfItem } from '../../utils/itemUtils';
 
 
 const PlannerTile = ({
@@ -50,15 +50,6 @@ const PlannerTile = ({
     }
     return base;
   };
-  const getTitle = () => {
-    if (item.item_type === 'TAKEN') {
-      return item.course[t('js.property.title')];
-    }
-    if (item.item_type === 'FUTURE') {
-      return item.course[t('js.property.title')];
-    }
-    return 'Arbitrary';
-  };
 
   return (
     <div
@@ -96,7 +87,7 @@ const PlannerTile = ({
         className={classNames('tile--planner__content')}
       >
         <p className={classNames('tile--planner__content__title', (isSimple ? 'mobile-hidden' : null))}>
-          {getTitle()}
+          {getCourseOfItem(item)[t('js.property.title')]}
         </p>
         {
           (getSemesterOfItem(item) % 2 === 0) && (
@@ -109,6 +100,20 @@ const PlannerTile = ({
               )}
             >
               S
+            </p>
+          )
+        }
+        {
+          (item.item_type === 'ARBITRARY') && (
+            <p
+              className={classNames(
+                'tile--planner__content__label',
+                isSimple ? 'mobile-hidden' : null,
+                `background-color--${color}`,
+                'background-color--dark'
+              )}
+            >
+              ?
             </p>
           )
         }
