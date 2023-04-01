@@ -174,6 +174,7 @@ class PlannerSubSection extends Component {
     const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
     const plannerYears = range(plannerStartYear, plannerEndYear + 1);
 
+    const tableSize = PLANNER_DEFAULT_CREDIT;
     const hasSummerSemester = plannerYears
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 2).length)
       .some((l) => (l > 0));
@@ -208,15 +209,15 @@ class PlannerSubSection extends Component {
       );
     };
 
-    const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
+    const plannerCreditunits = range(0, tableSize / 3);
     const getHeadColumn = () => {
       const springArea = [
         hasSummerSemester && (
           <div className={classNames('subsection--planner__table__label__toptitle')} key="title:summer" />
         ),
         <div className={classNames('subsection--planner__table__label__toptitle')} key="title:spring" />,
-        <div className={classNames('subsection--planner__table__label__line')} key="line:24">
-          <strong>{24}</strong>
+        <div className={classNames('subsection--planner__table__label__line')} key={`line:${tableSize}`}>
+          <strong>{tableSize}</strong>
         </div>,
         ...(
           // eslint-disable-next-line fp/no-mutating-methods
@@ -253,8 +254,8 @@ class PlannerSubSection extends Component {
           })
             .flat(1)
         ),
-        <div className={classNames('subsection--planner__table__label__line')} key="line:24">
-          <strong>{24}</strong>
+        <div className={classNames('subsection--planner__table__label__line')} key={`line:${tableSize}`}>
+          <strong>{tableSize}</strong>
         </div>,
         <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title:fall" />,
         hasWinterSemester && (
@@ -286,7 +287,7 @@ class PlannerSubSection extends Component {
             'subsection--planner__table__body__line',
             'subsection--planner__table__body__line--bold',
           )}
-          key="line:24"
+          key={`line:${tableSize}`}
         />,
         ...(
           // eslint-disable-next-line fp/no-mutating-methods
@@ -392,7 +393,7 @@ class PlannerSubSection extends Component {
             'subsection--planner__table__body__line',
             'subsection--planner__table__body__line--bold',
           )}
-          key="line:24"
+          key={`line:${tableSize}`}
         />,
         <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
           { getTitleForSemester(year, 3) }
@@ -430,6 +431,7 @@ class PlannerSubSection extends Component {
           beginIndex={sum(sizes.slice(0, index))}
           endIndex={sum(sizes.slice(0, index)) + sizes[index]}
           color={getColorOfItem(selectedPlanner, i)}
+          tableSize={tableSize}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
           isPlannerWithSummer={hasSummerSemester}
