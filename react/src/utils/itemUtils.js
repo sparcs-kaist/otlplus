@@ -25,7 +25,8 @@ export const getSemesterOfItem = (item) => {
   }
 };
 
-export const getDefaultCreditOfItem = (item) => {
+export const getCreditOfItem = (item) => {
+  // TODO: Implement additional customization
   if (item.item_type === 'TAKEN') {
     return item.lecture.credit;
   }
@@ -36,10 +37,6 @@ export const getDefaultCreditOfItem = (item) => {
     return item.credit;
   }
   return 0;
-};
-
-export const getCreditOfItem = (item) => {
-  return getDefaultCreditOfItem(item); // TODO: Implement additional customization
 };
 
 export const getAuOfItem = (item) => {
