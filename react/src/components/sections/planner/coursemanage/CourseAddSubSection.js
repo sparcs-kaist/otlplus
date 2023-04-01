@@ -154,7 +154,7 @@ class CourseCustomizeSubSection extends Component {
       <>
         <div className={classNames('detail-title-area')}>
           <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div>
-          <div className={classNames('subtitle')}>수강 추가</div>
+          <div className={classNames('subtitle')}>수강 예정 추가</div>
           <div className={classNames('buttons')}>
             &nbsp;
           </div>
