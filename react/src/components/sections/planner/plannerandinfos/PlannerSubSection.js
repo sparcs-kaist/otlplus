@@ -20,7 +20,7 @@ import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
-  getCategoryOfItem, getColorOfItem,
+  getCourseOfItem, getCategoryOfItem, getColorOfItem,
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemUtils';
@@ -75,16 +75,6 @@ class PlannerSubSection extends Component {
     updateCellSizeDispatch(cell.width, cell.height + 1);
   }
 
-  _getCourseOfItem = (item) => {
-    if (item.item_type === 'TAKEN') {
-      return item.course;
-    }
-    if (item.item_type === 'FUTURE') {
-      return item.course;
-    }
-    return null;
-  }
-
   _getFromOfItem = (item) => {
     if (item.item_type === 'TAKEN') {
       return ItemFocusFrom.TABLE_TAKEN;
@@ -102,7 +92,7 @@ class PlannerSubSection extends Component {
     const { itemFocus, isDragging, setItemFocusDispatch } = this.props;
 
     if (!itemFocus.clicked && !isDragging) {
-      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), false);
+      setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), false);
     }
   }
 
@@ -118,10 +108,10 @@ class PlannerSubSection extends Component {
     const { itemFocus, setItemFocusDispatch } = this.props;
 
     if (isTableClickedItem(item, itemFocus)) {
-      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), false);
+      setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), false);
     }
     else {
-      setItemFocusDispatch(item, this._getCourseOfItem(item), this._getFromOfItem(item), true);
+      setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), true);
     }
   }
 

@@ -218,6 +218,13 @@ export const getColorOfItem = (planner, item) => {
   return getColorOfCategory(planner, getCategoryOfItem(planner, item));
 };
 
+export const getIdOfArbitrary = (type, typeEn, department) => {
+  if (department) {
+    return -(department.id * 100 + 1);
+  }
+  return -991;
+};
+
 export const getTitleOfArbitrary = (type, typeEn, department) => {
   return `임의의 ${type}`;
 };
@@ -226,10 +233,33 @@ export const getTitleEnOfArbitrary = (type, typeEn, department) => {
   return `Arbitrary ${typeEn}`;
 };
 
-
 export const getOldCodeOfArbitrary = (type, typeEn, department) => {
   if (typeEn.startsWith('Major')) {
     return `${department.code}---`;
   }
   return 'HSS---';
+};
+
+export const getCourseOfItem = (item) => {
+  switch (item.item_type) {
+    case ('TAKEN'):
+      return item.course;
+    case ('FUTURE'):
+      return item.course;
+    case ('ARBITRARY'):
+      return {
+        id: getIdOfArbitrary(item.type, item.type_en, item.department),
+        isArbitrary: true,
+        department: item.department,
+        type: item.type,
+        type_en: item.type_en,
+        credit: item.credit,
+        credit_au: item.credit_au,
+        title: getTitleOfArbitrary(item.type, item.type_en, item.department),
+        title_en: getTitleOfArbitrary(item.type, item.type_en, item.department),
+        old_code: getOldCodeOfArbitrary(item.type, item.type_en, item.department),
+      };
+    default:
+      return null;
+  }
 };
