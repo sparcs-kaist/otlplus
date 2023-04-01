@@ -76,23 +76,23 @@ class PlannerSubSection extends Component {
   }
 
   _getCourseOfItem = (item) => {
-    if (item.type === 'TAKEN') {
+    if (item.item_type === 'TAKEN') {
       return item.course;
     }
-    if (item.type === 'FUTURE') {
+    if (item.item_type === 'FUTURE') {
       return item.course;
     }
     return null;
   }
 
   _getFromOfItem = (item) => {
-    if (item.type === 'TAKEN') {
+    if (item.item_type === 'TAKEN') {
       return ItemFocusFrom.TABLE_TAKEN;
     }
-    if (item.type === 'FUTURE') {
+    if (item.item_type === 'FUTURE') {
       return ItemFocusFrom.TABLE_FUTURE;
     }
-    if (item.type === 'ARBITRARY') {
+    if (item.item_type === 'ARBITRARY') {
       return ItemFocusFrom.TABLE_ARBITRARY;
     }
     return '';
@@ -435,7 +435,7 @@ class PlannerSubSection extends Component {
           onMouseOut={this.unfocusItemWithHover}
           onClick={this.focusItemWithClick}
           deleteLecture={this.deleteItemFromPlanner}
-          key={`Tile:${year}-${semester}-${i.type}-${i.id}`}
+          key={`Tile:${year}-${semester}-${i.item_type}-${i.id}`}
         />
       ));
     };

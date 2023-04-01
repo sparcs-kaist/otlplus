@@ -55,7 +55,7 @@ export const isDimmedListCourse = (course, itemFocus) => (
 );
 
 export const getYearOfItem = (item) => {
-  switch (item.type) {
+  switch (item.item_type) {
     case 'TAKEN':
       return item.lecture.year;
     case 'FUTURE':
@@ -68,7 +68,7 @@ export const getYearOfItem = (item) => {
 };
 
 export const getSemesterOfItem = (item) => {
-  switch (item.type) {
+  switch (item.item_type) {
     case 'TAKEN':
       return item.lecture.semester;
     case 'FUTURE':
@@ -81,13 +81,13 @@ export const getSemesterOfItem = (item) => {
 };
 
 export const getDefaultCreditOfItem = (item) => {
-  if (item.type === 'TAKEN') {
+  if (item.item_type === 'TAKEN') {
     return item.lecture.credit;
   }
-  if (item.type === 'FUTURE') {
+  if (item.item_type === 'FUTURE') {
     return item.course.credit;
   }
-  if (item.type === 'ARBITRARY') {
+  if (item.item_type === 'ARBITRARY') {
     return 3; // TODO: Update this
   }
   return 0;
@@ -98,13 +98,13 @@ export const getCreditOfItem = (item) => {
 };
 
 export const getAuOfItem = (item) => {
-  if (item.type === 'TAKEN') {
+  if (item.item_type === 'TAKEN') {
     return item.lecture.credit_au;
   }
-  if (item.type === 'FUTURE') {
+  if (item.item_type === 'FUTURE') {
     return item.course.credit_au;
   }
-  if (item.type === 'ARBITRARY') {
+  if (item.item_type === 'ARBITRARY') {
     return 0;
   }
   return 0;
@@ -180,16 +180,16 @@ export const getCategoryOfType = (planner, type, department) => {
 
 export const getCategoryOfItem = (planner, item) => {
   const type = (
-    item.type === 'TAKEN'
+    item.item_type === 'TAKEN'
       ? item.lecture.type_en
-      : item.type === 'FUTURE'
+      : item.item_type === 'FUTURE'
         ? item.course.type_en
         : 'Other' // TODO: Update this
   );
   const department = (
-    item.type === 'TAKEN'
+    item.item_type === 'TAKEN'
       ? item.lecture.department
-      : item.type === 'FUTURE'
+      : item.item_type === 'FUTURE'
         ? item.course.department
         : 'Other' // TODO: Update this
   );

@@ -116,11 +116,11 @@ const planner = (state = initialState, action) => {
       });
     }
     case REMOVE_ITEM_FROM_PLANNER: {
-      const listName = getListNameOfType(action.item.type);
+      const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
         [listName]: state.selectedPlanner[listName].filter((i) => (
-          (i.type !== action.item.type) || (i.id !== action.item.id)
+          (i.item_type !== action.item.item_type) || (i.id !== action.item.id)
         )),
       };
       const newPlanners = state.planners.map((t) => (

@@ -38,7 +38,7 @@ class CourseCustomizeSubSection extends Component {
       const id = this._createRandomItemId();
       const item = {
         id: id,
-        type: 'FUTURE',
+        item_type: 'FUTURE',
         course: course,
         year: year,
         semester: semester,

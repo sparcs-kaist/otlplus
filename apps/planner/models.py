@@ -54,7 +54,7 @@ class TakenPlannerItem(models.Model):
     def to_json(self):
         result = {
             "id": self.id,
-            "type": "TAKEN",
+            "item_type": "TAKEN",
             "lecture": self.lecture.to_json(nested=False),
             "course": self.lecture.course.to_json(nested=False),
         }
@@ -73,7 +73,7 @@ class FuturePlannerItem(models.Model):
     def to_json(self):
         result = {
             "id": self.id,
-            "type": "FUTURE",
+            "item_type": "FUTURE",
             "year": self.year,
             "semester": self.semester,
             "course": self.course.to_json(nested=False),
@@ -98,7 +98,7 @@ class ArbitraryPlannerItem(models.Model):
     def to_json(self):
         result = {
             "id": self.id,
-            "type": "ARBITRARY",
+            "item_type": "ARBITRARY",
             "year": self.year,
             "semester": self.semester,
             "department": self.department.to_json(nested=False),

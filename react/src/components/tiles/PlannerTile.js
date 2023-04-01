@@ -51,10 +51,10 @@ const PlannerTile = ({
     return base;
   };
   const getTitle = () => {
-    if (item.type === 'TAKEN') {
+    if (item.item_type === 'TAKEN') {
       return item.course[t('js.property.title')];
     }
-    if (item.type === 'FUTURE') {
+    if (item.item_type === 'FUTURE') {
       return item.course[t('js.property.title')];
     }
     return 'Arbitrary';
@@ -66,7 +66,7 @@ const PlannerTile = ({
         'tile',
         'tile--planner',
         `background-color--${color}`,
-        (item.type === 'TAKEN' ? null : 'background-color--stripe'),
+        (item.item_type === 'TAKEN' ? null : 'background-color--stripe'),
         (isRaised ? 'tile--raised' : null),
         (isHighlighted ? 'tile--highlighted' : null),
         (isDimmed ? 'tile--dimmed' : null),
@@ -81,7 +81,7 @@ const PlannerTile = ({
       onMouseOut={handleMouseOut}
       onClick={handleClick}
     >
-      { item.type !== 'TAKEN'
+      { item.item_type !== 'TAKEN'
         ? (
           <button
             className={classNames('tile--planner__button')}

@@ -192,7 +192,7 @@ class CourseManageSection extends Component {
           {
             itemFocus.from === ItemFocusFrom.LIST
               ? <CourseAddSubSection />
-              : <CourseCustomizeSubSection key={`${itemFocus.item.type}:${itemFocus.item.id}`} />
+              : <CourseCustomizeSubSection key={`${itemFocus.item.item_type}:${itemFocus.item.id}`} />
           }
         </>
       )

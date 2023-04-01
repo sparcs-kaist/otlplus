@@ -5,7 +5,7 @@ import lectureShape from '../subject/LectureShape';
 
 const takenPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
+  item_type: PropTypes.string.isRequired,
   lecture: lectureShape.isRequired,
   course: courseShape.isRequired,
 });

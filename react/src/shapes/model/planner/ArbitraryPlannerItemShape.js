@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const arbitraryPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
+  item_type: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
   semester: PropTypes.number.isRequired,
 });

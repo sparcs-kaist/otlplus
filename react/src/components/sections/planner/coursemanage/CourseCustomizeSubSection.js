@@ -63,7 +63,7 @@ class CourseCustomizeSubSection extends Component {
     };
 
     const getSemesterOptions = () => {
-      if (itemFocus.item.type !== 'TAKEN') {
+      if (itemFocus.item.item_type !== 'TAKEN') {
         return [
           ['NORMAL', t('ui.semesterInfo.normal')],
           ['SEASONAL', t('ui.semesterInfo.seasonal')],
