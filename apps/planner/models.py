@@ -3,7 +3,7 @@ from __future__ import annotations
 from django.db import models
 
 from apps.session.models import UserProfile
-from apps.subject.models import Course, Lecture
+from apps.subject.models import Course, Lecture, Department
 from apps.graduation.models import GeneralTrack, MajorTrack, AdditionalTrack
 
 
@@ -89,6 +89,11 @@ class ArbitraryPlannerItem(models.Model):
     
     year = models.IntegerField(db_index=True)
     semester = models.IntegerField(db_index=True)
+    department = models.ForeignKey(Department, null=True, blank=True, on_delete=models.PROTECT)
+    type = models.CharField(max_length=12)
+    type_en = models.CharField(max_length=36)
+    credit = models.IntegerField()
+    credit_au = models.IntegerField()
 
     def to_json(self):
         result = {
@@ -96,6 +101,11 @@ class ArbitraryPlannerItem(models.Model):
             "type": "ARBITRARY",
             "year": self.year,
             "semester": self.semester,
+            "department": self.department.to_json(nested=False),
+            "type": self.type,
+            "type_en": self.type_en,
+            "credit": self.credit,
+            "credit_au": self.credit_au,
         }
 
         return result
