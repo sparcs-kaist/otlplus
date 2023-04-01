@@ -174,7 +174,20 @@ class PlannerSubSection extends Component {
     const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
     const plannerYears = range(plannerStartYear, plannerEndYear + 1);
 
-    const tableSize = PLANNER_DEFAULT_CREDIT;
+    const tableSize = Math.max(
+      ...plannerYears.map((y) => (
+        [1, 3].map((s) => {
+          const regularItems = this._getItemsForSemester(selectedPlanner, y, s);
+          const seasonalItems = this._getItemsForSemester(selectedPlanner, y, s + 1);
+          const requiredSize = (
+            sumBy(regularItems, (i) => getCreditAndAuOfItem(i))
+            + sumBy(seasonalItems, (i) => getCreditAndAuOfItem(i))
+          );
+          return Math.floor(requiredSize / 3) * 3;
+        })
+      )).flat(),
+      PLANNER_DEFAULT_CREDIT,
+    );
     const hasSummerSemester = plannerYears
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 2).length)
       .some((l) => (l > 0));
