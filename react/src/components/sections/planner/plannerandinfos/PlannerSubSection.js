@@ -27,6 +27,7 @@ import {
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
+import { getSemesterName } from '../../../../utils/semesterUtils';
 
 
 class PlannerSubSection extends Component {
@@ -180,14 +181,28 @@ class PlannerSubSection extends Component {
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 4).length)
       .some((l) => (l > 0));
 
-    const getCreditMessageForSemester = (year, semester) => {
+    const getTitleForSemester = (year, semester) => {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
       const credit = sumBy(items, (i) => getCreditOfItem(i));
       const au = sumBy(items, (i) => getAuOfItem(i));
-      if (au === 0) {
-        return `${t('ui.others.creditCount', { count: credit })}`;
       }
-      return `${t('ui.others.creditCount', { count: credit })} ${t('ui.others.auCount', { count: au })}`;
+
+      return (
+        <>
+          <span>
+            {
+              `${year} ${getSemesterName(semester)}`
+            }
+          </span>
+          <span>
+            {
+              au === 0
+                ? `${t('ui.others.creditCount', { count: credit })}`
+                : `${t('ui.others.creditCount', { count: credit })} ${t('ui.others.auCount', { count: au })}`
+            }
+          </span>
+        </>
+      );
     };
 
     const plannerCreditunits = range(0, PLANNER_DEFAULT_CREDIT / 3);
@@ -257,13 +272,11 @@ class PlannerSubSection extends Component {
       const springArea = [
         hasSummerSemester && (
           <div className={classNames('subsection--planner__table__body__toptitle')} key="title:summer">
-            <span>{`${year} ${t('ui.semester.summer')}`}</span>
-            <span>{getCreditMessageForSemester(year, 2)}</span>
+            { getTitleForSemester(year, 2) }
           </div>
         ),
         <div className={classNames('subsection--planner__table__body__toptitle')} key="title:spring">
-          <span>{`${year} ${t('ui.semester.spring')}`}</span>
-          <span>{getCreditMessageForSemester(year, 1)}</span>
+          { getTitleForSemester(year, 1) }
         </div>,
         <div
           className={classNames(
@@ -379,13 +392,11 @@ class PlannerSubSection extends Component {
           key="line:24"
         />,
         <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
-          <span>{`${year} ${t('ui.semester.fall')}`}</span>
-          <span>{getCreditMessageForSemester(year, 3)}</span>
+          { getTitleForSemester(year, 3) }
         </div>,
         hasWinterSemester && (
           <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:winter">
-            <span>{`${year} ${t('ui.semester.winter')}`}</span>
-            <span>{getCreditMessageForSemester(year, 4)}</span>
+            { getTitleForSemester(year, 4) }
           </div>
         ),
       ];
