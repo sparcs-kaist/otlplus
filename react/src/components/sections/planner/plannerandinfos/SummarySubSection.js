@@ -185,7 +185,7 @@ class SummarySubSection extends Component {
     return (
       <>
         <div className={classNames('subsection', 'subsection--planner-summary', 'mobile-hidden')}>
-          <Scroller>
+          <Scroller expandTop={12}>
             <CourseStatus
               entries={[
                 {
