@@ -118,7 +118,10 @@ export const getCategoryOfType = (planner, type, department) => {
     case 'Other Elective':
       return [4, 0, 0];
     default:
-      return [4, 0, 1];
+      break;
+  }
+  if (type?.startsWith('Humanities & Social Elective')) {
+    return [3, 0, 1];
   }
   return [4, 0, 1];
 };
