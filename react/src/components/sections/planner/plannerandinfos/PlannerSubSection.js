@@ -91,6 +91,10 @@ class PlannerSubSection extends Component {
     return '';
   }
 
+  _getTileSizeOfItem = (item) => {
+    return getCreditAndAuOfItem(item);
+  }
+
   focusItemWithHover = (item) => {
     const { itemFocus, isDragging, setItemFocusDispatch } = this.props;
 
@@ -180,8 +184,8 @@ class PlannerSubSection extends Component {
           const regularItems = this._getItemsForSemester(selectedPlanner, y, s);
           const seasonalItems = this._getItemsForSemester(selectedPlanner, y, s + 1);
           const requiredSize = (
-            sumBy(regularItems, (i) => getCreditAndAuOfItem(i))
-            + sumBy(seasonalItems, (i) => getCreditAndAuOfItem(i))
+            sumBy(regularItems, (i) => this._getTileSizeOfItem(i))
+            + sumBy(seasonalItems, (i) => this._getTileSizeOfItem(i))
           );
           return Math.floor(requiredSize / 3) * 3;
         })
@@ -435,7 +439,7 @@ class PlannerSubSection extends Component {
         ...this._getItemsForSemester(selectedPlanner, year, semester),
         ...(shouldIncludeSeasonal ? this._getItemsForSemester(selectedPlanner, year, semester + 1) : []),
       ];
-      const sizes = items.map((i) => getCreditAndAuOfItem(i));
+      const sizes = items.map((i) => this._getTileSizeOfItem(i));
       return items.map((i, index) => (
         <PlannerTile
           item={i}
