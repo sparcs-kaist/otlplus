@@ -185,6 +185,9 @@ class PlannerSubSection extends Component {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
       const credit = sumBy(items, (i) => getCreditOfItem(i));
       const au = sumBy(items, (i) => getAuOfItem(i));
+
+      if ((semester % 2 === 0) && (credit === 0) && (au === 0)) {
+        return null;
       }
 
       return (
