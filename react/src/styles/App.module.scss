@@ -2095,6 +2095,10 @@ a {
                 font-size: $font-size-smallest;
                 line-height: $line-height-smallest;
                 color: #FFFFFF;
+
+                .tile--highlighted & {
+                    background-color: adjust-color($color-highlight, $saturation: -5%, $lightness: -10%) !important;
+                }
             }
         }
     }
