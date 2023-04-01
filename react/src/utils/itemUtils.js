@@ -88,7 +88,7 @@ export const getDefaultCreditOfItem = (item) => {
     return item.course.credit;
   }
   if (item.item_type === 'ARBITRARY') {
-    return 3; // TODO: Update this
+    return item.credit;
   }
   return 0;
 };
@@ -105,7 +105,7 @@ export const getAuOfItem = (item) => {
     return item.course.credit_au;
   }
   if (item.item_type === 'ARBITRARY') {
-    return 0;
+    return item.credit_au;
   }
   return 0;
 };
