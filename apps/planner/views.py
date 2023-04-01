@@ -208,32 +208,6 @@ class UserInstancePlannerInstanceAddFutureItemView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserInstancePlannerInstanceRemoveFutureItemView(View):
-    def post(self, request, user_id, planner_id):
-        BODY_STRUCTURE = [
-            ("item", ParseType.INT, True, []),
-        ]
-
-        userprofile = request.user.userprofile
-        if userprofile.id != int(user_id):
-            return HttpResponse(status=401)
-
-        try:
-            planner = userprofile.planners.get(id=planner_id)
-        except Planner.DoesNotExist:
-            return HttpResponseNotFound()
-
-        item, = parse_body(request.body, BODY_STRUCTURE)
-
-        try:
-            target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
-        except FuturePlannerItem.DoesNotExist:
-            HttpResponseBadRequest("No such planner item")
-        target_item.delete()
-        return JsonResponse(planner.to_json())
-
-
-@method_decorator(login_required_ajax, name="dispatch")
 class UserInstancePlannerInstanceAddArbitraryItemView(View):
     def post(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
@@ -269,10 +243,11 @@ class UserInstancePlannerInstanceAddArbitraryItemView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
-class UserInstancePlannerInstanceRemoveArbitraryItemView(View):
+class UserInstancePlannerInstanceRemoveItemView(View):
     def post(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
             ("item", ParseType.INT, True, []),
+            ("item_type", ParseType.STR, True, []),
         ]
 
         userprofile = request.user.userprofile
@@ -284,12 +259,20 @@ class UserInstancePlannerInstanceRemoveArbitraryItemView(View):
         except Planner.DoesNotExist:
             return HttpResponseNotFound()
 
-        item, = parse_body(request.body, BODY_STRUCTURE)
+        item, item_type = parse_body(request.body, BODY_STRUCTURE)
 
-        try:
-            target_item = ArbitraryPlannerItem.objects.get(planner=planner, id=item)
-        except ArbitraryPlannerItem.DoesNotExist:
-            HttpResponseBadRequest("No such planner item")
+        if item_type == 'TAKEN':
+            return HttpResponseBadRequest("Planner item with type 'taken' can't be deleted")
+        if item_type == 'FUTURE':
+            try:
+                target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
+            except FuturePlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such planner item")
+        if item_type == 'ARBITRARY':
+            try:
+                target_item = ArbitraryPlannerItem.objects.get(planner=planner, id=item)
+            except ArbitraryPlannerItem.DoesNotExist:
+                HttpResponseBadRequest("No such planner item")
         target_item.delete()
         return JsonResponse(planner.to_json())
 

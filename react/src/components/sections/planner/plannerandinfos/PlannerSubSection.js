@@ -131,9 +131,10 @@ class PlannerSubSection extends Component {
     }
     else {
       axios.post(
-        `/api/users/${user.id}/planners/${selectedPlanner.id}/remove-future-item`,
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/remove-item`,
         {
           item: item.id,
+          item_type: item.item_type,
         },
         {
           metadata: {
