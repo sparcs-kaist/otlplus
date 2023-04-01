@@ -8,7 +8,7 @@ from django.views import View
 from django.db import transaction
 
 from .models import Planner, TakenPlannerItem, FuturePlannerItem, ArbitraryPlannerItem
-from apps.subject.models import Course, Lecture
+from apps.subject.models import Course, Lecture, Department
 from apps.graduation.models import GeneralTrack, MajorTrack, AdditionalTrack
 from .services import reorder_planner
 
@@ -228,6 +228,67 @@ class UserInstancePlannerInstanceRemoveFutureItemView(View):
         try:
             target_item = FuturePlannerItem.objects.get(planner=planner, id=item)
         except FuturePlannerItem.DoesNotExist:
+            HttpResponseBadRequest("No such planner item")
+        target_item.delete()
+        return JsonResponse(planner.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceAddArbitraryItemView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("year", ParseType.INT, True, []),
+            ("semester", ParseType.INT, True, []),
+            ("department", ParseType.INT, True, []),
+            ("type", ParseType.STR, True, []),
+            ("type_en", ParseType.STR, True, []),
+            ("credit", ParseType.INT, True, []),
+            ("credit_au", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        year, semester, department, type_, type_en, credit, credit_au = \
+            parse_body(request.body, BODY_STRUCTURE)
+
+        try:
+            department = Department.objects.get(id=department)
+        except Department.DoesNotExist:
+            return HttpResponseBadRequest("Wrong field 'department' in request data")
+        item = ArbitraryPlannerItem.objects.create(planner=planner, year=year, semester=semester,
+                                                   department=department, type=type_, type_en=type_en,
+                                                   credit=credit, credit_au=credit_au)
+        return JsonResponse(item.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceRemoveArbitraryItemView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("item", ParseType.INT, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        item, = parse_body(request.body, BODY_STRUCTURE)
+
+        try:
+            target_item = ArbitraryPlannerItem.objects.get(planner=planner, id=item)
+        except ArbitraryPlannerItem.DoesNotExist:
             HttpResponseBadRequest("No such planner item")
         target_item.delete()
         return JsonResponse(planner.to_json())

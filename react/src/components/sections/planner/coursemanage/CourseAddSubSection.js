@@ -75,6 +75,63 @@ class CourseCustomizeSubSection extends Component {
   }
 
 
+  addArbitraryCourseToPlanner = (course, year, semester) => {
+    const {
+      user,
+      selectedPlanner,
+      addItemToPlannerDispatch, setItemFocusDispatch,
+    } = this.props;
+
+
+    if (!user) {
+      const id = this._createRandomItemId();
+      const item = {
+        id: id,
+        item_type: 'ARBITRARY',
+        year: year,
+        semester: semester,
+        department: course.department,
+        type: course.type,
+        type_en: course.type_en,
+        credit: course.credit,
+        credit_au: course.credit_au,
+      };
+      addItemToPlannerDispatch(item);
+      setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_ARBITRARY, true);
+    }
+    else {
+      axios.post(
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/add-arbitrary-item`,
+        {
+          year: year,
+          semester: semester,
+          department: course.department.id,
+          type: course.type,
+          type_en: course.type_en,
+          credit: course.credit,
+          credit_au: course.credit_au,
+        },
+        {
+          metadata: {
+            gaCategory: 'Planner',
+            gaVariable: 'POST Update / Instance',
+          },
+        },
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+            return;
+          }
+          addItemToPlannerDispatch(response.data);
+          setItemFocusDispatch(response.data, course, ItemFocusFrom.TABLE_ARBITRARY, true);
+        })
+        .catch((error) => {
+        });
+    }
+  }
+
+
   render() {
     const {
       t,
@@ -113,7 +170,11 @@ class CourseCustomizeSubSection extends Component {
                 [1, 3].map((s) => ({
                   name: `${y} ${getSemesterName(s)}`,
                   info: '추가하기',
-                  onInfoClick: () => this.addCourseToPlanner(itemFocus.course, y, s),
+                  onInfoClick: (
+                    !itemFocus.course.isArbitrary
+                      ? () => this.addCourseToPlanner(itemFocus.course, y, s)
+                      : () => this.addArbitraryCourseToPlanner(itemFocus.course, y, s)
+                  ),
                   isInfoClickDisabled: !isEditable(y, s),
                 }))
               )).flat()

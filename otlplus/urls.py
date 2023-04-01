@@ -102,6 +102,10 @@ urlpatterns = [
         planner_views.UserInstancePlannerInstanceAddFutureItemView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/remove-future-item$",
         planner_views.UserInstancePlannerInstanceRemoveFutureItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/add-arbitrary-item$",
+        planner_views.UserInstancePlannerInstanceAddArbitraryItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/remove-arbitrary-item$",
+        planner_views.UserInstancePlannerInstanceRemoveArbitraryItemView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/reorder",
         planner_views.UserInstancePlannerInstanceReorderView.as_view()),
 
