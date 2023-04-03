@@ -10,9 +10,14 @@ import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
+
 import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../utils/trackUtils';
+
 import plannerShape from '../../../shapes/model/planner/PlannerShape';
 import userShape from '../../../shapes/model/session/UserShape';
+import generalTrackShape from '../../../shapes/model/graduation/GeneralTrackShape';
+import majorTrackShape from '../../../shapes/model/graduation/MajorTrackShape';
+import additionalTrackShape from '../../../shapes/model/graduation/AdditionalTrackShape';
 
 
 class TrackSettingsSection extends Component {
@@ -276,8 +281,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 TrackSettingsSection.propTypes = {
   user: userShape,
-  // eslint-disable-next-line react/forbid-prop-types
-  tracks: PropTypes.any,
+  tracks: PropTypes.arrayOf(
+    PropTypes.oneOfType([generalTrackShape, majorTrackShape, additionalTrackShape])
+  ),
   selectedPlanner: plannerShape.isRequired,
 
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,

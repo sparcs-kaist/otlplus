@@ -16,6 +16,9 @@ import {
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
+import generalTrackShape from '../../../../shapes/model/graduation/GeneralTrackShape';
+import majorTrackShape from '../../../../shapes/model/graduation/MajorTrackShape';
+import additionalTrackShape from '../../../../shapes/model/graduation/AdditionalTrackShape';
 
 
 class PlannerTabs extends Component {
@@ -406,8 +409,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 PlannerTabs.propTypes = {
   user: userShape,
-  // eslint-disable-next-line react/forbid-prop-types
-  tracks: PropTypes.any,
+  tracks: PropTypes.arrayOf(
+    PropTypes.oneOfType([generalTrackShape, majorTrackShape, additionalTrackShape])
+  ),
   planners: PropTypes.arrayOf(plannerShape),
   selectedPlanner: plannerShape,
 
