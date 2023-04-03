@@ -101,14 +101,10 @@ const planner = (state = initialState, action) => {
       });
     }
     case ADD_ITEM_TO_PLANNER: {
-      const targetItemsName = (
-        action.item.item_type === 'FUTURE'
-          ? 'future_items'
-          : 'arbitrary_items'
-      );
+      const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [targetItemsName]: state.selectedPlanner[targetItemsName].concat([action.item]),
+        [listName]: state.selectedPlanner[listName].concat([action.item]),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
@@ -121,16 +117,10 @@ const planner = (state = initialState, action) => {
       });
     }
     case UPDATE_ITEM_IN_PLANNER: {
-      const targetItemsName = (
-        action.item.item_type === 'TAKEN'
-          ? 'taken_items'
-          : action.item.item_type === 'FUTURE'
-            ? 'future_items'
-            : 'arbitrary_items'
-      );
+      const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [targetItemsName]: state.selectedPlanner[targetItemsName].map((i) => (i.id === action.item.id ? action.item : i)),
+        [listName]: state.selectedPlanner[listName].map((i) => (i.id === action.item.id ? action.item : i)),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
@@ -146,9 +136,7 @@ const planner = (state = initialState, action) => {
       const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [listName]: state.selectedPlanner[listName].filter((i) => (
-          (i.item_type !== action.item.item_type) || (i.id !== action.item.id)
-        )),
+        [listName]: state.selectedPlanner[listName].filter((i) => (i.id !== action.item.id)),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
