@@ -34,22 +34,17 @@ class CourseCustomizeSubSection extends Component {
     });
 
     const selectedSemester = Array.from(checkedValues)[0];
-    if (selectedSemester === 'NORMAL' && itemFocus.item.semester % 2 === 0) {
-      const newItem = {
-        ...itemFocus.item,
-        semester: itemFocus.item.semester - 1,
-      };
-      updateItemInPlannerDispatch(newItem);
-      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
-    }
-    else if (selectedSemester === 'SEASONAL' && itemFocus.item.semester % 2 === 1) {
-      const newItem = {
-        ...itemFocus.item,
-        semester: itemFocus.item.semester + 1,
-      };
-      updateItemInPlannerDispatch(newItem);
-      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
-    }
+    const newSemester = (
+      selectedSemester === 'NORMAL'
+        ? Math.ceil(itemFocus.item.semester / 2) * 2 - 1
+        : Math.ceil(itemFocus.item.semester / 2) * 2
+    );
+    const newItem = {
+      ...itemFocus.item,
+      semester: newSemester,
+    };
+    updateItemInPlannerDispatch(newItem);
+    setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
   }
 
   updateCheckedValuesForRetake = (checkedValues) => {
