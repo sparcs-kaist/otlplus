@@ -10,6 +10,7 @@ export const DELETE_PLANNER = BASE_STRING + 'DELETE_PLANNER';
 export const DUPLICATE_PLANNER = BASE_STRING + 'DUPLICATE_PLANNER';
 export const UPDATE_PLANNER = BASE_STRING + 'UPDATE_PLANNER';
 export const ADD_ITEM_TO_PLANNER = BASE_STRING + 'ADD_ITEM_TO_PLANNER';
+export const UPDATE_ITEM_IN_PLANNER = BASE_STRING + 'UPDATE_ITEM_IN_PLANNER';
 export const REMOVE_ITEM_FROM_PLANNER = BASE_STRING + 'REMOVE_ITEM_FROM_PLANNER';
 export const REORDER_PLANNER = BASE_STRING + 'REORDER_PLANNER';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
@@ -73,6 +74,13 @@ export function updatePlanner(updatedPlanner) {
 export function addItemToPlanner(item) {
   return {
     type: ADD_ITEM_TO_PLANNER,
+    item: item,
+  };
+}
+
+export function updateItemInPlanner(item) {
+  return {
+    type: UPDATE_ITEM_IN_PLANNER,
     item: item,
   };
 }

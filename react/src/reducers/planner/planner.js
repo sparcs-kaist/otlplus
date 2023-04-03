@@ -4,7 +4,7 @@ import {
   SET_SELECTED_PLANNER,
   CREATE_PLANNER, DELETE_PLANNER, DUPLICATE_PLANNER,
   UPDATE_PLANNER,
-  ADD_ITEM_TO_PLANNER, REMOVE_ITEM_FROM_PLANNER,
+  ADD_ITEM_TO_PLANNER, UPDATE_ITEM_IN_PLANNER, REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
   SET_IS_TRACK_SETTINGS_SECTION_OPEN,
@@ -109,6 +109,28 @@ const planner = (state = initialState, action) => {
       const newPlanner = {
         ...state.selectedPlanner,
         [targetItemsName]: state.selectedPlanner[targetItemsName].concat([action.item]),
+      };
+      const newPlanners = state.planners.map((t) => (
+        t.id === newPlanner.id
+          ? newPlanner
+          : t
+      ));
+      return Object.assign({}, state, {
+        selectedPlanner: newPlanner,
+        planners: newPlanners,
+      });
+    }
+    case UPDATE_ITEM_IN_PLANNER: {
+      const targetItemsName = (
+        action.item.item_type === 'TAKEN'
+          ? 'taken_items'
+          : action.item.item_type === 'FUTURE'
+            ? 'future_items'
+            : 'arbitrary_items'
+      );
+      const newPlanner = {
+        ...state.selectedPlanner,
+        [targetItemsName]: state.selectedPlanner[targetItemsName].map((i) => (i.id === action.item.id ? action.item : i)),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id

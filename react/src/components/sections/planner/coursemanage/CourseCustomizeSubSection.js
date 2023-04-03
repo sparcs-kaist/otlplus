@@ -11,7 +11,10 @@ import SearchFilter from '../../../SearchFilter';
 // import CountController from '../../../CountController';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
-import { getSemesterOfItem } from '../../../../utils/itemUtils';
+import { getCourseOfItem, getSemesterOfItem } from '../../../../utils/itemUtils';
+import { updateItemInPlanner } from '../../../../actions/planner/planner';
+import { setItemFocus } from '../../../../actions/planner/itemFocus';
+
 
 class CourseCustomizeSubSection extends Component {
   constructor(props) {
@@ -23,17 +26,43 @@ class CourseCustomizeSubSection extends Component {
     };
   }
 
-  updateCheckedValues = (filterName) => (checkedValues) => {
+  updateCheckedValuesForSemester = (checkedValues) => {
+    const { itemFocus, updateItemInPlannerDispatch, setItemFocusDispatch } = this.props;
+
     this.setState({
-      [filterName]: checkedValues,
+      selectedSemester: checkedValues,
+    });
+
+    const selectedSemester = Array.from(checkedValues)[0];
+    if (selectedSemester === 'NORMAL' && itemFocus.item.semester % 2 === 0) {
+      const newItem = {
+        ...itemFocus.item,
+        semester: itemFocus.item.semester - 1,
+      };
+      updateItemInPlannerDispatch(newItem);
+      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+    }
+    else if (selectedSemester === 'SEASONAL' && itemFocus.item.semester % 2 === 1) {
+      const newItem = {
+        ...itemFocus.item,
+        semester: itemFocus.item.semester + 1,
+      };
+      updateItemInPlannerDispatch(newItem);
+      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+    }
+  }
+
+  updateCheckedValuesForRetake = (checkedValues) => {
+    this.setState({
+      selectedRetake: checkedValues,
     });
   }
 
-  updateCredits = (optionName) => (creditValues) => {
-    this.setState({
-      [optionName]: creditValues,
-    });
-  }
+  // updateCredits = (optionName) => (creditValues) => {
+  //   this.setState({
+  //     [optionName]: creditValues,
+  //   });
+  // }
 
 
   render() {
@@ -84,7 +113,7 @@ class CourseCustomizeSubSection extends Component {
         </div>
         <Scroller>
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedSemester')}
+            updateCheckedValues={this.updateCheckedValuesForSemester}
             inputName="semester"
             titleName={t('ui.search.semester')}
             options={getSemesterOptions()}
@@ -92,7 +121,7 @@ class CourseCustomizeSubSection extends Component {
             isRadio={true}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedRetake')}
+            updateCheckedValues={this.updateCheckedValuesForRetake}
             inputName="retake"
             titleName={t('ui.search.retake')}
             options={[
@@ -149,9 +178,18 @@ const mapStateToProps = (state) => ({
   selectedListCode: state.planner.list.selectedListCode,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  updateItemInPlannerDispatch: (item) => {
+    dispatch(updateItemInPlanner(item));
+  },
+  setItemFocusDispatch: (item, course, from, clicked) => {
+    dispatch(setItemFocus(item, course, from, clicked));
+  },
+});
+
 
 export default withTranslation()(
-  connect(mapStateToProps)(
+  connect(mapStateToProps, mapDispatchToProps)(
     CourseCustomizeSubSection
   )
 );
