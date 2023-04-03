@@ -275,7 +275,10 @@ class UserInstancePlannerInstanceUpdateItemView(View):
             HttpResponseBadRequest("No such planner item")
         
         if semester is not None:
-            target_item.semester = semester
+            if item_type == 'TAKEN':
+                return HttpResponseBadRequest("You can't change semester of planner item with type 'taken'")
+            else:
+                target_item.semester = semester
         target_item.save()
         return JsonResponse(target_item.to_json())
 
