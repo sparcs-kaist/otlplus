@@ -1,20 +1,27 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
+
 import Scroller from '../../../Scroller';
 // import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
 // import CourseStatus from '../../../CourseStatus';
 // import CountController from '../../../CountController';
+
 import { getSemesterName } from '../../../../utils/semesterUtils';
-import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import { getCourseOfItem, getSemesterOfItem } from '../../../../utils/itemUtils';
+
+import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import { updateItemInPlanner } from '../../../../actions/planner/planner';
 import { setItemFocus } from '../../../../actions/planner/itemFocus';
+
+import userShape from '../../../../shapes/model/session/UserShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 
 class CourseCustomizeSubSection extends Component {
@@ -204,7 +211,6 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   itemFocus: state.planner.itemFocus,
   selectedPlanner: state.planner.planner.selectedPlanner,
-  selectedListCode: state.planner.list.selectedListCode,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -215,6 +221,15 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setItemFocus(item, course, from, clicked));
   },
 });
+
+CourseCustomizeSubSection.propTypes = {
+  user: userShape,
+  itemFocus: itemFocusShape,
+  selectedPlanner: plannerShape,
+
+  updateItemInPlannerDispatch: PropTypes.func.isRequired,
+  setItemFocusDispatch: PropTypes.func.isRequired,
+};
 
 
 export default withTranslation()(
