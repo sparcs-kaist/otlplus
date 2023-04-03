@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import Scroller from '../../../Scroller';
@@ -27,7 +28,10 @@ class CourseCustomizeSubSection extends Component {
   }
 
   updateCheckedValuesForSemester = (checkedValues) => {
-    const { itemFocus, updateItemInPlannerDispatch, setItemFocusDispatch } = this.props;
+    const {
+      user, selectedPlanner, itemFocus,
+      updateItemInPlannerDispatch, setItemFocusDispatch,
+    } = this.props;
 
     this.setState({
       selectedSemester: checkedValues,
@@ -39,12 +43,41 @@ class CourseCustomizeSubSection extends Component {
         ? Math.ceil(itemFocus.item.semester / 2) * 2 - 1
         : Math.ceil(itemFocus.item.semester / 2) * 2
     );
-    const newItem = {
-      ...itemFocus.item,
-      semester: newSemester,
-    };
-    updateItemInPlannerDispatch(newItem);
-    setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+
+    if (!user) {
+      const newItem = {
+        ...itemFocus.item,
+        semester: newSemester,
+      };
+      updateItemInPlannerDispatch(newItem);
+      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+    }
+    else {
+      axios.post(
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
+        {
+          item: itemFocus.item.id,
+          item_type: itemFocus.item.item_type,
+          semester: newSemester,
+        },
+        {
+          metadata: {
+            gaCategory: 'Planner',
+            gaVariable: 'POST Update / Instance',
+          },
+        },
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+            return;
+          }
+          updateItemInPlannerDispatch(response.data);
+          setItemFocusDispatch(response.data, getCourseOfItem(response.data), itemFocus.from, itemFocus.clicked);
+        })
+        .catch((error) => {
+        });
+    }
   }
 
   updateCheckedValuesForRetake = (checkedValues) => {
@@ -170,6 +203,7 @@ class CourseCustomizeSubSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   itemFocus: state.planner.itemFocus,
+  selectedPlanner: state.planner.planner.selectedPlanner,
   selectedListCode: state.planner.list.selectedListCode,
 });
 

@@ -243,6 +243,44 @@ class UserInstancePlannerInstanceAddArbitraryItemView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
+class UserInstancePlannerInstanceUpdateItemView(View):
+    def post(self, request, user_id, planner_id):
+        BODY_STRUCTURE = [
+            ("item", ParseType.INT, True, []),
+            ("item_type", ParseType.STR, True, []),
+            ("semester", ParseType.INT, False, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            planner = userprofile.planners.get(id=planner_id)
+        except Planner.DoesNotExist:
+            return HttpResponseNotFound()
+
+        item, item_type, semester = parse_body(request.body, BODY_STRUCTURE)
+
+        if item_type == 'TAKEN':
+            CorrespondingPlannerItem = TakenPlannerItem
+        if item_type == 'FUTURE':
+            CorrespondingPlannerItem = FuturePlannerItem
+        if item_type == 'ARBITRARY':
+            CorrespondingPlannerItem = ArbitraryPlannerItem
+        
+        try:
+            target_item = CorrespondingPlannerItem.objects.get(planner=planner, id=item)
+        except CorrespondingPlannerItem.DoesNotExist:
+            HttpResponseBadRequest("No such planner item")
+        
+        if semester is not None:
+            target_item.semester = semester
+        target_item.save()
+        return JsonResponse(target_item.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
 class UserInstancePlannerInstanceRemoveItemView(View):
     def post(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
