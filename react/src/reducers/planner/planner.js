@@ -101,9 +101,14 @@ const planner = (state = initialState, action) => {
       });
     }
     case ADD_ITEM_TO_PLANNER: {
+      const targetItemsName = (
+        action.item.item_type === 'FUTURE'
+          ? 'future_items'
+          : 'arbitrary_items'
+      );
       const newPlanner = {
         ...state.selectedPlanner,
-        future_items: state.selectedPlanner.future_items.concat([action.item]),
+        [targetItemsName]: state.selectedPlanner[targetItemsName].concat([action.item]),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
