@@ -6,7 +6,7 @@ const futurePlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   item_type: PropTypes.oneOf(['FUTURE']).isRequired,
   year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  semester: PropTypes.oneOf([1, 2, 3, 4]).isRequired,
   course: courseShape.isRequired,
 });
 

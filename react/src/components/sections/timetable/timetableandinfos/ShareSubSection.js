@@ -119,7 +119,7 @@ ShareSubSection.propTypes = {
   selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
   user: userShape,
 
   setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,

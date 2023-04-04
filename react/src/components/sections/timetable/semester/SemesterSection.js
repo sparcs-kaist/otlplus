@@ -153,7 +153,7 @@ SemesterSection.propTypes = {
 
   semesters: PropTypes.arrayOf(semesterShape),
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
 
   setSemesterDispatch: PropTypes.func.isRequired,
 };

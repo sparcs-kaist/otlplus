@@ -6,7 +6,7 @@ const arbitraryPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   item_type: PropTypes.oneOf(['ARBITRARY']).isRequired,
   year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  semester: PropTypes.oneOf([1, 2, 3, 4]).isRequired,
   department: departmentShape,
   type: PropTypes.string.isRequired,
   type_en: PropTypes.string.isRequired,

@@ -338,7 +338,7 @@ LectureSearchSubSection.propTypes = {
   classtimeEnd: PropTypes.number,
   classtimeDay: PropTypes.number,
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
   lectureFocus: lectureFocusShape,
   searchOpen: PropTypes.bool.isRequired,
 

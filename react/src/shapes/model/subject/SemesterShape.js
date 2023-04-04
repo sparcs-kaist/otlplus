@@ -12,7 +12,7 @@ export const SCHEDULE_FIELDS = [
 
 const semesterShape = PropTypes.exact({
   year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  semester: PropTypes.oneOf([1, 2, 3, 4]).isRequired,
   beginning: PropTypes.string.isRequired,
   end: PropTypes.string.isRequired,
   ...Object.assign({}, ...SCHEDULE_FIELDS.map((f) => ({

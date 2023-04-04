@@ -625,7 +625,7 @@ TimetableTabs.propTypes = {
   selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   myTimetable: myTimetableShape.isRequired,
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
 
   setTimetablesDispatch: PropTypes.func.isRequired,
   clearTimetablesDispatch: PropTypes.func.isRequired,

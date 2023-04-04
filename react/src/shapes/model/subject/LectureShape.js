@@ -13,7 +13,7 @@ const lectureShape = PropTypes.exact({
   old_code: PropTypes.string.isRequired,
   class_no: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,
-  semester: PropTypes.number.isRequired,
+  semester: PropTypes.oneOf([1, 2, 3, 4]).isRequired,
   code: PropTypes.string.isRequired,
   department: PropTypes.number.isRequired,
   department_code: PropTypes.string.isRequired,

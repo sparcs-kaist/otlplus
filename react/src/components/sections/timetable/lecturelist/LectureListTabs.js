@@ -313,7 +313,7 @@ LectureListTabs.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
   lists: lectureListsShape,
 
   openSearchDispatch: PropTypes.func.isRequired,

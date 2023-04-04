@@ -145,7 +145,7 @@ SyllabusPage.propTypes = {
     state: PropTypes.shape({
       timetable: PropTypes.number.isRequired,
       year: PropTypes.number.isRequired,
-      semester: PropTypes.number.isRequired,
+      semester: PropTypes.oneOf([1, 2, 3, 4]).isRequired,
     }).isRequired,
   }).isRequired,
 

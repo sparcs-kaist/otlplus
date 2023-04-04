@@ -490,7 +490,7 @@ LectureListSection.propTypes = {
   selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
   year: PropTypes.number,
-  semester: PropTypes.number,
+  semester: PropTypes.oneOf([1, 2, 3, 4]),
   lastSearchOption: lectureLastSearchOptionShape.isRequired,
 
   openSearchDispatch: PropTypes.func.isRequired,
