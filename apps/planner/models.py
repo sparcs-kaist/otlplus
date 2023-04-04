@@ -45,6 +45,7 @@ class Planner(models.Model):
 class TakenPlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
                                 related_name="taken_items", on_delete=models.CASCADE, db_index=True)
+    is_excluded = models.BooleanField(default=False)
 
     lecture = models.ForeignKey(Lecture, on_delete=models.PROTECT)
 
@@ -55,6 +56,7 @@ class TakenPlannerItem(models.Model):
         result = {
             "id": self.id,
             "item_type": "TAKEN",
+            "is_excluded": self.is_excluded,
             "lecture": self.lecture.to_json(nested=False),
             "course": self.lecture.course.to_json(nested=False),
         }
@@ -65,6 +67,7 @@ class TakenPlannerItem(models.Model):
 class FuturePlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
                                 related_name="future_items", on_delete=models.CASCADE, db_index=True)
+    is_excluded = models.BooleanField(default=False)
 
     year = models.IntegerField(db_index=True)
     semester = models.IntegerField(db_index=True)
@@ -74,6 +77,7 @@ class FuturePlannerItem(models.Model):
         result = {
             "id": self.id,
             "item_type": "FUTURE",
+            "is_excluded": self.is_excluded,
             "year": self.year,
             "semester": self.semester,
             "course": self.course.to_json(nested=False),
@@ -86,6 +90,7 @@ class ArbitraryPlannerItem(models.Model):
     planner = models.ForeignKey(Planner,
                                 related_name="arbitrary_items", on_delete=models.CASCADE,
                                 db_index=True)
+    is_excluded = models.BooleanField(default=False)
     
     year = models.IntegerField(db_index=True)
     semester = models.IntegerField(db_index=True)
@@ -99,6 +104,7 @@ class ArbitraryPlannerItem(models.Model):
         result = {
             "id": self.id,
             "item_type": "ARBITRARY",
+            "is_excluded": self.is_excluded,
             "year": self.year,
             "semester": self.semester,
             "department": self.department.to_json(nested=False) if self.department else None,
