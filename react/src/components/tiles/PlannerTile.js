@@ -117,6 +117,20 @@ const PlannerTile = ({
             </p>
           )
         }
+        {
+          (item.is_excluded) && (
+            <p
+              className={classNames(
+                'tile--planner__content__label',
+                isSimple ? 'mobile-hidden' : null,
+                `background-color--${color}`,
+                'background-color--dark'
+              )}
+            >
+              X
+            </p>
+          )
+        }
       </div>
     </div>
   );
