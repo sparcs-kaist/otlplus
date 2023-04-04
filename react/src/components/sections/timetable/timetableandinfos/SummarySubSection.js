@@ -12,7 +12,7 @@ import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timeta
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 import { inTimetable, getOverallLectures } from '../../../../utils/lectureUtils';
 import Attributes from '../../../Attributes';
@@ -315,7 +315,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 SummarySubSection.propTypes = {
-  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myPseudoTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
 
   setMultipleFocusDispatch: PropTypes.func.isRequired,

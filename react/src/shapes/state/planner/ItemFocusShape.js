@@ -10,7 +10,7 @@ import reviewShape from '../../model/review/ReviewShape';
 import takenPlannerItemShape from '../../model/planner/TakenPlannerItemShape';
 
 
-export const arbitraryCourseShape = PropTypes.exact({
+export const arbitraryPseudoCourseShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   isArbitrary: PropTypes.oneOf([true]).isRequired,
   department: departmentShape,
@@ -31,7 +31,7 @@ const itemFocusShape = PropTypes.exact({
     takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
   ]),
   course: PropTypes.oneOfType([
-    courseShape, arbitraryCourseShape,
+    courseShape, arbitraryPseudoCourseShape,
   ]),
   reviews: PropTypes.arrayOf(reviewShape),
   lectures: PropTypes.arrayOf(lectureShape),

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import courseShape from '../../shapes/model/subject/CourseShape';
-import { arbitraryCourseShape } from '../../shapes/state/planner/ItemFocusShape';
+import { arbitraryPseudoCourseShape } from '../../shapes/state/planner/ItemFocusShape';
 
 
 const PlannerCourseBlock = ({
@@ -54,7 +54,7 @@ const PlannerCourseBlock = ({
 };
 
 PlannerCourseBlock.propTypes = {
-  course: PropTypes.oneOfType([courseShape, arbitraryCourseShape]).isRequired,
+  course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]).isRequired,
   isRaised: PropTypes.bool,
   isDimmed: PropTypes.bool,
   onMouseOver: PropTypes.func,

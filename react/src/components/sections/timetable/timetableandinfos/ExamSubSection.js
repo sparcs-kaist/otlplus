@@ -10,7 +10,7 @@ import Scroller from '../../../Scroller';
 import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 import {
   getOverallLectures, isSingleFocused,
@@ -167,7 +167,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 ExamSubSection.propTypes = {
-  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myPseudoTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
 
   setMultipleFocusDispatch: PropTypes.func.isRequired,

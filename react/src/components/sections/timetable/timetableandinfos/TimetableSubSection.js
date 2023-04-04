@@ -18,7 +18,7 @@ import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/session/UserShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 import { getDayStr, getRangeStr } from '../../../../utils/timeUtils';
 
@@ -571,7 +571,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 TimetableSubSection.propTypes = {
   user: userShape,
-  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myPseudoTimetableShape]),
   lectureFocus: lectureFocusShape.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,

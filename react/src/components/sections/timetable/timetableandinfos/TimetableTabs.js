@@ -16,7 +16,7 @@ import {
 } from '../../../../actions/timetable/timetable';
 
 import userShape from '../../../../shapes/model/session/UserShape';
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 
 
 class TimetableTabs extends Component {
@@ -622,8 +622,8 @@ TimetableTabs.propTypes = {
   user: userShape,
   isPortrait: PropTypes.bool.isRequired,
   timetables: PropTypes.arrayOf(timetableShape),
-  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
-  myTimetable: myTimetableShape.isRequired,
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myPseudoTimetableShape]),
+  myTimetable: myPseudoTimetableShape.isRequired,
   year: PropTypes.number,
   semester: PropTypes.oneOf([1, 2, 3, 4]),
 

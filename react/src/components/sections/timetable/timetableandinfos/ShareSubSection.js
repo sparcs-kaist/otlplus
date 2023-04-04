@@ -10,7 +10,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { setMobileIsLectureListOpen } from '../../../../actions/timetable/list';
 import { setMobileIsTimetableTabsOpen } from '../../../../actions/timetable/timetable';
 
-import timetableShape, { myTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 
 
@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 ShareSubSection.propTypes = {
-  selectedTimetable: PropTypes.oneOfType([timetableShape, myTimetableShape]),
+  selectedTimetable: PropTypes.oneOfType([timetableShape, myPseudoTimetableShape]),
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
   year: PropTypes.number,
   semester: PropTypes.oneOf([1, 2, 3, 4]),
