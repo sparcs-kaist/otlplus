@@ -39,6 +39,7 @@ class CourseCustomizeSubSection extends Component {
       const item = {
         id: id,
         item_type: 'FUTURE',
+        is_excluded: false,
         course: course,
         year: year,
         semester: semester,
@@ -88,6 +89,7 @@ class CourseCustomizeSubSection extends Component {
       const item = {
         id: id,
         item_type: 'ARBITRARY',
+        is_excluded: false,
         year: year,
         semester: semester,
         department: course.department,
