@@ -2092,6 +2092,7 @@ a {
                 flex: 0 0 auto;
                 width: $size;
                 height: $size;
+                margin-left: 3px;
                 border-radius: 50%;
                 text-align: center;
                 padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
