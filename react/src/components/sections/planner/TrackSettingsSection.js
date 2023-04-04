@@ -281,9 +281,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 TrackSettingsSection.propTypes = {
   user: userShape,
-  tracks: PropTypes.arrayOf(
-    PropTypes.oneOfType([generalTrackShape, majorTrackShape, additionalTrackShape])
-  ),
+  tracks: PropTypes.exact({
+    general: PropTypes.arrayOf(generalTrackShape),
+    major: PropTypes.arrayOf(majorTrackShape),
+    additional: PropTypes.arrayOf(additionalTrackShape),
+  }),
   selectedPlanner: plannerShape.isRequired,
 
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
