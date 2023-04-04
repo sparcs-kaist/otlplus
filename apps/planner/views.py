@@ -249,6 +249,7 @@ class UserInstancePlannerInstanceUpdateItemView(View):
             ("item", ParseType.INT, True, []),
             ("item_type", ParseType.STR, True, []),
             ("semester", ParseType.INT, False, []),
+            ("is_excluded", ParseType.BOOL, False, []),
         ]
 
         userprofile = request.user.userprofile
@@ -260,7 +261,7 @@ class UserInstancePlannerInstanceUpdateItemView(View):
         except Planner.DoesNotExist:
             return HttpResponseNotFound()
 
-        item, item_type, semester = parse_body(request.body, BODY_STRUCTURE)
+        item, item_type, semester, is_excluded = parse_body(request.body, BODY_STRUCTURE)
 
         if item_type == 'TAKEN':
             CorrespondingPlannerItem = TakenPlannerItem
@@ -279,6 +280,8 @@ class UserInstancePlannerInstanceUpdateItemView(View):
                 return HttpResponseBadRequest("You can't change semester of planner item with type 'taken'")
             else:
                 target_item.semester = semester
+        if is_excluded is not None:
+            target_item.is_excluded = is_excluded
         target_item.save()
         return JsonResponse(target_item.to_json())
 

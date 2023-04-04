@@ -30,7 +30,7 @@ class CourseCustomizeSubSection extends Component {
 
     this.state = {
       selectedSemester: new Set([getSemesterOfItem(props.itemFocus.item) % 2 === 1 ? 'NORMAL' : 'SEASONAL']),
-      selectedRetake: new Set(['NORMAL']),
+      selectedRetake: new Set([props.itemFocus.item.is_excluded ? 'RETAKE' : 'NORMAL']),
     };
   }
 
@@ -88,9 +88,52 @@ class CourseCustomizeSubSection extends Component {
   }
 
   updateCheckedValuesForRetake = (checkedValues) => {
+    const {
+      user, selectedPlanner, itemFocus,
+      updateItemInPlannerDispatch, setItemFocusDispatch,
+    } = this.props;
+
     this.setState({
       selectedRetake: checkedValues,
     });
+
+    const selectedRetake = Array.from(checkedValues)[0];
+    const newIsRetake = selectedRetake !== 'NORMAL';
+
+    if (!user) {
+      const newItem = {
+        ...itemFocus.item,
+        is_excluded: newIsRetake,
+      };
+      updateItemInPlannerDispatch(newItem);
+      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+    }
+    else {
+      axios.post(
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
+        {
+          item: itemFocus.item.id,
+          item_type: itemFocus.item.item_type,
+          is_excluded: newIsRetake,
+        },
+        {
+          metadata: {
+            gaCategory: 'Planner',
+            gaVariable: 'POST Update / Instance',
+          },
+        },
+      )
+        .then((response) => {
+          const newProps = this.props;
+          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+            return;
+          }
+          updateItemInPlannerDispatch(response.data);
+          setItemFocusDispatch(response.data, getCourseOfItem(response.data), itemFocus.from, itemFocus.clicked);
+        })
+        .catch((error) => {
+        });
+    }
   }
 
   // updateCredits = (optionName) => (creditValues) => {
