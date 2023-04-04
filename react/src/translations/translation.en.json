@@ -137,15 +137,15 @@
       "term": "Term",
       "favoriteDepartment": "Favorite Departments",
       "semester": "Semester",
-      "retake": "Retake"
+      "retake": "Count"
     },
     "semesterInfo": {
       "normal": "Normal",
       "seasonal": "Seasonal"
     },
     "retake": {
-      "normal": "Normal",
-      "retake": "Retake"
+      "normal": "Include",
+      "retake": "Exclude"
     },
     "type": {
       "basic": "Basic",

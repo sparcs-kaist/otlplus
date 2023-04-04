@@ -137,15 +137,15 @@
       "term": "기간",
       "favoriteDepartment": "관심학과",
       "semester": "학기",
-      "retake": "회차"
+      "retake": "계산"
     },
     "semesterInfo": {
       "normal": "일반",
       "seasonal": "계절학기"
     },
     "retake": {
-      "normal": "일반",
-      "retake": "재수강"
+      "normal": "포함",
+      "retake": "제외"
     },
     "type": {
       "basic": "기초",
