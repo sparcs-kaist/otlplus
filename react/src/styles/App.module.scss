@@ -2078,6 +2078,10 @@ a {
                  {
                     color: rgba(#FFFFFF, 0.9);
                 }
+                .tile--planner.tile--planner--excluded & {
+                    opacity: 0.5;
+                    text-decoration: line-through;
+                }
             }
 
             &__label {

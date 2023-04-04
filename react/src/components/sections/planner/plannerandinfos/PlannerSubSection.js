@@ -63,7 +63,8 @@ class PlannerSubSection extends Component {
       ],
       (i) => {
         const category = getCategoryOfItem(planner, i);
-        return category[0] * (100 ** 3)
+        return i.is_excluded ? (100 ** 4) : 0
+        + category[0] * (100 ** 3)
         + category[1] * (100 ** 2)
         + category[2] * 100
         + (100 - getCreditAndAuOfItem(i));

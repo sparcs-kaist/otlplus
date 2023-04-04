@@ -61,6 +61,7 @@ const PlannerTile = ({
         (isRaised ? 'tile--raised' : null),
         (isHighlighted ? 'tile--highlighted' : null),
         (isDimmed ? 'tile--dimmed' : null),
+        (item.is_excluded ? 'tile--planner--excluded' : null),
       )}
       style={{
         left: 26 + (cellWidth + 15) * yearIndex - 1,
