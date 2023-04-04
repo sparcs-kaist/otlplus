@@ -140,19 +140,19 @@ class SummarySubSection extends Component {
 
     if (selectedPlanner) {
       /* eslint-disable fp/no-mutation */
-      selectedPlanner.taken_items.forEach((i) => {
+      selectedPlanner.taken_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
         totalCredit[ValueIndex.TAKEN] += getCreditOfItem(i);
         totalAu[ValueIndex.TAKEN] += getAuOfItem(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAuOfItem(i);
       });
-      selectedPlanner.future_items.forEach((i) => {
+      selectedPlanner.future_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
         totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
         totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
         categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
       });
-      selectedPlanner.arbitrary_items.forEach((i) => {
+      selectedPlanner.arbitrary_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
         totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
         totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
@@ -170,9 +170,10 @@ class SummarySubSection extends Component {
       /* eslint-enable fp/no-mutation */
     }
     else if (
-      itemFocus.from === ItemFocusFrom.TABLE_TAKEN
+      (itemFocus.from === ItemFocusFrom.TABLE_TAKEN
       || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-      || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY
+      || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY)
+      && !itemFocus.item.is_excluded
     ) {
       /* eslint-disable fp/no-mutation */
       const category = getCategoryOfItem(selectedPlanner, itemFocus.item);
