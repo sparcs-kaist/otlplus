@@ -11,7 +11,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import {
   setPlanners, clearPlanners,
   setSelectedPlanner,
-  createPlanner, deletePlanner, duplicatePlanner,
+  createPlanner, deletePlanner,
 } from '../../../../actions/planner/planner';
 
 import userShape from '../../../../shapes/model/session/UserShape';
@@ -263,7 +263,7 @@ class PlannerTabs extends Component {
   duplicatePlanner = (event, planner) => {
     const {
       user,
-      duplicatePlannerDispatch,
+      createPlannerDispatch,
     } = this.props;
 
     event.stopPropagation();
@@ -286,7 +286,7 @@ class PlannerTabs extends Component {
         })),
         arrange_order: planner.arrange_order,
       };
-      duplicatePlannerDispatch(newPlanner);
+      createPlannerDispatch(newPlanner);
     }
     else {
       axios.post(
@@ -309,7 +309,7 @@ class PlannerTabs extends Component {
         },
       )
         .then((response) => {
-          duplicatePlannerDispatch(response.data);
+          createPlannerDispatch(response.data);
         })
         .catch((error) => {
         });
@@ -402,9 +402,6 @@ const mapDispatchToProps = (dispatch) => ({
   deletePlannerDispatch: (planner) => {
     dispatch(deletePlanner(planner));
   },
-  duplicatePlannerDispatch: (newPlanner) => {
-    dispatch(duplicatePlanner(newPlanner));
-  },
 });
 
 PlannerTabs.propTypes = {
@@ -422,7 +419,6 @@ PlannerTabs.propTypes = {
   setSelectedPlannerDispatch: PropTypes.func.isRequired,
   createPlannerDispatch: PropTypes.func.isRequired,
   deletePlannerDispatch: PropTypes.func.isRequired,
-  duplicatePlannerDispatch: PropTypes.func.isRequired,
 };
 
 

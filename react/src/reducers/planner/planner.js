@@ -2,7 +2,7 @@ import {
   RESET,
   SET_PLANNERS, CLEAR_PLANNERS,
   SET_SELECTED_PLANNER,
-  CREATE_PLANNER, DELETE_PLANNER, DUPLICATE_PLANNER,
+  CREATE_PLANNER, DELETE_PLANNER,
   UPDATE_PLANNER,
   ADD_ITEM_TO_PLANNER, UPDATE_ITEM_IN_PLANNER, REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
@@ -75,15 +75,6 @@ const planner = (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedPlanner: newSelectedPlanner,
         planners: newPlanners,
-      });
-    }
-    case DUPLICATE_PLANNER: {
-      return Object.assign({}, state, {
-        selectedPlanner: action.newPlanner,
-        planners: [
-          ...state.planners,
-          action.newPlanner,
-        ],
       });
     }
     case UPDATE_PLANNER: {

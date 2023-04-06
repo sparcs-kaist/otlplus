@@ -57,13 +57,6 @@ export function deletePlanner(planner) {
   };
 }
 
-export function duplicatePlanner(newPlanner) {
-  return {
-    type: DUPLICATE_PLANNER,
-    newPlanner: newPlanner,
-  };
-}
-
 export function updatePlanner(updatedPlanner) {
   return {
     type: UPDATE_PLANNER,
