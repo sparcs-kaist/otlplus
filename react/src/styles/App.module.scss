@@ -2162,14 +2162,10 @@ a {
     }
     &.block--completed {
         &:not(.block--raised) {
-            color: rgba($color-text-normal, 0.35);
-    
-            & i.icon {
-                opacity: 0.45;
-            }
+            color: rgba($color-text-normal, 0.45);
     
             & .block--lecture-group__row-content__texts__sub {
-                color: rgba($color-text-lighter, 0.35);
+                color: rgba($color-text-lighter, 0.45);
             }
         }
 
@@ -2191,7 +2187,7 @@ a {
                  (($block-padding-tb - 2px) + ($font-size-normal - $font-size-smaller) / 2)
                  ($block-padding-lr - 2px);
         background-color: inherit;
-        opacity: 0.8;
+        opacity: 0.7;
         &:hover {
             opacity: 0.15;
         }
