@@ -43,6 +43,8 @@ $line-height-smallest: 11px;
 
 $opacity-text-overlay: 0.7;
 
+$offset-raise: 3px;
+
 $transition-duration-normal: 0.15s;
 $transition-duration-short: 0.06s;
 
@@ -1922,6 +1924,8 @@ a {
 
 
 .tile {
+    $opacity-temp: 0.8;
+
     position: absolute;
     flex: auto;
     display: flex;
@@ -1938,13 +1942,13 @@ a {
         background: $color-tile-background-highlight !important;
     }
     &.tile--raised {
-        margin-top: -3px;
-        margin-bottom: 3px;
+        margin-top: -$offset-raise;
+        margin-bottom: $offset-raise;
         box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
     }
     &.tile--temp {
         background-color: $color-tile-background-highlight;
-        opacity: 0.85;
+        opacity: $opacity-temp;
         z-index: 3;
         cursor: initial;
     }
@@ -2015,7 +2019,7 @@ a {
     }
 
     &--timetable-drag {
-        background-color: rgba($color-tile-background-highlight, 0.8);
+        background-color: rgba($color-tile-background-highlight, $opacity-temp);
         pointer-events: none;
         z-index: 1;
     }
@@ -2154,7 +2158,7 @@ a {
     &.block--raised {
         background-color:$color-block-background-dark;
         position: relative;
-        top: -3px;
+        top: -$offset-raise;
         box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
     }
     &.block--dimmed {
