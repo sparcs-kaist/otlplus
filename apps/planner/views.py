@@ -86,14 +86,14 @@ class UserInstancePlannerListView(View):
                 target_item = TakenPlannerItem.objects.get(planner__user=userprofile, id=i)
             except TakenPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
-            TakenPlannerItem.objects.create(planner=planner,
+            TakenPlannerItem.objects.create(planner=planner, is_excluded=target_item.is_excluded,
                                             lecture=target_item.lecture)
         for i in future_items_to_copy:
             try:
                 target_item = FuturePlannerItem.objects.get(planner__user=userprofile, id=i)
             except FuturePlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
-            FuturePlannerItem.objects.create(planner=planner,
+            FuturePlannerItem.objects.create(planner=planner, is_excluded=target_item.is_excluded,
                                              year=target_item.year, semester=target_item.semester,
                                              course=target_item.course)
         for i in arbitrary_items_to_copy:
@@ -101,8 +101,10 @@ class UserInstancePlannerListView(View):
                 target_item = ArbitraryPlannerItem.objects.get(planner__user=userprofile, id=i)
             except ArbitraryPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
-            ArbitraryPlannerItem.objects.create(planner=planner,
+            ArbitraryPlannerItem.objects.create(planner=planner, is_excluded=target_item.is_excluded,
                                                 year=target_item.year, semester=target_item.semester,
+                                                department=target_item.department,
+                                                type=target_item.type, type_en=target_item.type_en,
                                                 credit=target_item.credit, credit_au=target_item.credit_au)
 
         return JsonResponse(planner.to_json())
