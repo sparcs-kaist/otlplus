@@ -48,9 +48,9 @@ class UserInstancePlannerListView(View):
             ("major_track", ParseType.INT, True, []),
             ("additional_tracks", ParseType.LIST_INT, False, []),
             ("should_update_taken_semesters", ParseType.BOOL, False, []),
-            ("taken_items", ParseType.LIST_INT, True, []),
-            ("future_items", ParseType.LIST_INT, True, []),
-            ("arbitrary_items", ParseType.LIST_INT, True, []),
+            ("taken_items_to_copy", ParseType.LIST_INT, True, []),
+            ("future_items_to_copy", ParseType.LIST_INT, True, []),
+            ("arbitrary_items_to_copy", ParseType.LIST_INT, True, []),
         ]
 
         userprofile = request.user.userprofile
@@ -59,7 +59,7 @@ class UserInstancePlannerListView(View):
 
         start_year, end_year,\
         general_track, major_track, additional_tracks,\
-        should_update_taken_semesters, taken_items, future_items, arbitrary_items\
+        should_update_taken_semesters, taken_items_to_copy, future_items_to_copy, arbitrary_items_to_copy\
             = parse_body(request.body, BODY_STRUCTURE)
 
         related_planners = Planner.get_related_planners(userprofile)
@@ -81,14 +81,14 @@ class UserInstancePlannerListView(View):
             for l in taken_lectures:
                 TakenPlannerItem.objects.create(planner=planner, lecture=l)
 
-        for i in taken_items:
+        for i in taken_items_to_copy:
             try:
                 target_item = TakenPlannerItem.objects.get(planner__user=userprofile, id=i)
             except TakenPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
             TakenPlannerItem.objects.create(planner=planner,
                                             lecture=target_item.lecture)
-        for i in future_items:
+        for i in future_items_to_copy:
             try:
                 target_item = FuturePlannerItem.objects.get(planner__user=userprofile, id=i)
             except FuturePlannerItem.DoesNotExist:
@@ -96,7 +96,7 @@ class UserInstancePlannerListView(View):
             FuturePlannerItem.objects.create(planner=planner,
                                              year=target_item.year, semester=target_item.semester,
                                              course=target_item.course)
-        for i in arbitrary_items:
+        for i in arbitrary_items_to_copy:
             try:
                 target_item = ArbitraryPlannerItem.objects.get(planner__user=userprofile, id=i)
             except ArbitraryPlannerItem.DoesNotExist:

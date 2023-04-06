@@ -186,9 +186,9 @@ class PlannerTabs extends Component {
           major_track: majorTrack.id,
           additional_tracks: [],
           should_update_taken_semesters: true,
-          taken_items: [],
-          future_items: [],
-          arbitrary_items: [],
+          taken_items_to_copy: [],
+          future_items_to_copy: [],
+          arbitrary_items_to_copy: [],
         },
         {
           metadata: {
@@ -297,9 +297,9 @@ class PlannerTabs extends Component {
           general_track: planner.general_track.id,
           major_track: planner.major_track.id,
           additional_tracks: planner.additional_tracks.map((at) => at.id),
-          taken_items: planner.taken_items.map((i) => i.id),
-          future_items: planner.future_items.map((i) => i.id),
-          arbitrary_items: planner.arbitrary_items.map((i) => i.id),
+          taken_items_to_copy: planner.taken_items.map((i) => i.id),
+          future_items_to_copy: planner.future_items.map((i) => i.id),
+          arbitrary_items_to_copy: planner.arbitrary_items.map((i) => i.id),
         },
         {
           metadata: {
