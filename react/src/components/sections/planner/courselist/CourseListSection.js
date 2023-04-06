@@ -14,6 +14,7 @@ import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
 import {
   getTitleOfArbitrary, getTitleEnOfArbitrary, getOldCodeOfArbitrary, getIdOfArbitrary,
+  isAddedCourse,
 } from '../../../../utils/itemUtils';
 import {
   isDimmedListCourse, isClickedListCourse,
@@ -24,6 +25,7 @@ import { openSearch } from '../../../../actions/planner/search';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';
 import userShape from '../../../../shapes/model/session/UserShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import courseLastSearchOptionShape from '../../../../shapes/state/dictionary/CourseLastSearchOptionShape';
 
 import {
@@ -165,7 +167,7 @@ class CourseListSection extends Component {
     const { t } = this.props;
     const {
       user,
-      itemFocus, selectedListCode,
+      itemFocus, selectedListCode, selectedPlanner,
       searchOpen, lastSearchOption,
     } = this.props;
 
@@ -254,6 +256,7 @@ class CourseListSection extends Component {
                   key={c.id}
                   isRaised={isClickedListCourse(c, itemFocus)}
                   isDimmed={isDimmedListCourse(c, itemFocus)}
+                  isAdded={false}
                   onMouseOver={this.focusCourseWithHover}
                   onMouseOut={this.unfocusCourseWithHover}
                   onClick={this.focusCourseWithClick}
@@ -267,6 +270,7 @@ class CourseListSection extends Component {
                   key={c.id}
                   isRaised={isClickedListCourse(c, itemFocus)}
                   isDimmed={isDimmedListCourse(c, itemFocus)}
+                  isAdded={isAddedCourse(c, selectedPlanner)}
                   onMouseOver={this.focusCourseWithHover}
                   onMouseOut={this.unfocusCourseWithHover}
                   onClick={this.focusCourseWithClick}
@@ -294,6 +298,7 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   selectedListCode: state.planner.list.selectedListCode,
   lists: state.planner.list.lists,
+  selectedPlanner: state.planner.planner.selectedPlanner,
   itemFocus: state.planner.itemFocus,
   searchOpen: state.planner.search.open,
   lastSearchOption: state.planner.search.lastSearchOption,
@@ -315,6 +320,7 @@ CourseListSection.propTypes = {
   user: userShape,
   selectedListCode: PropTypes.string.isRequired,
   lists: courseListsShape,
+  selectedPlanner: plannerShape,
   itemFocus: itemFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,

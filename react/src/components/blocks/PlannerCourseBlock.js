@@ -11,7 +11,7 @@ import { arbitraryPseudoCourseShape } from '../../shapes/state/planner/ItemFocus
 const PlannerCourseBlock = ({
   t,
   course,
-  isRaised, isDimmed,
+  isRaised, isDimmed, isAdded,
   onMouseOver, onMouseOut, onClick,
 }) => {
   const handleMouseOver = onMouseOver
@@ -38,11 +38,13 @@ const PlannerCourseBlock = ({
         (onClick ? 'block--clickable' : null),
         (isRaised ? 'block--raised' : null),
         (isDimmed ? 'block--dimmed' : null),
+        (isAdded ? 'block--completed' : null),
       )}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
+      <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
       <div className={classNames('block--planner-course__title')}>
         { course[t('js.property.title')] }
       </div>
@@ -57,6 +59,7 @@ PlannerCourseBlock.propTypes = {
   course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]).isRequired,
   isRaised: PropTypes.bool,
   isDimmed: PropTypes.bool,
+  isAdded: PropTypes.bool.isRequired,
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
