@@ -41,6 +41,7 @@ $line-height-smaller: 12px;
 $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
+$opacity-text-overlay: 0.7;
 
 $transition-duration-normal: 0.15s;
 $transition-duration-short: 0.06s;
@@ -1962,7 +1963,7 @@ a {
             position: absolute;
             cursor: pointer;
             padding: 4px;
-            background-color: rgba($color-tile-background-highlight, 0.8);
+            background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
             .tile--timetable:not(:hover) &,
             .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
                 display: none;
@@ -2050,7 +2051,7 @@ a {
             position: absolute;
             cursor: pointer;
             padding: 4px;
-            background-color: rgba($color-tile-background-highlight, 0.8);
+            background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
             .tile--planner:not(:hover) &,
             .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
                 display: none;
@@ -2119,7 +2120,7 @@ a {
                  ($section-padding - 2px);
         top: 0;
         right: $section-padding;
-        background-color: rgba($color-section-background, 0.8);
+        background-color: rgba($color-section-background, $opacity-text-overlay);
         z-index: 90;
         .section--mobile-modal & {
             z-index: 290;
@@ -2187,7 +2188,7 @@ a {
                  (($block-padding-tb - 2px) + ($font-size-normal - $font-size-smaller) / 2)
                  ($block-padding-lr - 2px);
         background-color: inherit;
-        opacity: 0.7;
+        opacity: $opacity-text-overlay;
         &:hover {
             opacity: 0.15;
         }
