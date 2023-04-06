@@ -212,5 +212,5 @@ export const getCourseOfItem = (item) => {
 export const isAddedCourse = (course, planner) => {
   return planner
     && [...planner.taken_items, ...planner.future_items, ...planner.arbitrary_items]
-      .some((i) => (getCourseOfItem(i).id === course.id));
+      .some((i) => (!i.is_excluded && (getCourseOfItem(i).id === course.id)));
 };
