@@ -3631,8 +3631,8 @@ button.disabled {
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);
         $dark-color: adjust-color($base-color, $saturation: if($i <= 16, -5%, 0%), $lightness: -10%);
-        $stripe-color: adjust-color($base-color, $lightness: 3%);
-        $dark-stripe-color: adjust-color($dark-color, $lightness: 7%);
+        $stripe-color: adjust-color($base-color, $lightness: 3.5%);
+        $dark-stripe-color: adjust-color($dark-color, $lightness: 8%);
 
         &--#{$i} {
             background-color: $base-color;
