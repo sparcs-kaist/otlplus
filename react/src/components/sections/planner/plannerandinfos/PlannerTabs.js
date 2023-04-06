@@ -162,6 +162,10 @@ class PlannerTabs extends Component {
     const generalTrack = this._getPlannerGeneralTrack(user, startYear);
     const majorTrack = this._getPlannerMajorTrack(user, startYear);
 
+    const arrangeOrder = (planners && planners.length > 0)
+      ? Math.max(...planners.map((t) => t.arrange_order)) + 1
+      : 0;
+
     if (!user) {
       createPlannerDispatch({
         id: this._createRandomPlannerId(),
@@ -173,7 +177,7 @@ class PlannerTabs extends Component {
         taken_items: [],
         future_items: [],
         arbitrary_items: [],
-        arrange_order: planners ? planners.length : 0,
+        arrange_order: arrangeOrder,
       });
     }
     else {
@@ -262,11 +266,13 @@ class PlannerTabs extends Component {
 
   duplicatePlanner = (event, planner) => {
     const {
-      user,
+      user, planners,
       createPlannerDispatch,
     } = this.props;
 
     event.stopPropagation();
+
+    const arrangeOrder = Math.max(...planners.map((t) => t.arrange_order)) + 1;
 
     if (!user) {
       const newPlanner = {
@@ -284,7 +290,7 @@ class PlannerTabs extends Component {
           ...i,
           id: this._createRandomPlannerId(),
         })),
-        arrange_order: planner.arrange_order,
+        arrange_order: arrangeOrder,
       };
       createPlannerDispatch(newPlanner);
     }
