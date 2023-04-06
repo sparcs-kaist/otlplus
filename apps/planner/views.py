@@ -102,7 +102,8 @@ class UserInstancePlannerListView(View):
             except ArbitraryPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
             ArbitraryPlannerItem.objects.create(planner=planner,
-                                              year=target_item.year, semester=target_item.semester,)
+                                                year=target_item.year, semester=target_item.semester,
+                                                credit=target_item.credit, credit_au=target_item.credit_au)
 
         return JsonResponse(planner.to_json())
 
