@@ -22,7 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, "keys/django_secret")) as f:
     SECRET_KEY = f.read().strip()
-GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, "keys/google_client_secrets.json")
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(
+    BASE_DIR, "keys/google_client_secrets.json")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,9 +47,11 @@ INSTALLED_APPS = (
     "apps.timetable.apps.TimetableConfig",
     "apps.planner.apps.PlannerConfig",
     "apps.graduation.apps.GraduationConfig",
+    "corsheaders",
 )
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -150,6 +153,10 @@ LOGOUT_URL = "/session/logout/"
 VERSION = "3.2.4.5"
 
 try:
-    from settings_local import * # pylint: disable=wildcard-import, unused-wildcard-import
+    from settings_local import *  # pylint: disable=wildcard-import, unused-wildcard-import
 except ImportError:
     pass
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOW_CREDENTIALS = True

@@ -58,11 +58,13 @@ i18n
 
 import axios from 'axios';
 import Qs from 'qs';
+import { API_URL } from './const';
 
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.xsrfCookieName = 'csrftoken';
 
-axios.defaults.baseURL = '/';
+axios.defaults.baseURL = API_URL;
+axios.defaults.withCredentials = true;
 
 axios.defaults.paramsSerializer = (params) => Qs.stringify(params, { arrayFormat: 'repeat' });
 
