@@ -2222,20 +2222,17 @@ a {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-width: 74px;
 
         &:last-child {
             margin-bottom: 0;
         }
 
         &__title {
-            text-align: center;
             font-weight: bold;
             margin-bottom: 2px;
         }
 
         &__subtitle {
-            text-align: center;
         }
     }
 
@@ -2668,13 +2665,6 @@ a {
 
     > .block:not(:last-child) {
         margin-bottom: $block-margin;
-    }
-
-    &--two-columns {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 10px;
-        // columns: 2;
     }
 } 
 

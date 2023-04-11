@@ -246,7 +246,6 @@ class CourseListSection extends Component {
         <Scroller key={selectedListCode}>
           <div className={classNames(
             'block-list',
-            'block-list--two-columns'
           )}
           >
             {
