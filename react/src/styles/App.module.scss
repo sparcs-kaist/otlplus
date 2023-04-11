@@ -419,19 +419,18 @@ a {
     &--planner {
         @media #{$media-landscape} {
             margin-left: -$tabs-width-vertical;
-            // TODO: Update template grid size
             grid-template-columns:
                 $tabs-width-vertical
-                1.1fr
+                $section-width-desktop-1v3-left
                 $section-margin-lr
-                2fr
+                1fr
             ;
             grid-template-rows:
                 $tabs-height-horizontal
                 2fr
                 $section-margin-bottom
                 0.9fr
-                60px
+                80px
             ;
             grid-template-areas:
                 ".                  planner-tabs        planner-tabs        planner-tabs"
