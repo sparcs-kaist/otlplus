@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: otlplus-db
+    platform: linux/amd64
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "53306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${OTLPLUS_DB_PASSWORD}
+      - MYSQL_DATABASE=otlplus
+    volumes:
+      - ./volumes/db:/var/lib/mysql
+      - ./volumes/dump:/dump
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  back:
+    depends_on: 
+      - db
+    container_name: otlplus-back
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    tty: true
+    ports:
+      - "58000:8000"
+    volumes:
+      - .:/back
+    working_dir: /back
+    command: gunicorn otlplus.wsgi --bind 0.0.0.0:8000

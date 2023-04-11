@@ -115,8 +115,8 @@ def login_callback(request):
             first_name=sso_profile["first_name"],
             last_name=sso_profile["last_name"],
         )
-        user_profile, _ = UserProfile.objects.get_or_create(student_id=sso_profile["sid"],
-                                                            defaults={"user": user})
+        user_profile, _ = UserProfile.objects.get_or_create(user=user)
+        user_profile.student_id = sso_profile["sid"][:10]
         user_profile.sid = sso_profile["sid"]
         user_profile.save()
         import_student_lectures(student_id)

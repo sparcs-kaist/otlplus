@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:8000';
+export const API_URL = process.env.NODE_ENV === 'production' ? 'https://otl-dev.sparcs.org' : 'http://localhost:8000';
