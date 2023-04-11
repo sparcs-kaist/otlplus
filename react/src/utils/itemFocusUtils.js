@@ -5,7 +5,7 @@ import { getCourseOfItem } from './itemUtils';
 export const isIdenticalItem = (item1, item2) => (
   item1 != null
   && item2 != null
-  && item1.type === item2.type
+  && item1.item_type === item2.item_type
   && item1.id === item2.id
 );
 
