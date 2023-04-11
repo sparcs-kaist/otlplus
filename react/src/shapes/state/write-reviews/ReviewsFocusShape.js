@@ -6,10 +6,27 @@ import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 
 
-const reviewsFocusShape = PropTypes.exact({
-  from: PropTypes.oneOf(Object.values(ReviewsFocusFrom)).isRequired,
-  lecture: lectureShape,
-  reviews: PropTypes.arrayOf(reviewShape),
-});
+const reviewsFocusShape = PropTypes.oneOfType([
+  PropTypes.exact({
+    from: PropTypes.oneOf([ReviewsFocusFrom.NONE]).isRequired,
+    lecture: PropTypes.oneOf([null]),
+    reviews: PropTypes.oneOf([null]),
+  }),
+  PropTypes.exact({
+    from: PropTypes.oneOf([ReviewsFocusFrom.LECTURE]).isRequired,
+    lecture: lectureShape.isRequired,
+    reviews: PropTypes.arrayOf(reviewShape),
+  }),
+  PropTypes.exact({
+    from: PropTypes.oneOf([
+      ReviewsFocusFrom.REVIEWS_LATEST,
+      ReviewsFocusFrom.REVIEWS_MY,
+      ReviewsFocusFrom.REVIEWS_LIKED,
+      ReviewsFocusFrom.REVIEWS_RANKED,
+    ]).isRequired,
+    lecture: PropTypes.oneOf([null]),
+    reviews: PropTypes.arrayOf(reviewShape),
+  }),
+]);
 
 export default reviewsFocusShape;

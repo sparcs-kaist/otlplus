@@ -5,10 +5,17 @@ import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 
 
-const courseFocusShape = PropTypes.exact({
-  course: courseShape,
-  reviews: PropTypes.arrayOf(reviewShape),
-  lectures: PropTypes.arrayOf(lectureShape),
-});
+const courseFocusShape = PropTypes.oneOfType([
+  PropTypes.exact({
+    course: PropTypes.oneOf([null]),
+    reviews: PropTypes.oneOf([null]),
+    lectures: PropTypes.oneOf([null]),
+  }),
+  PropTypes.exact({
+    course: courseShape.isRequired,
+    reviews: PropTypes.arrayOf(reviewShape),
+    lectures: PropTypes.arrayOf(lectureShape),
+  }),
+]);
 
 export default courseFocusShape;

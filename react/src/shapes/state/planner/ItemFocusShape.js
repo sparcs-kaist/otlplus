@@ -24,17 +24,39 @@ export const arbitraryPseudoCourseShape = PropTypes.exact({
 });
 
 
-const itemFocusShape = PropTypes.exact({
-  from: PropTypes.oneOf(Object.values(ItemFocusFrom)).isRequired,
-  clicked: PropTypes.bool.isRequired,
-  item: PropTypes.oneOfType([
-    takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
-  ]),
-  course: PropTypes.oneOfType([
-    courseShape, arbitraryPseudoCourseShape,
-  ]),
-  reviews: PropTypes.arrayOf(reviewShape),
-  lectures: PropTypes.arrayOf(lectureShape),
-});
+const itemFocusShape = PropTypes.oneOfType([
+  PropTypes.exact({
+    from: PropTypes.oneOf([ItemFocusFrom.NONE]).isRequired,
+    clicked: PropTypes.oneOf([false]).isRequired,
+    item: PropTypes.oneOf([null]),
+    course: PropTypes.oneOf([null]),
+    reviews: PropTypes.oneOf([null]),
+    lectures: PropTypes.oneOf([null]),
+  }),
+  PropTypes.exact({
+    from: PropTypes.oneOf([ItemFocusFrom.LIST]).isRequired,
+    clicked: PropTypes.bool.isRequired,
+    item: PropTypes.oneOf([null]),
+    course: PropTypes.oneOfType([
+      courseShape, arbitraryPseudoCourseShape,
+    ]),
+    reviews: PropTypes.arrayOf(reviewShape),
+    lectures: PropTypes.arrayOf(lectureShape),
+  }),
+  PropTypes.exact({
+    from: PropTypes.oneOf([
+      ItemFocusFrom.TABLE_TAKEN, ItemFocusFrom.TABLE_FUTURE, ItemFocusFrom.TABLE_ARBITRARY,
+    ]).isRequired,
+    clicked: PropTypes.bool.isRequired,
+    item: PropTypes.oneOfType([
+      takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
+    ]),
+    course: PropTypes.oneOfType([
+      courseShape, arbitraryPseudoCourseShape,
+    ]),
+    reviews: PropTypes.arrayOf(reviewShape),
+    lectures: PropTypes.arrayOf(lectureShape),
+  }),
+]);
 
 export default itemFocusShape;
