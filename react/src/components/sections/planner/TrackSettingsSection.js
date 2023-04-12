@@ -31,10 +31,26 @@ class TrackSettingsSection extends Component {
       selectedDurations: new Set([(selectedPlanner.end_year - selectedPlanner.start_year + 1).toString()]),
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
-      selectedMinorTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
-      selectedDoubleTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
-      selectedAdvancedTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
-      selectedInterdisciplinaryTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
+      selectedMinorTracks: new Set(
+        selectedPlanner.additional_tracks
+          .filter((at) => (at.type === 'MINOR'))
+          .map((at) => at.id.toString())
+      ),
+      selectedDoubleTracks: new Set(
+        selectedPlanner.additional_tracks
+          .filter((at) => (at.type === 'DOUBLE'))
+          .map((at) => at.id.toString())
+      ),
+      selectedAdvancedTracks: new Set(
+        selectedPlanner.additional_tracks
+          .filter((at) => (at.type === 'ADVANCED'))
+          .map((at) => at.id.toString())
+      ),
+      selectedInterdisciplinaryTracks: new Set(
+        selectedPlanner.additional_tracks
+          .filter((at) => (at.type === 'INTERDISCIPLINARY'))
+          .map((at) => at.id.toString())
+      ),
     };
   }
 
