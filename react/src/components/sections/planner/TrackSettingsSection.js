@@ -218,6 +218,7 @@ class TrackSettingsSection extends Component {
           titleName={t('ui.attribute.general')}
           options={
             tracks.general
+              .filter((at) => at.end_year >= 2020)
               .map((gt) => [gt.id.toString(), getGeneralTrackName(gt)])
           }
           checkedValues={selectedGeneralTracks}
@@ -229,6 +230,7 @@ class TrackSettingsSection extends Component {
           titleName={t('ui.attribute.major')}
           options={
             tracks.major
+              .filter((at) => at.end_year >= 2020)
               .map((mt) => [mt.id.toString(), getMajorTrackName(mt)])
           }
           checkedValues={new Set(selectedMajorTracks)}
@@ -240,6 +242,7 @@ class TrackSettingsSection extends Component {
           titleName={t('ui.attribute.additional')}
           options={
             tracks.additional
+              .filter((at) => at.end_year >= 2020)
               .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
           }
           checkedValues={new Set(selectedAdditionalTracks)}
