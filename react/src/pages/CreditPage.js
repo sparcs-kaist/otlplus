@@ -360,15 +360,29 @@ class CreditPage extends Component {
     {
       index: 1000,
       mainTitle: 'OTL App',
-      subTitle: 'Beta',
+      subTitle: '-',
       period: '2020.02 ~',
       fields:
         [
           {
-            title: 'Developer',
+            title: 'TF Lead',
             people: [
               { name: '박현우', image: memberWinrobrineImage, caption: '2020.02 ~ 2021.01' },
               { name: '오승빈', image: memberPlatypusImage, caption: '2021.07 ~' },
+            ],
+          },
+          {
+            title: 'Designer',
+            people: [
+              { name: '조유민', image: null, caption: '1 credits' },
+            ],
+          },
+          {
+            title: 'Developer',
+            people: [
+              { name: '오승빈', image: memberPlatypusImage, caption: '3 credits' },
+              { name: '문동우', image: null, caption: '2 credits' },
+              { name: '정성엽', image: null, caption: '1 credits' },
             ],
           },
         ],
@@ -376,7 +390,7 @@ class CreditPage extends Component {
     {
       index: 33,
       mainTitle: 'OTL Plus',
-      subTitle: '???',
+      subTitle: '졸업플래너',
       period: '2021.09 ~',
       fields:
         [
@@ -386,33 +400,52 @@ class CreditPage extends Component {
               {
                 name: '한승현',
                 image: memberZealotImage,
-                caption: '2021.09 ~',
+                caption: '2021.09 ~ 2023.03',
+              },
+              {
+                name: '조유민',
+                image: null,
+                caption: '2023.03 ~',
+              },
+            ],
+          },
+          {
+            title: 'TF Lead',
+            people: [
+              {
+                name: '한승현',
+                image: memberZealotImage,
+                caption: '2023.03 ~',
               },
             ],
           },
           {
             title: 'Designer',
             people: [
-              { name: '한승현', image: memberZealotImage, caption: '1 credit' },
+              { name: '양성현', image: null, caption: '1 credit' },
+              { name: '이혜원', image: null, caption: '1 credit' },
+              { name: '한승현', image: memberZealotImage, caption: '4 credits' },
             ],
           },
           {
             title: 'Developer',
             people: [
-              { name: '김동혁', image: memberKkomaImage, caption: '1 credit' },
-              { name: '김민희', image: memberMiniImage, caption: '1 credit' },
-              { name: '김재성', image: memberSteinImage, caption: '1 credit' },
+              { name: '김동혁', image: memberKkomaImage, caption: '3 credits' },
+              { name: '김민희', image: memberMiniImage, caption: '3 credits' },
+              { name: '김재성', image: memberSteinImage, caption: '1 credits' },
               { name: '오승빈', image: memberPlatypusImage, caption: '1 credit' },
-              { name: '이지윤', image: memberDoraImage, caption: '1 credit' },
-              { name: '이진우', image: memberJaydubImage, caption: '1 credit' },
-              { name: '한승현', image: memberZealotImage, caption: '1 credit' },
+              { name: '이지윤', image: memberDoraImage, caption: '4 credits' },
+              { name: '이진우', image: memberJaydubImage, caption: '3 credits' },
+              { name: '한승현', image: memberZealotImage, caption: '4 credits' },
+              { name: '홍은기', image: null, caption: '1 credits' },
+              { name: '황제욱', image: null, caption: '1 credits' },
             ],
           },
         ],
     },
     {
-      index: 9000,
-      mainTitle: 'System Operators',
+      index: 9001,
+      mainTitle: 'Sysops & Tech Leads',
       subTitle: '-',
       period: '-',
       fields:
@@ -488,7 +521,12 @@ class CreditPage extends Component {
               {
                 name: '한승현',
                 image: memberZealotImage,
-                caption: '2017.06 ~ ',
+                caption: '2017.06 ~ 2023.03',
+              },
+              {
+                name: '오승빈',
+                image: memberPlatypusImage,
+                caption: '2023.03 ~',
               },
             ],
           },
@@ -499,7 +537,7 @@ class CreditPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedProjectIndex: 32,
+      selectedProjectIndex: 33,
     };
   }
 
