@@ -31,7 +31,10 @@ class TrackSettingsSection extends Component {
       selectedDurations: new Set([(selectedPlanner.end_year - selectedPlanner.start_year + 1).toString()]),
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
-      selectedAdditionalTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
+      selectedMinorTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
+      selectedDoubleTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
+      selectedAdvancedTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
+      selectedInterdisciplinaryTracks: new Set(selectedPlanner.additional_tracks.map((at) => at.id.toString())),
     };
   }
 
@@ -45,7 +48,9 @@ class TrackSettingsSection extends Component {
   submit = () => {
     const {
       selectedStartYears, selectedDurations,
-      selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks,
+      selectedGeneralTracks, selectedMajorTracks,
+      selectedMinorTracks, selectedDoubleTracks,
+      selectedAdvancedTracks, selectedInterdisciplinaryTracks,
     } = this.state;
     const {
       user, selectedPlanner, tracks,
@@ -72,7 +77,10 @@ class TrackSettingsSection extends Component {
     const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
     const majorTrack = tracks.major.find((nt) => (nt.id === majorTrackId));
 
-    const additionalTrackIds = Array.from(selectedAdditionalTracks).map((i) => parseInt(i, 10));
+    const additionalTrackIds = (
+      [...selectedMinorTracks, ...selectedDoubleTracks, ...selectedAdvancedTracks, ...selectedInterdisciplinaryTracks]
+        .map((i) => parseInt(i, 10))
+    );
     const additionalTracks = additionalTrackIds.map((i) => tracks.additional.find((at) => (at.id === i)));
     if (additionalTracks.some((at) => (
       (at.type === 'DOUBLE' || at.type === 'MINOR')
@@ -182,7 +190,9 @@ class TrackSettingsSection extends Component {
   render() {
     const {
       selectedStartYears, selectedDurations,
-      selectedGeneralTracks, selectedMajorTracks, selectedAdditionalTracks,
+      selectedGeneralTracks, selectedMajorTracks,
+      selectedMinorTracks, selectedDoubleTracks,
+      selectedAdvancedTracks, selectedInterdisciplinaryTracks,
     } = this.state;
     const { t, tracks } = this.props;
 
@@ -237,15 +247,48 @@ class TrackSettingsSection extends Component {
           isRadio={true}
         />
         <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedAdditionalTracks')}
-          inputName="additional"
-          titleName={t('ui.attribute.additional')}
+          updateCheckedValues={this.updateCheckedValues('selectedMinorTracks')}
+          inputName="minor"
+          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
           options={
             tracks.additional
-              .filter((at) => at.end_year >= 2020)
+              .filter((at) => (at.end_year >= 2020 && at.type === 'MINOR'))
               .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
           }
-          checkedValues={new Set(selectedAdditionalTracks)}
+          checkedValues={new Set(selectedMinorTracks)}
+        />
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedDoubleTracks')}
+          inputName="double"
+          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
+          options={
+            tracks.additional
+              .filter((at) => (at.end_year >= 2020 && at.type === 'DOUBLE'))
+              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+          }
+          checkedValues={new Set(selectedDoubleTracks)}
+        />
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedAdvancedTracks')}
+          inputName="advanced"
+          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
+          options={
+            tracks.additional
+              .filter((at) => (at.end_year >= 2020 && at.type === 'ADVANCED'))
+              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+          }
+          checkedValues={new Set(selectedAdvancedTracks)}
+        />
+        <SearchFilter
+          updateCheckedValues={this.updateCheckedValues('selectedInterdisciplinaryTracks')}
+          inputName="interdisciplinary"
+          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
+          options={
+            tracks.additional
+              .filter((at) => (at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY'))
+              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+          }
+          checkedValues={new Set(selectedInterdisciplinaryTracks)}
         />
         <div className={classNames('caption')}>
           Beta UI:
