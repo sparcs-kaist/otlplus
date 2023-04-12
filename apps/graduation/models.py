@@ -3,6 +3,10 @@ from django.db import models
 from apps.subject.models import Department
 
 
+UNBOUND_START_YEAR = 2000
+UNBOUND_END_YEAR = 2100
+
+
 class GeneralTrack(models.Model):
     start_year = models.IntegerField(db_index=True)
     end_year = models.IntegerField(db_index=True)

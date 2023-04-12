@@ -1,0 +1,8 @@
+start_year,end_year,department,basic_elective_doublemajor,major_required,major_elective
+,2015,CS,3,19,24
+2016,2022,CS,3,19,30
+2023,,CS,3,19,30
+,2015,ID,6,27,27
+2016,2020,ID,6,15,30
+2021,2022,ID,6,15,30
+2023,,ID,6,15,30
