@@ -171,11 +171,11 @@ export const getIdOfArbitrary = (type, typeEn, department) => {
 };
 
 export const getTitleOfArbitrary = (type, typeEn, department) => {
-  return `임의의 ${type}`;
+  return `임의의 ${type} 과목`;
 };
 
 export const getTitleEnOfArbitrary = (type, typeEn, department) => {
-  return `Arbitrary ${typeEn}`;
+  return `Arbitrary ${typeEn} Course`;
 };
 
 export const getOldCodeOfArbitrary = (type, typeEn, department) => {
