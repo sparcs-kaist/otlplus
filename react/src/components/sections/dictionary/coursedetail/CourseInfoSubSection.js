@@ -20,12 +20,6 @@ class CourseInfoSubSection extends Component {
       return null;
     }
 
-    const representativeLecture = (
-      courseFocus.lectures && (courseFocus.lectures.length > 0)
-        ? courseFocus.lectures[courseFocus.lectures.length - 1]
-        : null
-    );
-
     return (
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
@@ -39,31 +33,15 @@ class CourseInfoSubSection extends Component {
           entries={[
             {
               name: t('ui.score.lectureHours'),
-              score: (
-                representativeLecture
-                  ? representativeLecture.num_classes
-                  : '-'
-              ),
+              score: courseFocus.course.num_classes,
             },
             {
               name: t('ui.score.labHours'),
-              score: (
-                representativeLecture
-                  ? representativeLecture.num_labs
-                  : '-'
-              ),
+              score: courseFocus.course.num_labs,
             },
             {
-              name: (
-                representativeLecture
-                  ? (representativeLecture.credit === 0) ? t('ui.score.au') : t('ui.score.credit')
-                  : t('ui.score.credit')
-              ),
-              score: (
-                representativeLecture
-                  ? (representativeLecture.credit === 0) ? representativeLecture.credit_au : representativeLecture.credit
-                  : '-'
-              ),
+              name: (courseFocus.course.credit === 0) ? t('ui.score.au') : t('ui.score.credit'),
+              score: (courseFocus.course.credit === 0) ? courseFocus.course.credit_au : courseFocus.course.credit,
             },
           ]}
           big
