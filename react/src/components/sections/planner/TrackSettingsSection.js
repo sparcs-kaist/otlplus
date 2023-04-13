@@ -249,6 +249,9 @@ class TrackSettingsSection extends Component {
     } = this.state;
     const { t, tracks } = this.props;
 
+    const startYear = this._getSelectedStartYear();
+    const majorTrack = this._getSelectedMajorTrack();
+
     return (
       <div className={classNames('section', 'section--modal')}>
         <CloseButton onClick={this.close} />
@@ -294,7 +297,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.major
               .filter((at) => at.end_year >= 2020)
-              .map((mt) => [mt.id.toString(), getMajorTrackName(mt)])
+              .map((mt) => [
+                mt.id.toString(),
+                getMajorTrackName(mt),
+                mt.start_year > startYear || mt.end_year < startYear,
+              ])
           }
           checkedValues={new Set(selectedMajorTracks)}
           isRadio={true}
@@ -306,7 +313,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.additional
               .filter((at) => (at.end_year >= 2020 && at.type === 'MINOR'))
-              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+              .map((at) => [
+                at.id.toString(),
+                getAdditionalTrackName(at),
+                at.start_year > startYear || at.end_year < startYear || at.department.id === majorTrack.department.id,
+              ])
           }
           checkedValues={new Set(selectedMinorTracks)}
         />
@@ -317,7 +328,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.additional
               .filter((at) => (at.end_year >= 2020 && at.type === 'DOUBLE'))
-              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+              .map((at) => [
+                at.id.toString(),
+                getAdditionalTrackName(at),
+                at.start_year > startYear || at.end_year < startYear || at.department.id === majorTrack.department.id,
+              ])
           }
           checkedValues={new Set(selectedDoubleTracks)}
         />
@@ -328,7 +343,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.additional
               .filter((at) => (at.end_year >= 2020 && at.type === 'ADVANCED'))
-              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+              .map((at) => [
+                at.id.toString(),
+                getAdditionalTrackName(at),
+                at.start_year > startYear || at.end_year < startYear || at.department.id !== majorTrack.department.id,
+              ])
           }
           checkedValues={new Set(selectedAdvancedTracks)}
         />
@@ -339,7 +358,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.additional
               .filter((at) => (at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY'))
-              .map((at) => [at.id.toString(), getAdditionalTrackName(at)])
+              .map((at) => [
+                at.id.toString(),
+                getAdditionalTrackName(at),
+                at.start_year > startYear || at.end_year < startYear,
+              ])
           }
           checkedValues={new Set(selectedInterdisciplinaryTracks)}
         />

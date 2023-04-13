@@ -8,6 +8,7 @@ import SearchFilterEntity from './SearchFilterEntity';
 
 const VALUE_INDEX = 0;
 const LABEL_INDEX = 1;
+const DIMMED_INDEX = 2;
 
 
 class SearchFilter extends Component {
@@ -64,6 +65,7 @@ class SearchFilter extends Component {
         name={inputName}
         label={o[LABEL_INDEX]}
         isRadio={isRadio}
+        isDimmed={o[DIMMED_INDEX]}
         onChange={(e) => this._handleValueCheckedChange(e.target.value, e.target.checked)}
         isChecked={checkedValues.has(o[VALUE_INDEX])}
       />
@@ -85,7 +87,7 @@ SearchFilter.propTypes = {
   updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))).isRequired,
   checkedValues: PropTypes.instanceOf(Set).isRequired,
   isRadio: PropTypes.bool,
 };

@@ -3179,13 +3179,19 @@ a {
                 margin-bottom: -$attribute-info-margin-between;
                 margin-right: -$attribute-info-margin-between;
 
-                & > label {
+                > .search-fields__label {
                     display: inline-block;
                     margin-bottom: $attribute-info-margin-between;
                     margin-right: $attribute-info-margin-between;
                     white-space: nowrap;
                     &:hover {
                         color: $color-text-dark;
+                    }
+                    &--dimmed {
+                        color: $color-text-lighter;
+                        &:hover {
+                            color: $color-text-light;
+                        }
                     }
 
                     & > i {
