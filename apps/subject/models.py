@@ -602,6 +602,8 @@ class Course(models.Model):
             "review_total_weight": self.review_total_weight,
             "credit": representative_lecture.credit if representative_lecture else 0,
             "credit_au": representative_lecture.credit_au if representative_lecture else 0,
+            "num_classes": representative_lecture.num_classes if representative_lecture else 0,
+            "num_labs": representative_lecture.num_labs if representative_lecture else 0,
         }
 
         if nested:

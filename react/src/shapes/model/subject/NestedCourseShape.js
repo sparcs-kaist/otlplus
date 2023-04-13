@@ -15,6 +15,8 @@ const nestedCourseShape = PropTypes.exact({
   review_total_weight: PropTypes.number.isRequired,
   credit: PropTypes.number.isRequired,
   credit_au: PropTypes.number.isRequired,
+  num_classes: PropTypes.number.isRequired,
+  num_labs: PropTypes.number.isRequired,
 });
 
 export default nestedCourseShape;

@@ -17,6 +17,8 @@ const courseShape = PropTypes.exact({
   review_total_weight: PropTypes.number.isRequired,
   credit: PropTypes.number.isRequired,
   credit_au: PropTypes.number.isRequired,
+  num_classes: PropTypes.number.isRequired,
+  num_labs: PropTypes.number.isRequired,
   related_courses_prior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   related_courses_posterior: PropTypes.arrayOf(nestedCourseShape).isRequired,
   professors: PropTypes.arrayOf(nestedProfessorShape).isRequired,
