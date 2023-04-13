@@ -74,7 +74,7 @@ export const getSeparateMajorTracks = (planner) => {
   ];
 };
 
-export const getCategoryOfType = (planner, type, department) => {
+export const getCategoryOfType = (planner, type, departmentCode) => {
   switch (type) {
     case 'Basic Required':
       return [0, 0, 0];
@@ -83,7 +83,7 @@ export const getCategoryOfType = (planner, type, department) => {
     case 'Major Required': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
       const targetTrack = (
-        separateMajorTracks.find((smt) => (smt.department?.id === department.id))
+        separateMajorTracks.find((smt) => (smt.department?.code === departmentCode))
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
@@ -95,7 +95,7 @@ export const getCategoryOfType = (planner, type, department) => {
     case 'Elective(Graduate)': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
       const targetTrack = (
-        separateMajorTracks.find((smt) => (smt.department?.id === department.id))
+        separateMajorTracks.find((smt) => (smt.department?.code === departmentCode))
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
@@ -126,11 +126,11 @@ export const getCategoryOfType = (planner, type, department) => {
 export const getCategoryOfItem = (planner, item) => {
   switch (item.item_type) {
     case ('TAKEN'):
-      return getCategoryOfType(planner, item.lecture.type_en, item.lecture.department);
+      return getCategoryOfType(planner, item.lecture.type_en, item.lecture.department_code);
     case ('FUTURE'):
-      return getCategoryOfType(planner, item.course.type_en, item.course.department);
+      return getCategoryOfType(planner, item.course.type_en, item.course.department.code);
     case ('ARBITRARY'):
-      return getCategoryOfType(planner, item.type_en, item.department);
+      return getCategoryOfType(planner, item.type_en, item.department?.code);
     default:
       return getCategoryOfType(planner, '', '');
   }

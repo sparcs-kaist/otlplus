@@ -163,7 +163,7 @@ class SummarySubSection extends Component {
 
     if (itemFocus.from === ItemFocusFrom.LIST) {
       /* eslint-disable fp/no-mutation */
-      const category = getCategoryOfType(selectedPlanner, itemFocus.course.type_en, itemFocus.course.department);
+      const category = getCategoryOfType(selectedPlanner, itemFocus.course.type_en, itemFocus.course.department.code);
       totalCredit[ValueIndex.FOCUSED] += itemFocus.course.credit;
       totalAu[ValueIndex.FOCUSED] += itemFocus.course.credit_au;
       categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += itemFocus.course.credit + itemFocus.course.credit_au;
