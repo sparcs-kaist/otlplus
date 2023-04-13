@@ -121,12 +121,6 @@ class Header extends Component {
                 </Link>
               </span>
               <span>
-                <Link to="/planner">
-                  {t('ui.menu.planner')}
-                  <sup>BETA</sup>
-                </Link>
-              </span>
-              <span>
                 <Link to="/timetable">
                   {t('ui.menu.timetable')}
                 </Link>
@@ -134,6 +128,12 @@ class Header extends Component {
               <span>
                 <Link to="/write-reviews">
                   {t('ui.menu.writeReviews')}
+                </Link>
+              </span>
+              <span>
+                <Link to="/planner">
+                  {t('ui.menu.planner')}
+                  <sup>BETA</sup>
                 </Link>
               </span>
             </div>
