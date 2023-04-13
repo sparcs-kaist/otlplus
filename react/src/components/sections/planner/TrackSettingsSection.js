@@ -284,7 +284,11 @@ class TrackSettingsSection extends Component {
           options={
             tracks.general
               .filter((at) => at.end_year >= 2020)
-              .map((gt) => [gt.id.toString(), getGeneralTrackName(gt)])
+              .map((gt) => [
+                gt.id.toString(),
+                getGeneralTrackName(gt),
+                gt.start_year > startYear || gt.end_year < startYear,
+              ])
           }
           checkedValues={selectedGeneralTracks}
           isRadio={true}
