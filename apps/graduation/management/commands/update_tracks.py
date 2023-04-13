@@ -23,7 +23,9 @@ class Command(BaseCommand):
             if fields["end_year"] == "":
                 fields["end_year"] = UNBOUND_END_YEAR
             if "department" in fields:
-                fields["department"] = Department.objects.filter(code=fields["department"], visible=True).last()
+                fields["department"] = Department.objects.filter(code=fields["department"], visible=True).last() \
+                                           if fields["department"] != "" \
+                                           else None
             key_fields = {k: v for k, v in fields.items() if k in key_field_names}
             target_tracks = TrackClass.objects.filter(**key_fields)
             if len(target_tracks) != 0:
