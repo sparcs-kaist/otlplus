@@ -54,6 +54,56 @@ class TrackSettingsSection extends Component {
     };
   }
 
+
+  _getSelectedStartYear = () => {
+    const { selectedStartYears } = this.state;
+
+    return parseInt(Array.from(selectedStartYears)[0], 10);
+  }
+
+
+  _getSelectedDuration = () => {
+    const { selectedDurations } = this.state;
+
+    return parseInt(Array.from(selectedDurations)[0], 10);
+  }
+
+
+  _getSelectedGeneralTrack = () => {
+    const { selectedGeneralTracks } = this.state;
+    const { tracks } = this.props;
+
+
+    const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
+    return tracks.general.find((gt) => (gt.id === generalTrackId));
+  }
+
+
+  _getSelectedMajorTrack = () => {
+    const { selectedMajorTracks } = this.state;
+    const { tracks } = this.props;
+
+
+    const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
+    return tracks.major.find((gt) => (gt.id === majorTrackId));
+  }
+
+
+  _getSelectedAdditionalTracks = () => {
+    const {
+      selectedMinorTracks, selectedDoubleTracks,
+      selectedAdvancedTracks, selectedInterdisciplinaryTracks,
+    } = this.state;
+    const { tracks } = this.props;
+
+    const additionalTrackIds = (
+      [...selectedMinorTracks, ...selectedDoubleTracks, ...selectedAdvancedTracks, ...selectedInterdisciplinaryTracks]
+        .map((i) => parseInt(i, 10))
+    );
+    return additionalTrackIds.map((i) => tracks.additional.find((at) => (at.id === i)));
+  }
+
+
   updateCheckedValues = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
@@ -63,18 +113,12 @@ class TrackSettingsSection extends Component {
 
   submit = () => {
     const {
-      selectedStartYears, selectedDurations,
-      selectedGeneralTracks, selectedMajorTracks,
-      selectedMinorTracks, selectedDoubleTracks,
-      selectedAdvancedTracks, selectedInterdisciplinaryTracks,
-    } = this.state;
-    const {
-      user, selectedPlanner, tracks,
+      user, selectedPlanner,
       updatePlannerDispatch,
     } = this.props;
 
-    const startYear = parseInt(Array.from(selectedStartYears)[0], 10);
-    const duration = parseInt(Array.from(selectedDurations)[0], 10);
+    const startYear = this._getSelectedStartYear();
+    const duration = this._getSelectedDuration();
     const endYear = startYear + duration - 1;
 
     const removedItemCount = (
@@ -87,17 +131,10 @@ class TrackSettingsSection extends Component {
       return;
     }
 
-    const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
-    const generalTrack = tracks.general.find((gt) => (gt.id === generalTrackId));
+    const generalTrack = this._getSelectedGeneralTrack();
+    const majorTrack = this._getSelectedMajorTrack();
+    const additionalTracks = this._getSelectedAdditionalTracks();
 
-    const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
-    const majorTrack = tracks.major.find((nt) => (nt.id === majorTrackId));
-
-    const additionalTrackIds = (
-      [...selectedMinorTracks, ...selectedDoubleTracks, ...selectedAdvancedTracks, ...selectedInterdisciplinaryTracks]
-        .map((i) => parseInt(i, 10))
-    );
-    const additionalTracks = additionalTrackIds.map((i) => tracks.additional.find((at) => (at.id === i)));
     if (additionalTracks.some((at) => (
       (at.type === 'DOUBLE' || at.type === 'MINOR')
       && at.department.id === majorTrack.department.id
