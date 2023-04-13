@@ -127,7 +127,7 @@ class TrackSettingsSection extends Component {
 
     if (additionalTracks.some((at) => (
       (at.type === 'DOUBLE' || at.type === 'MINOR')
-      && at.department.id === majorTrack.department.id
+      && at.department.code === majorTrack.department.code
     ))) {
       // eslint-disable-next-line no-alert
       alert('전공과 동일한 학과의 부전공 또는 복수전공은 추가할 수 없습니다.');
@@ -138,7 +138,7 @@ class TrackSettingsSection extends Component {
       && (
         additionalTracks.filter((at2) => (
           (at2.type === 'DOUBLE' || at2.type === 'MINOR')
-          && at2.department.id === at1.department.id
+          && at2.department.code === at1.department.code
         )).length > 1
       )
     ))) {
@@ -148,7 +148,7 @@ class TrackSettingsSection extends Component {
     }
     if (additionalTracks.some((at) => (
       at.type === 'ADVANCED'
-      && at.department.id !== majorTrack.department.id
+      && at.department.code !== majorTrack.department.code
     ))) {
       // eslint-disable-next-line no-alert
       alert('전공과 다른 학과의 심화전공은 추가할 수 없습니다.');
@@ -319,7 +319,7 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.id === majorTrack.department.id,
+                at.start_year > startYear || at.end_year < startYear || at.department.code === majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedMinorTracks)}
@@ -334,7 +334,7 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.id === majorTrack.department.id,
+                at.start_year > startYear || at.end_year < startYear || at.department.code === majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedDoubleTracks)}
@@ -349,7 +349,7 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.id !== majorTrack.department.id,
+                at.start_year > startYear || at.end_year < startYear || at.department.code !== majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedAdvancedTracks)}

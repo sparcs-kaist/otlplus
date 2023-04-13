@@ -130,7 +130,7 @@ class PlannerTabs extends Component {
     const targetTracks = tracks.major.filter((mt) => (
       startYear >= mt.start_year
         && startYear <= mt.end_year
-        && mt.department.id === user?.department?.id
+        && mt.department.code === user?.department?.code
     ));
 
     if (targetTracks.length > 0) {
