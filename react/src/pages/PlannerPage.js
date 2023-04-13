@@ -9,6 +9,8 @@ import { reset as resetList } from '../actions/planner/list';
 import { reset as resetSearch } from '../actions/planner/search';
 import { reset as resetPlanner } from '../actions/planner/planner';
 
+import plannerShape from '../shapes/model/planner/PlannerShape';
+
 import Divider from '../components/Divider';
 import PlannerTabs from '../components/sections/planner/plannerandinfos/PlannerTabs';
 import PlannerSubSection from '../components/sections/planner/plannerandinfos/PlannerSubSection';
@@ -36,7 +38,7 @@ class PlannerPage extends Component {
 
 
   render() {
-    const { isTrackSettingsSectionOpen } = this.props;
+    const { isTrackSettingsSectionOpen, selectedPlanner } = this.props;
 
     return (
       <>
@@ -80,7 +82,7 @@ class PlannerPage extends Component {
             </div>
             <CourseListSection />
             <CourseManageSection />
-            { isTrackSettingsSectionOpen && <TrackSettingsSection /> }
+            { isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection /> }
           </div>
         </section>
       </>
@@ -90,6 +92,7 @@ class PlannerPage extends Component {
 
 const mapStateToProps = (state) => ({
   isTrackSettingsSectionOpen: state.planner.planner.isTrackSettingsSectionOpen,
+  selectedPlanner: state.planner.planner.selectedPlanner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,6 +112,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 PlannerPage.propTypes = {
   isTrackSettingsSectionOpen: PropTypes.bool.isRequired,
+  selectedPlanner: plannerShape,
 
   resetCourseFocusDispatch: PropTypes.func.isRequired,
   resetListDispatch: PropTypes.func.isRequired,

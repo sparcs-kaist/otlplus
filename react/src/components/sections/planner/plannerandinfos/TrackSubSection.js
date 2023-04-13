@@ -51,7 +51,10 @@ class TrackSubSection extends Component {
           />
           <div className={classNames('buttons')}>
             <button
-              className={classNames('text-button')}
+              className={classNames(
+                'text-button',
+                !selectedPlanner && 'text-button--disabled'
+              )}
               onClick={() => setIsTrackSettingsSectionOpenDispatch(true)}
             >
               {t('ui.button.change')}
