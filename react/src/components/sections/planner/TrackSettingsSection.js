@@ -368,7 +368,7 @@ class TrackSettingsSection extends Component {
         <div className={classNames('caption')}>
           Beta UI:
           <br />
-          본 UI는 완성되지 않은 임시 UI입니다.
+          본 UI는 완성되지 않은 임시 UI로, 추후 다른 UI로 대체될 예정입니다.
           <br />
           일부 요건은 함께 선택할 수 없습니다.
         </div>
