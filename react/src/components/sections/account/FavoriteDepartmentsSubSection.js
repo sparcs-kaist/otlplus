@@ -129,7 +129,7 @@ class FavoriteDepartmentsSubSection extends Component {
     }
 
     const departmentOptions = allDepartments
-      .map((d) => [String(d.id), d[t('js.property.name')]]);
+      .map((d) => [String(d.id), `${d[t('js.property.name')]} (${d.code})`]);
 
     const hasChange = (selectedDepartments.size !== savedSelectedDepartments.size)
       || Array.from(selectedDepartments).some((d) => !savedSelectedDepartments.has(d));
