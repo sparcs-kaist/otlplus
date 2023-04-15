@@ -7,7 +7,9 @@ export const CategoryFirstIndex = {
 };
 
 export const isIdenticalCategory = (category1, category2) => (
-  category1[0] === category2[0]
+  category1
+  && category2
+  && category1[0] === category2[0]
   && category1[1] === category2[1]
   && category1[2] === category2[2]
 );
