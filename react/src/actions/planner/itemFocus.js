@@ -4,6 +4,8 @@ const BASE_STRING = 'I_CA_';
 export const RESET = BASE_STRING + 'RESET';
 export const SET_ITEM_FOCUS = BASE_STRING + 'SET_ITEM_FOCUS';
 export const CLEAR_ITEM_FOCUS = BASE_STRING + 'CLEAR_ITEM_FOCUS';
+export const SET_CATEGORY_FOCUS = BASE_STRING + 'SET_CATEGORY_FOCUS';
+export const CLEAR_CATEGORY_FOCUS = BASE_STRING + 'CLEAR_CATEGORY_FOCUS';
 export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
 export const SET_LECTURES = BASE_STRING + 'SET_LECTURES';
 /* eslint-enable prefer-template */
@@ -28,6 +30,19 @@ export function setItemFocus(item, course, from, clicked) {
 export function clearItemFocus() {
   return {
     type: CLEAR_ITEM_FOCUS,
+  };
+}
+
+export function setCategoryFocus(category) {
+  return {
+    type: SET_CATEGORY_FOCUS,
+    category: category,
+  };
+}
+
+export function clearCategoryFocus() {
+  return {
+    type: CLEAR_CATEGORY_FOCUS,
   };
 }
 

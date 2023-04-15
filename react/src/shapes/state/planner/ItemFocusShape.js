@@ -30,6 +30,7 @@ const itemFocusShape = PropTypes.oneOfType([
     clicked: PropTypes.oneOf([false]).isRequired,
     item: PropTypes.oneOf([null]),
     course: PropTypes.oneOf([null]),
+    category: PropTypes.oneOf([null]),
     reviews: PropTypes.oneOf([null]),
     lectures: PropTypes.oneOf([null]),
   }),
@@ -40,6 +41,7 @@ const itemFocusShape = PropTypes.oneOfType([
     course: PropTypes.oneOfType([
       courseShape, arbitraryPseudoCourseShape,
     ]),
+    category: PropTypes.oneOf([null]),
     reviews: PropTypes.arrayOf(reviewShape),
     lectures: PropTypes.arrayOf(lectureShape),
   }),
@@ -54,8 +56,20 @@ const itemFocusShape = PropTypes.oneOfType([
     course: PropTypes.oneOfType([
       courseShape, arbitraryPseudoCourseShape,
     ]),
+    category: PropTypes.oneOf([null]),
     reviews: PropTypes.arrayOf(reviewShape),
     lectures: PropTypes.arrayOf(lectureShape),
+  }),
+  PropTypes.exact({
+    from: PropTypes.oneOf([
+      ItemFocusFrom.CATEGORY,
+    ]).isRequired,
+    clicked: PropTypes.bool.isRequired,
+    item: PropTypes.oneOf([null]),
+    course: PropTypes.oneOf([null]),
+    category: PropTypes.oneOf([null]),
+    reviews: PropTypes.oneOf([null]),
+    lectures: PropTypes.oneOf([null]),
   }),
 ]);
 

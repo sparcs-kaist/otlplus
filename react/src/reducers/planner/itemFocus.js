@@ -1,6 +1,6 @@
 import {
   RESET,
-  SET_ITEM_FOCUS, CLEAR_ITEM_FOCUS,
+  SET_ITEM_FOCUS, CLEAR_ITEM_FOCUS, SET_CATEGORY_FOCUS, CLEAR_CATEGORY_FOCUS,
   SET_REVIEWS, SET_LECTURES,
 } from '../../actions/planner/itemFocus';
 
@@ -11,6 +11,7 @@ export const ItemFocusFrom = {
   TABLE_TAKEN: 'TABLE_TAKEN',
   TABLE_FUTURE: 'TABLE_FUTURE',
   TABLE_ARBITRARY: 'TABLE_ARBITRARY',
+  CATEGORY: 'CATEGORY',
 };
 
 
@@ -19,6 +20,7 @@ const initialState = {
   clicked: false,
   item: null,
   course: null,
+  category: null,
   reviews: null,
   lectures: null,
 };
@@ -49,6 +51,18 @@ const itemFocus = (state = initialState, action) => {
         course: null,
         reviews: null,
         lectures: null,
+      });
+    }
+    case SET_CATEGORY_FOCUS: {
+      return Object.assign({}, state, {
+        from: ItemFocusFrom.CATEGORY,
+        category: action.category,
+      });
+    }
+    case CLEAR_CATEGORY_FOCUS: {
+      return Object.assign({}, state, {
+        from: ItemFocusFrom.NONE,
+        category: null,
       });
     }
     case SET_REVIEWS: {
