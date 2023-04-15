@@ -20,9 +20,10 @@ import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
-  getCourseOfItem, getCategoryOfItem, getColorOfItem,
+  getCourseOfItem,
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
 } from '../../../../utils/itemUtils';
+import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategoryUtils';
 import {
   isDimmedItem, isFocusedItem, isTableClickedItem,
 } from '../../../../utils/itemFocusUtils';

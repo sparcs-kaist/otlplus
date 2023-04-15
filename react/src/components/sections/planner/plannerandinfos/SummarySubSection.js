@@ -12,9 +12,12 @@ import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import {
-  getCategoryOfItem, getCategoryOfType, getColorOfCategory,
-  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem, getSeparateMajorTracks,
+  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
 } from '../../../../utils/itemUtils';
+import {
+  getSeparateMajorTracks,
+  getCategoryOfItem, getCategoryOfType, getColorOfCategory,
+} from '../../../../utils/itemCategoryUtils';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 
