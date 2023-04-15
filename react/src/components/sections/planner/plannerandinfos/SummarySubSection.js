@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
+import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 import CreditBar from '../../../CreditBar';
 import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
+
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+
 import {
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
 } from '../../../../utils/itemUtils';
@@ -19,7 +23,8 @@ import {
   getSeparateMajorTracks,
   getCategoryOfItem, getCategoryOfType, getColorOfCategory,
 } from '../../../../utils/itemCategoryUtils';
-import plannerShape from '../../../../shapes/model/planner/PlannerShape';
+
+import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
 
 
 const ValueIndex = {
@@ -31,6 +36,27 @@ const ValueIndex = {
 
 
 class SummarySubSection extends Component {
+  setFocusOnCategory = (category) => {
+    const { itemFocus, selectedPlanner, setCategoryFocusDispatch } = this.props;
+
+    if (itemFocus.from !== ItemFocusFrom.NONE || !selectedPlanner) {
+      return;
+    }
+    setCategoryFocusDispatch(category);
+  }
+
+
+  clearFocus = () => {
+    const { itemFocus, clearCategoryFocusDispatch } = this.props;
+
+    if (itemFocus.from !== ItemFocusFrom.CATEGORY) {
+      return;
+    }
+
+    clearCategoryFocusDispatch();
+  }
+
+
   render() {
     const { t, itemFocus, selectedPlanner } = this.props;
 
@@ -223,6 +249,8 @@ class SummarySubSection extends Component {
                             focusFrom={itemFocus.from}
                           />
                         ),
+                        onMouseOver: () => this.setFocusOnCategory([i, j, k]),
+                        onMouseOut: () => this.clearFocus(),
                       }
                     )),
                   }))
@@ -244,11 +272,20 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setCategoryFocusDispatch: (multipleTitle, multipleDetails) => {
+    dispatch(setCategoryFocus(multipleTitle, multipleDetails));
+  },
+  clearCategoryFocusDispatch: () => {
+    dispatch(clearCategoryFocus());
+  },
 });
 
 SummarySubSection.propTypes = {
   selectedPlanner: plannerShape,
   itemFocus: itemFocusShape.isRequired,
+
+  setCategoryFocusDispatch: PropTypes.func.isRequired,
+  clearCategoryFocusDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(

@@ -67,7 +67,7 @@ const itemFocusShape = PropTypes.oneOfType([
     clicked: PropTypes.bool.isRequired,
     item: PropTypes.oneOf([null]),
     course: PropTypes.oneOf([null]),
-    category: PropTypes.oneOf([null]),
+    category: PropTypes.arrayOf(PropTypes.number).isRequired,
     reviews: PropTypes.oneOf([null]),
     lectures: PropTypes.oneOf([null]),
   }),
