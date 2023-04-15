@@ -3621,7 +3621,7 @@ button.disabled {
     #E5F2A2, #D8F5B3, #CAF5BF, #BEEDCE,
     #B5E6E3, #BDE3F2, #B6D4F0, #B9C3ED,
     #CCC2ED, #DBC0F0, #EBC0F0, #F5BCD9,
-    #D6D6D6;
+    #D6D6D6, #E54C65;
 
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);

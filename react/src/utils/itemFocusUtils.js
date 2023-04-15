@@ -1,4 +1,5 @@
 import { ItemFocusFrom } from '../reducers/planner/itemFocus';
+import { getCategoryOfItem, isIdenticalCategory } from './itemCategoryUtils';
 import { getCourseOfItem } from './itemUtils';
 
 
@@ -23,7 +24,7 @@ export const isTableClickedItem = (item, itemFocus) => (
   && itemFocus.clicked === true
 );
 
-export const isFocusedItem = (item, itemFocus) => (
+export const isSingleFocusedItem = (item, itemFocus) => (
   isTableFocusedItem(item, itemFocus)
   || (
     itemFocus.from === ItemFocusFrom.LIST
@@ -31,6 +32,17 @@ export const isFocusedItem = (item, itemFocus) => (
     && itemFocus.course
     && getCourseOfItem(item).id === itemFocus.course.id
   )
+);
+
+export const isMultipleFocusedItem = (item, itemFocus, planner) => (
+  itemFocus.from === ItemFocusFrom.CATEGORY
+  && planner
+  && isIdenticalCategory(getCategoryOfItem(planner, item), itemFocus.category)
+);
+
+export const isFocusedItem = (item, itemFocus, planner) => (
+  isSingleFocusedItem(item, itemFocus)
+  || isMultipleFocusedItem(item, itemFocus, planner)
 );
 
 export const isDimmedItem = (item, itemFocus) => (

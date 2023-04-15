@@ -21,7 +21,7 @@ import {
 import {
   CategoryFirstIndex,
   getSeparateMajorTracks,
-  getCategoryOfItem, getCategoryOfType, getColorOfCategory,
+  getCategoryOfItem, getCategoryOfType, getColorOfCategory, isIdenticalCategory,
 } from '../../../../utils/itemCategoryUtils';
 
 import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
@@ -246,6 +246,10 @@ class SummarySubSection extends Component {
                             focusedCredit={categoryCreditAndAus[i][j][k][ValueIndex.FOCUSED]}
                             totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
                             colorIndex={getColorOfCategory(selectedPlanner, [i, j, k])}
+                            isCategoryFocused={
+                              itemFocus.from === ItemFocusFrom.CATEGORY
+                              && isIdenticalCategory([i, j, k], itemFocus.category)
+                            }
                             focusFrom={itemFocus.from}
                           />
                         ),

@@ -456,7 +456,7 @@ class PlannerSubSection extends Component {
           isPlannerWithSummer={hasSummerSemester}
           isPlannerWithWinter={hasWinterSemester}
           isRaised={isTableClickedItem(i, itemFocus)}
-          isHighlighted={isFocusedItem(i, itemFocus)}
+          isHighlighted={isFocusedItem(i, itemFocus, selectedPlanner)}
           isDimmed={isDimmedItem(i, itemFocus)}
           isSimple={false} // TODO: Implement this
           onMouseOver={this.focusItemWithHover}

@@ -10,6 +10,7 @@ class CreditBar extends Component {
     const {
       takenCredit, plannedCredit, totalCredit, focusedCredit,
       colorIndex,
+      isCategoryFocused,
       focusFrom,
     } = this.props;
 
@@ -70,7 +71,7 @@ class CreditBar extends Component {
           <div
             className={classNames(
               'credit-bar__body__taken',
-              `background-color--${colorIndex}`,
+              `background-color--${isCategoryFocused ? 18 : colorIndex}`,
               'background-color--dark',
             )}
             style={{ width: `${getWidth(takenCredit - (focusPosition === 1 ? focusedCredit : 0))}%` }}
@@ -88,7 +89,7 @@ class CreditBar extends Component {
           <div
             className={classNames(
               'credit-bar__body__planned',
-              `background-color--${colorIndex}`,
+              `background-color--${isCategoryFocused ? 18 : colorIndex}`,
               'background-color--dark',
               'background-color--stripe',
             )}
@@ -116,6 +117,7 @@ CreditBar.propTypes = {
   totalCredit: PropTypes.number.isRequired,
   focusedCredit: PropTypes.number.isRequired,
   colorIndex: PropTypes.number.isRequired,
+  isCategoryFocused: PropTypes.bool.isRequired,
   focusFrom: PropTypes.oneOf(Object.values(ItemFocusFrom)).isRequired,
 };
 
