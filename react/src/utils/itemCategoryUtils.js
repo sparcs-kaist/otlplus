@@ -1,3 +1,11 @@
+export const CategoryFirstIndex = {
+  BASIC: 0,
+  MAJOR: 1,
+  RESEARCH: 2,
+  GENERAL_AND_HUMANITY: 3,
+  OTHERS: 4,
+};
+
 export const getSeparateMajorTracks = (planner) => {
   return [
     planner.major_track,
@@ -19,9 +27,9 @@ export const getSeparateMajorTracks = (planner) => {
 export const getCategoryOfType = (planner, type, departmentCode) => {
   switch (type) {
     case 'Basic Required':
-      return [0, 0, 0];
+      return [CategoryFirstIndex.BASIC, 0, 0];
     case 'Basic Elective':
-      return [0, 0, 1];
+      return [CategoryFirstIndex.BASIC, 0, 1];
     case 'Major Required': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
       const targetTrack = (
@@ -29,7 +37,7 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
-        return [1, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 0];
+        return [CategoryFirstIndex.MAJOR, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 0];
       }
       break;
     }
@@ -41,28 +49,28 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
-        return [1, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 1];
+        return [CategoryFirstIndex.MAJOR, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 1];
       }
       break;
     }
     case 'Thesis Study(Undergraduate)':
-      return [2, 0, 0];
+      return [CategoryFirstIndex.RESEARCH, 0, 0];
     case 'Individual Study':
-      return [2, 0, 1];
+      return [CategoryFirstIndex.RESEARCH, 0, 1];
     case 'General Required':
     case 'Mandatory General Courses':
-      return [3, 0, 0];
+      return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 0];
     case 'Humanities & Social Elective':
-      return [3, 0, 1];
+      return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 1];
     case 'Other Elective':
-      return [4, 0, 0];
+      return [CategoryFirstIndex.OTHERS, 0, 0];
     default:
       break;
   }
   if (type?.startsWith('Humanities & Social Elective')) {
-    return [3, 0, 1];
+    return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 1];
   }
-  return [4, 0, 1];
+  return [CategoryFirstIndex.OTHERS, 0, 1];
 };
 
 export const getCategoryOfItem = (planner, item) => {

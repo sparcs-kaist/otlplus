@@ -15,6 +15,7 @@ import {
   getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
 } from '../../../../utils/itemUtils';
 import {
+  CategoryFirstIndex,
   getSeparateMajorTracks,
   getCategoryOfItem, getCategoryOfType, getColorOfCategory,
 } from '../../../../utils/itemCategoryUtils';
@@ -42,26 +43,17 @@ class SummarySubSection extends Component {
 
     const totalCredit = [0, 0, 0, 136];
     const totalAu = [0, 0, 0, 8];
-    // TODO: Apply constants to indexes
-    // TODO: Load requirements from planner
     const categoryCreditAndAus = {
-      // Basic
-      0: [[[0, 0, 0, 23], [0, 0, 0, 9]]],
-      // Major
-      1: separateMajorTracks.map((smt) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
-      // Research
-      2: [[[0, 0, 0, 3], [0, 0, 0, 0]]],
-      // General and humanity
-      3: [[[0, 0, 0, 15], [0, 0, 0, 21]]],
-      // Others
-      4: [[[0, 0, 0, 0], [0, 0, 0, 0]]],
+      [CategoryFirstIndex.BASIC]: [[[0, 0, 0, 23], [0, 0, 0, 9]]],
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
+      [CategoryFirstIndex.RESEARCH]: [[[0, 0, 0, 3], [0, 0, 0, 0]]],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[[0, 0, 0, 15], [0, 0, 0, 21]]],
+      [CategoryFirstIndex.OTHERS]: [[[0, 0, 0, 0], [0, 0, 0, 0]]],
     };
 
     const categoryBigTitles = {
-      // Basic
-      0: [t('ui.type.basic')],
-      // Major
-      1: separateMajorTracks.map((smt, index) => {
+      [CategoryFirstIndex.BASIC]: [t('ui.type.basic')],
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt, index) => {
         if (index === 0) {
           const majorName = advancedMajorTrack ? t('ui.type.advancedMajor') : t('ui.type.major');
           return `${majorName} - ${smt.department[t('js.property.name')]}`;
@@ -77,24 +69,16 @@ class SummarySubSection extends Component {
         }
         return 'Unknown';
       }),
-      // Research
-      2: [`${t('ui.type.research')}`],
-      // General and humanity
-      3: [t('ui.type.general')],
-      // Others
-      4: [t('ui.type.etc')],
+      [CategoryFirstIndex.RESEARCH]: [`${t('ui.type.research')}`],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [t('ui.type.general')],
+      [CategoryFirstIndex.OTHERS]: [t('ui.type.etc')],
     };
     const categoryTitles = {
-      // Basic
-      0: [[t('ui.type.basicRequired'), t('ui.type.basicElective')]],
-      // Major
-      1: separateMajorTracks.map((smt) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
-      // Research
-      2: [[t('ui.type.thesisStudy'), t('ui.type.individualStudy')]],
-      // General and humanity
-      3: [[t('ui.type.generalRequired'), t('ui.type.humanities')]],
-      // Others
-      4: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
+      [CategoryFirstIndex.BASIC]: [[t('ui.type.basicRequired'), t('ui.type.basicElective')]],
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
+      [CategoryFirstIndex.RESEARCH]: [[t('ui.type.thesisStudy'), t('ui.type.individualStudy')]],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[t('ui.type.generalRequired'), t('ui.type.humanities')]],
+      [CategoryFirstIndex.OTHERS]: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
     };
 
     if (selectedPlanner?.general_track) {
@@ -103,24 +87,24 @@ class SummarySubSection extends Component {
       /* eslint-disable fp/no-mutation */
       totalCredit[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_credit;
       totalAu[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_au;
-      categoryCreditAndAus[0][0][0][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0][ValueIndex.REQUIREMENT] = (
         selectedPlanner.general_track.basic_required
       );
-      categoryCreditAndAus[0][0][1][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][1][ValueIndex.REQUIREMENT] = (
         hasDoublemajor
           ? selectedPlanner.major_track.basic_elective_doublemajor
           : selectedPlanner.general_track.basic_elective
       );
-      categoryCreditAndAus[2][0][0][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.RESEARCH][0][0][ValueIndex.REQUIREMENT] = (
         hasDoublemajor
           ? selectedPlanner.general_track.thesis_study_doublemajor
           : selectedPlanner.general_track.thesis_study
       );
-      categoryCreditAndAus[3][0][0][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][0][ValueIndex.REQUIREMENT] = (
         selectedPlanner.general_track.general_required_credit
           + selectedPlanner.general_track.general_required_au
       );
-      categoryCreditAndAus[3][0][1][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][1][ValueIndex.REQUIREMENT] = (
         hasDoublemajor
           ? selectedPlanner.general_track.humanities_doublemajor
           : selectedPlanner.general_track.humanities
@@ -130,14 +114,14 @@ class SummarySubSection extends Component {
 
     separateMajorTracks.forEach((smt, index) => {
       /* eslint-disable fp/no-mutation */
-      categoryCreditAndAus[1][index][0][ValueIndex.REQUIREMENT] = smt.major_required;
-      categoryCreditAndAus[1][index][1][ValueIndex.REQUIREMENT] = smt.major_elective;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][0][ValueIndex.REQUIREMENT] = smt.major_required;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][1][ValueIndex.REQUIREMENT] = smt.major_elective;
       /* eslint-enable fp/no-mutation */
     });
     if (advancedMajorTrack) {
       /* eslint-disable fp/no-mutation */
-      categoryCreditAndAus[1][0][0][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_required;
-      categoryCreditAndAus[1][0][1][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_elective;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_required;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_elective;
       /* eslint-enable fp/no-mutation */
     }
 
