@@ -1,6 +1,6 @@
 import { ItemFocusFrom } from '../reducers/planner/itemFocus';
-import { getCategoryOfItem, isIdenticalCategory } from './itemCategoryUtils';
-import { getCourseOfItem } from './itemUtils';
+import { CategoryFirstIndex, getCategoryOfItem, isIdenticalCategory } from './itemCategoryUtils';
+import { getCourseOfItem, getCreditOfItem, getAuOfItem } from './itemUtils';
 
 
 export const isIdenticalItem = (item1, item2) => (
@@ -37,7 +37,13 @@ export const isSingleFocusedItem = (item, itemFocus) => (
 export const isMultipleFocusedItem = (item, itemFocus, planner) => (
   itemFocus.from === ItemFocusFrom.CATEGORY
   && planner
-  && isIdenticalCategory(getCategoryOfItem(planner, item), itemFocus.category)
+  && (
+    itemFocus.category[0] !== CategoryFirstIndex.TOTAL
+      ? isIdenticalCategory(getCategoryOfItem(planner, item), itemFocus.category)
+      : itemFocus.category[2] === 0
+        ? getCreditOfItem(item) > 0
+        : getAuOfItem(item) > 0
+  )
 );
 
 export const isFocusedItem = (item, itemFocus, planner) => (

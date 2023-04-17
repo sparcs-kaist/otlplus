@@ -214,9 +214,15 @@ class SummarySubSection extends Component {
                           focusedCredit={totalCredit[ValueIndex.FOCUSED]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
                           colorIndex={17}
+                          isCategoryFocused={
+                            itemFocus.from === ItemFocusFrom.CATEGORY
+                            && isIdenticalCategory([CategoryFirstIndex.TOTAL, 0, 0], itemFocus.category)
+                          }
                           focusFrom={itemFocus.from}
                         />
                       ),
+                      onMouseOver: () => this.setFocusOnCategory([CategoryFirstIndex.TOTAL, 0, 0]),
+                      onMouseOut: () => this.clearFocus(),
                     },
                     {
                       name: t('ui.type.totalAu'),
@@ -227,9 +233,15 @@ class SummarySubSection extends Component {
                           focusedCredit={totalAu[ValueIndex.FOCUSED]}
                           totalCredit={totalAu[ValueIndex.REQUIREMENT]}
                           colorIndex={17}
+                          isCategoryFocused={
+                            itemFocus.from === ItemFocusFrom.CATEGORY
+                            && isIdenticalCategory([CategoryFirstIndex.TOTAL, 0, 1], itemFocus.category)
+                          }
                           focusFrom={itemFocus.from}
                         />
                       ),
+                      onMouseOver: () => this.setFocusOnCategory([CategoryFirstIndex.TOTAL, 0, 1]),
+                      onMouseOut: () => this.clearFocus(),
                     },
                   ],
                 },

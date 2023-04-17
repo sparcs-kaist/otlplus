@@ -1,4 +1,5 @@
 export const CategoryFirstIndex = {
+  TOTAL: -1,
   BASIC: 0,
   MAJOR: 1,
   RESEARCH: 2,
