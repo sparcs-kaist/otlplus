@@ -71,7 +71,7 @@ class CreditBar extends Component {
           <div
             className={classNames(
               'credit-bar__body__taken',
-              `background-color--${isCategoryFocused ? 18 : colorIndex}`,
+              `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
             )}
             style={{ width: `${getWidth(takenCredit - (focusPosition === 1 ? focusedCredit : 0))}%` }}
@@ -89,7 +89,7 @@ class CreditBar extends Component {
           <div
             className={classNames(
               'credit-bar__body__planned',
-              `background-color--${isCategoryFocused ? 18 : colorIndex}`,
+              `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
               'background-color--stripe',
             )}

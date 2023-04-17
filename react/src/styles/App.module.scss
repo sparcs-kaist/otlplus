@@ -3621,11 +3621,12 @@ button.disabled {
     #E5F2A2, #D8F5B3, #CAF5BF, #BEEDCE,
     #B5E6E3, #BDE3F2, #B6D4F0, #B9C3ED,
     #CCC2ED, #DBC0F0, #EBC0F0, #F5BCD9,
-    #D6D6D6, #E54C65;
+    #D6D6D6, #B4B4B4,
+    adjust-color(#E54C65, $saturation: 5%, $lightness: 10%);
 
     @for $i from 1 through length($base-colors) {
         $base-color: nth($base-colors, $i);
-        $dark-color: adjust-color($base-color, $saturation: if($i <= 16, -5%, 0%), $lightness: -10%);
+        $dark-color: adjust-color($base-color, $saturation: if($i <= 16 or $i >= 19, -5%, 0%), $lightness: -10%);
         $stripe-color: adjust-color($base-color, $lightness: 3.5%);
         $dark-stripe-color: adjust-color($dark-color, $lightness: 8%);
 

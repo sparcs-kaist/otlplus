@@ -213,7 +213,7 @@ class SummarySubSection extends Component {
                           plannedCredit={totalCredit[ValueIndex.PLANNED]}
                           focusedCredit={totalCredit[ValueIndex.FOCUSED]}
                           totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
-                          colorIndex={17}
+                          colorIndex={18}
                           isCategoryFocused={
                             itemFocus.from === ItemFocusFrom.CATEGORY
                             && isIdenticalCategory([CategoryFirstIndex.TOTAL, 0, 0], itemFocus.category)
@@ -232,7 +232,7 @@ class SummarySubSection extends Component {
                           plannedCredit={totalAu[ValueIndex.PLANNED]}
                           focusedCredit={totalAu[ValueIndex.FOCUSED]}
                           totalCredit={totalAu[ValueIndex.REQUIREMENT]}
-                          colorIndex={17}
+                          colorIndex={18}
                           isCategoryFocused={
                             itemFocus.from === ItemFocusFrom.CATEGORY
                             && isIdenticalCategory([CategoryFirstIndex.TOTAL, 0, 1], itemFocus.category)
