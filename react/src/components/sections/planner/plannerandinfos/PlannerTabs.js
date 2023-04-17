@@ -11,7 +11,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import {
   setPlanners, clearPlanners,
   setSelectedPlanner,
-  createPlanner, deletePlanner,
+  createPlanner, deletePlanner, reorderPlanner,
 } from '../../../../actions/planner/planner';
 
 import userShape from '../../../../shapes/model/session/UserShape';
@@ -22,6 +22,17 @@ import additionalTrackShape from '../../../../shapes/model/graduation/Additional
 
 
 class PlannerTabs extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      draggingPlannerId: undefined,
+      dragStartPosition: undefined,
+      dragCurrentPosition: undefined,
+      dragOrderChanged: false,
+    };
+  }
+
   componentDidMount() {
     const { tracks } = this.props;
 
@@ -61,7 +72,7 @@ class PlannerTabs extends Component {
       `/api/users/${user.id}/planners`,
       {
         params: {
-          order: ['id'],
+          order: ['arrange_order', 'id'],
         },
         metadata: {
           gaCategory: 'Planner',
@@ -327,10 +338,215 @@ class PlannerTabs extends Component {
     });
   }
 
+  handlePointerDown = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const { draggingPlannerId } = this.state;
+    const { isPortrait } = this.props;
+
+    if (draggingPlannerId === undefined) {
+      this.setState({
+        draggingPlannerId: Number(e.currentTarget.dataset.id),
+        dragStartPosition: isPortrait ? e.clientY : e.clientX,
+        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
+        dragOrderChanged: false,
+      });
+
+      document.addEventListener('pointermove', this.handlePointerMove);
+      document.addEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = 'grabbing';
+    }
+  }
+
+  _checkAndReorderPlannerPrev = (dragPosition, isX) => {
+    const { draggingPlannerId, dragStartPosition } = this.state;
+    const { user, planners, reorderPlannerDispatch } = this.props;
+
+    const endPositionName = isX ? 'right' : 'bottom';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === 0) {
+      return;
+    }
+
+    const prevTabElement = tabElements[draggingTabIndex - 1];
+    if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
+      const draggingPlannerIndex = planners.findIndex((t) => (t.id === draggingPlannerId));
+      const draggingPlanner = planners[draggingPlannerIndex];
+      const prevPlanner = planners[draggingPlannerIndex - 1];
+      if (user) {
+        axios.post(
+          `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
+          {
+            arrange_order: prevPlanner.arrange_order,
+          },
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST Reorder / Instance',
+            },
+          },
+        )
+          .then((response) => {
+          })
+          .catch((error) => {
+          });
+      }
+      reorderPlannerDispatch(draggingPlanner, prevPlanner.arrange_order);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
+    }
+  }
+
+  _checkAndReorderPlannerNext = (dragPosition, isX) => {
+    const { draggingPlannerId, dragStartPosition } = this.state;
+    const { user, planners, reorderPlannerDispatch } = this.props;
+
+    const startPositionName = isX ? 'left' : 'top';
+    const sizeName = isX ? 'width' : 'height';
+    const tabMargin = isX ? 6 : 8;
+
+    const tabElements = Array.from(
+      document.querySelectorAll(
+        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`
+      )
+    );
+    const draggingTabElement = document.querySelector(
+      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`
+    );
+
+    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    if (draggingTabIndex === tabElements.length - 1) {
+      return;
+    }
+
+    const nextTabElement = tabElements[draggingTabIndex + 1];
+    if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
+      const draggingPlannerIndex = planners.findIndex((t) => (t.id === draggingPlannerId));
+      const draggingPlanner = planners[draggingPlannerIndex];
+      const nextPlanner = planners[draggingPlannerIndex + 1];
+      if (user) {
+        axios.post(
+          `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
+          {
+            arrange_order: nextPlanner.arrange_order,
+          },
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST Reorder / Instance',
+            },
+          },
+        )
+          .then((response) => {
+          })
+          .catch((error) => {
+          });
+      }
+      reorderPlannerDispatch(draggingPlanner, nextPlanner.arrange_order);
+      this.setState({
+        dragStartPosition:
+          dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
+      });
+    }
+  }
+
+  handlePointerMove = (e) => {
+    const { dragStartPosition, dragCurrentPosition, draggingPlannerId } = this.state;
+    const { isPortrait } = this.props;
+
+    const newPosition = isPortrait ? e.clientY : e.clientX;
+    const deltaPosition = newPosition - dragCurrentPosition;
+
+    if (draggingPlannerId !== undefined) {
+      this.setState({
+        dragCurrentPosition: newPosition,
+      });
+
+      if (Math.abs(newPosition - dragStartPosition) > 10) {
+        this.setState({
+          dragOrderChanged: true,
+        });
+      }
+
+      if (deltaPosition > 0) {
+        this._checkAndReorderPlannerNext(newPosition, !isPortrait);
+      }
+      else if (deltaPosition < 0) {
+        this._checkAndReorderPlannerPrev(newPosition, !isPortrait);
+      }
+    }
+  }
+
+  handlePointerUp = (e) => {
+    const { draggingPlannerId } = this.state;
+
+    if (draggingPlannerId !== undefined) {
+      this.setState({
+        draggingPlannerId: undefined,
+        dragStartPosition: undefined,
+        dragCurrentPosition: undefined,
+        dragOrderChanged: false,
+      });
+
+      document.removeEventListener('pointermove', this.handlePointerMove);
+      document.removeEventListener('pointerup', this.handlePointerUp);
+      // eslint-disable-next-line fp/no-mutation
+      document.body.style.cursor = '';
+    }
+  }
+
+  _isSelected = (planner) => {
+    const { selectedPlanner } = this.props;
+
+    return selectedPlanner && (planner.id === selectedPlanner.id);
+  }
+
+  _isDragging = (planner) => {
+    const { draggingPlannerId } = this.state;
+
+    return (draggingPlannerId !== undefined) && (planner.id === draggingPlannerId);
+  }
+
+  _getTabRelativePosition = (planner) => {
+    if (!this._isDragging(planner)) {
+      return undefined;
+    }
+
+    const { dragStartPosition, dragCurrentPosition } = this.state;
+    const { planners } = this.props;
+
+    const relativePosition = dragCurrentPosition - dragStartPosition;
+    if ((planners.findIndex((t) => (t.id === planner.id)) === 0) && relativePosition < 0) {
+      return 0;
+    }
+    if ((planners.findIndex((t) => (t.id === planner.id)) === planners.length - 1) && relativePosition > 0) {
+      return 0;
+    }
+    return relativePosition;
+  }
+
   render() {
+    const { dragOrderChanged } = this.state;
     const { t } = this.props;
     const {
-      planners, selectedPlanner,
+      isPortrait,
+      planners,
     } = this.props;
 
     const normalPlannerTabs = (
@@ -340,10 +556,18 @@ class PlannerTabs extends Component {
             <div
               className={classNames(
                 'tabs__elem',
-                (tt.id === selectedPlanner.id ? 'tabs__elem--selected' : null),
+                'tabs__elem--draggable',
+                (this._isSelected(tt) ? 'tabs__elem--selected' : null),
+                (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
               )}
               key={tt.id}
               onClick={() => this.changeTab(tt)}
+              onPointerDown={this.handlePointerDown}
+              data-id={tt.id}
+              style={{
+                [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                pointerEvents: dragOrderChanged ? 'none' : undefined,
+              }}
             >
               <span>
                 {`${t('ui.others.planner')} ${i + 1}`}
@@ -386,6 +610,7 @@ class PlannerTabs extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   tracks: state.common.track.tracks,
   planners: state.planner.planner.planners,
   selectedPlanner: state.planner.planner.selectedPlanner,
@@ -408,10 +633,14 @@ const mapDispatchToProps = (dispatch) => ({
   deletePlannerDispatch: (planner) => {
     dispatch(deletePlanner(planner));
   },
+  reorderPlannerDispatch: (timetable, arrangeOrder) => {
+    dispatch(reorderPlanner(timetable, arrangeOrder));
+  },
 });
 
 PlannerTabs.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   tracks: PropTypes.exact({
     general: PropTypes.arrayOf(generalTrackShape),
     major: PropTypes.arrayOf(majorTrackShape),
@@ -425,6 +654,7 @@ PlannerTabs.propTypes = {
   setSelectedPlannerDispatch: PropTypes.func.isRequired,
   createPlannerDispatch: PropTypes.func.isRequired,
   deletePlannerDispatch: PropTypes.func.isRequired,
+  reorderPlannerDispatch: PropTypes.func.isRequired,
 };
 
 

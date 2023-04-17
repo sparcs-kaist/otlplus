@@ -20,7 +20,7 @@ from utils.util import ParseType, parse_params, parse_body, ORDER_DEFAULT_CONFIG
 class UserInstancePlannerListView(View):
     def get(self, request, user_id):
         MAX_LIMIT = 50
-        DEFAULT_ORDER = ['id']  # TODO: add arrange_order
+        DEFAULT_ORDER = ['arrange_order', 'id']
         PARAMS_STRUCTURE = [
             ORDER_DEFAULT_CONFIG,
             OFFSET_DEFAULT_CONFIG,
