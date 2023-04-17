@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 'apps/graduation/data/general.csv'
             ),
             GeneralTrack,
-            ["start_year", "end_year", "department"],
+            ["start_year", "end_year", "is_foreign"],
         )
         self.parse_and_update(
             os.path.join(
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                 'apps/graduation/data/major.csv'
             ),
             MajorTrack,
-            ["start_year", "end_year", "is_foreign"],
+            ["start_year", "end_year", "department"],
         )
         self.parse_and_update(
             os.path.join(
