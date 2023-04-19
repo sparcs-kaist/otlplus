@@ -4111,17 +4111,8 @@ i.icon {
         display: flex;
         flex-direction: row;
 
-        &__taken {
+        &__bar {
             height: 100%;
-        }
-
-        &__planned {
-            height: 100%;
-        }
-
-        &__focused {
-            height: 100%;
-            background-color: $color-highlight;
         }
     }
 

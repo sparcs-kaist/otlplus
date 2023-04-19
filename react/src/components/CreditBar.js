@@ -62,6 +62,13 @@ class CreditBar extends Component {
       </>
     );
 
+    const widths = [
+      getWidth(takenCredit - ((focusPosition === 1) ? focusedCredit : 0)),
+      getWidth((focusPosition === 1) ? focusedCredit : 0),
+      getWidth(plannedCredit - ((focusPosition === 2) ? focusedCredit : 0)),
+      getWidth((focusPosition === 2 || focusPosition === 3) ? focusedCredit : 0),
+    ];
+
     return (
       <div className={classNames('credit-bar')}>
         <div className={classNames('credit-bar__text')}>
@@ -70,41 +77,42 @@ class CreditBar extends Component {
         <div className={classNames('credit-bar__body')}>
           <div
             className={classNames(
-              'credit-bar__body__taken',
+              'credit-bar__body__bar',
+              'credit-bar__body__bar--taken',
               `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
             )}
-            style={{ width: `${getWidth(takenCredit - (focusPosition === 1 ? focusedCredit : 0))}%` }}
+            style={{ width: `${widths[0]}%` }}
           />
-          {
-            focusPosition === 1 && (
-              <div
-                className={classNames(
-                  'credit-bar__body__focused',
-                )}
-                style={{ width: `${getWidth(focusedCredit)}%` }}
-              />
-            )
-          }
           <div
             className={classNames(
-              'credit-bar__body__planned',
+              'credit-bar__body__bar',
+              'credit-bar__body__bar--focused',
+              'background-color--19',
+              'background-color--dark',
+            )}
+            style={{ width: `${widths[1]}%` }}
+          />
+          <div
+            className={classNames(
+              'credit-bar__body__bar',
+              'credit-bar__body__bar--planned',
               `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
               'background-color--stripe',
             )}
-            style={{ width: `${getWidth(plannedCredit - (focusPosition === 2 ? focusedCredit : 0))}%` }}
+            style={{ width: `${widths[2]}%` }}
           />
-          {
-            (focusPosition === 2 || focusPosition === 3) && (
-              <div
-                className={classNames(
-                  'credit-bar__body__focused',
-                )}
-                style={{ width: `${getWidth(focusedCredit)}%` }}
-              />
-            )
-          }
+          <div
+            className={classNames(
+              'credit-bar__body__bar',
+              'credit-bar__body__bar--focused',
+              'background-color--19',
+              'background-color--dark',
+              'background-color--stripe',
+            )}
+            style={{ width: `${widths[3]}%` }}
+          />
         </div>
       </div>
     );
