@@ -26,6 +26,7 @@ const POSITION_OF_LOCATIONS = new Map([
   ['E2', { left: 60, top: 81 }],
   ['E3', { left: 67, top: 75 }],
   ['E6', { left: 68, top: 63 }],
+  ['E6-5', { left: 63, top: 56 }],
   ['E7', { left: 77, top: 61 }],
   ['E11', { left: 53, top: 58 }],
   ['E16', { left: 53, top: 49 }],
