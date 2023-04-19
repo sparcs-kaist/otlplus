@@ -27,14 +27,6 @@ import {
 import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
 
 
-const ValueIndex = {
-  TAKEN: 0,
-  PLANNED: 1,
-  FOCUSED: 2,
-  REQUIREMENT: 3,
-};
-
-
 class SummarySubSection extends Component {
   setFocusOnCategory = (category) => {
     const { itemFocus, selectedPlanner, setCategoryFocusDispatch } = this.props;
@@ -67,14 +59,21 @@ class SummarySubSection extends Component {
       ? selectedPlanner.additional_tracks.find((at) => (at.type === 'ADVANCED'))
       : undefined;
 
-    const totalCredit = [0, 0, 0, 136];
-    const totalAu = [0, 0, 0, 8];
+    const initializeCount = () => ({
+      taken: 0,
+      planned: 0,
+      focused: 0,
+      requirement: 0,
+    });
+
+    const totalCredit = initializeCount();
+    const totalAu = initializeCount();
     const categoryCreditAndAus = {
-      [CategoryFirstIndex.BASIC]: [[[0, 0, 0, 23], [0, 0, 0, 9]]],
-      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [[0, 0, 0, 19], [0, 0, 0, 30]]),
-      [CategoryFirstIndex.RESEARCH]: [[[0, 0, 0, 3], [0, 0, 0, 0]]],
-      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[[0, 0, 0, 15], [0, 0, 0, 21]]],
-      [CategoryFirstIndex.OTHERS]: [[[0, 0, 0, 0], [0, 0, 0, 0]]],
+      [CategoryFirstIndex.BASIC]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [initializeCount(), initializeCount()]),
+      [CategoryFirstIndex.RESEARCH]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.OTHERS]: [[initializeCount(), initializeCount()]],
     };
 
     const categoryBigTitles = {
@@ -111,26 +110,26 @@ class SummarySubSection extends Component {
       // TODO: support unsigned user
       const hasDoublemajor = selectedPlanner.additional_tracks.filter((at) => (at.type === 'DOUBLE')).length !== 0;
       /* eslint-disable fp/no-mutation */
-      totalCredit[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_credit;
-      totalAu[ValueIndex.REQUIREMENT] = selectedPlanner.general_track.total_au;
-      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0][ValueIndex.REQUIREMENT] = (
+      totalCredit.requirement = selectedPlanner.general_track.total_credit;
+      totalAu.requirement = selectedPlanner.general_track.total_au;
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0].requirement = (
         selectedPlanner.general_track.basic_required
       );
-      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][1][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][1].requirement = (
         hasDoublemajor
           ? selectedPlanner.major_track.basic_elective_doublemajor
           : selectedPlanner.general_track.basic_elective
       );
-      categoryCreditAndAus[CategoryFirstIndex.RESEARCH][0][0][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.RESEARCH][0][0].requirement = (
         hasDoublemajor
           ? selectedPlanner.general_track.thesis_study_doublemajor
           : selectedPlanner.general_track.thesis_study
       );
-      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][0][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][0].requirement = (
         selectedPlanner.general_track.general_required_credit
           + selectedPlanner.general_track.general_required_au
       );
-      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][1][ValueIndex.REQUIREMENT] = (
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][1].requirement = (
         hasDoublemajor
           ? selectedPlanner.general_track.humanities_doublemajor
           : selectedPlanner.general_track.humanities
@@ -140,14 +139,14 @@ class SummarySubSection extends Component {
 
     separateMajorTracks.forEach((smt, index) => {
       /* eslint-disable fp/no-mutation */
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][0][ValueIndex.REQUIREMENT] = smt.major_required;
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][1][ValueIndex.REQUIREMENT] = smt.major_elective;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][0].requirement = smt.major_required;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][1].requirement = smt.major_elective;
       /* eslint-enable fp/no-mutation */
     });
     if (advancedMajorTrack) {
       /* eslint-disable fp/no-mutation */
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_required;
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1][ValueIndex.REQUIREMENT] += advancedMajorTrack.major_elective;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0].requirement += advancedMajorTrack.major_required;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1].requirement += advancedMajorTrack.major_elective;
       /* eslint-enable fp/no-mutation */
     }
 
@@ -155,21 +154,21 @@ class SummarySubSection extends Component {
       /* eslint-disable fp/no-mutation */
       selectedPlanner.taken_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit[ValueIndex.TAKEN] += getCreditOfItem(i);
-        totalAu[ValueIndex.TAKEN] += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.TAKEN] += getCreditAndAuOfItem(i);
+        totalCredit.taken += getCreditOfItem(i);
+        totalAu.taken += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]].taken += getCreditAndAuOfItem(i);
       });
       selectedPlanner.future_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
-        totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
+        totalCredit.planned += getCreditOfItem(i);
+        totalAu.planned += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]].planned += getCreditAndAuOfItem(i);
       });
       selectedPlanner.arbitrary_items.filter((i) => !i.is_excluded).forEach((i) => {
         const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit[ValueIndex.PLANNED] += getCreditOfItem(i);
-        totalAu[ValueIndex.PLANNED] += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.PLANNED] += getCreditAndAuOfItem(i);
+        totalCredit.planned += getCreditOfItem(i);
+        totalAu.planned += getAuOfItem(i);
+        categoryCreditAndAus[category[0]][category[1]][category[2]].planned += getCreditAndAuOfItem(i);
       });
       /* eslint-enable fp/no-mutation */
     }
@@ -177,9 +176,9 @@ class SummarySubSection extends Component {
     if (itemFocus.from === ItemFocusFrom.LIST) {
       /* eslint-disable fp/no-mutation */
       const category = getCategoryOfType(selectedPlanner, itemFocus.course.type_en, itemFocus.course.department?.code);
-      totalCredit[ValueIndex.FOCUSED] += itemFocus.course.credit;
-      totalAu[ValueIndex.FOCUSED] += itemFocus.course.credit_au;
-      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += itemFocus.course.credit + itemFocus.course.credit_au;
+      totalCredit.focused += itemFocus.course.credit;
+      totalAu.focused += itemFocus.course.credit_au;
+      categoryCreditAndAus[category[0]][category[1]][category[2]].focused += itemFocus.course.credit + itemFocus.course.credit_au;
       /* eslint-enable fp/no-mutation */
     }
     else if (
@@ -190,9 +189,9 @@ class SummarySubSection extends Component {
     ) {
       /* eslint-disable fp/no-mutation */
       const category = getCategoryOfItem(selectedPlanner, itemFocus.item);
-      totalCredit[ValueIndex.FOCUSED] += getCreditOfItem(itemFocus.item);
-      totalAu[ValueIndex.FOCUSED] += getAuOfItem(itemFocus.item);
-      categoryCreditAndAus[category[0]][category[1]][category[2]][ValueIndex.FOCUSED] += getCreditAndAuOfItem(itemFocus.item);
+      totalCredit.focused += getCreditOfItem(itemFocus.item);
+      totalAu.focused += getAuOfItem(itemFocus.item);
+      categoryCreditAndAus[category[0]][category[1]][category[2]].focused += getCreditAndAuOfItem(itemFocus.item);
       /* eslint-enable fp/no-mutation */
     }
 
@@ -209,10 +208,10 @@ class SummarySubSection extends Component {
                       name: t('ui.type.totalCredit'),
                       controller: (
                         <CreditBar
-                          takenCredit={totalCredit[ValueIndex.TAKEN]}
-                          plannedCredit={totalCredit[ValueIndex.PLANNED]}
-                          focusedCredit={totalCredit[ValueIndex.FOCUSED]}
-                          totalCredit={totalCredit[ValueIndex.REQUIREMENT]}
+                          takenCredit={totalCredit.taken}
+                          plannedCredit={totalCredit.planned}
+                          focusedCredit={totalCredit.focused}
+                          totalCredit={totalCredit.requirement}
                           colorIndex={18}
                           isCategoryFocused={
                             itemFocus.from === ItemFocusFrom.CATEGORY
@@ -228,10 +227,10 @@ class SummarySubSection extends Component {
                       name: t('ui.type.totalAu'),
                       controller: (
                         <CreditBar
-                          takenCredit={totalAu[ValueIndex.TAKEN]}
-                          plannedCredit={totalAu[ValueIndex.PLANNED]}
-                          focusedCredit={totalAu[ValueIndex.FOCUSED]}
-                          totalCredit={totalAu[ValueIndex.REQUIREMENT]}
+                          takenCredit={totalAu.taken}
+                          plannedCredit={totalAu.planned}
+                          focusedCredit={totalAu.focused}
+                          totalCredit={totalAu.requirement}
                           colorIndex={18}
                           isCategoryFocused={
                             itemFocus.from === ItemFocusFrom.CATEGORY
@@ -253,10 +252,10 @@ class SummarySubSection extends Component {
                         name: categoryTitles[i][j][k],
                         controller: (
                           <CreditBar
-                            takenCredit={categoryCreditAndAus[i][j][k][ValueIndex.TAKEN]}
-                            plannedCredit={categoryCreditAndAus[i][j][k][ValueIndex.PLANNED]}
-                            focusedCredit={categoryCreditAndAus[i][j][k][ValueIndex.FOCUSED]}
-                            totalCredit={categoryCreditAndAus[i][j][k][ValueIndex.REQUIREMENT]}
+                            takenCredit={categoryCreditAndAus[i][j][k].taken}
+                            plannedCredit={categoryCreditAndAus[i][j][k].planned}
+                            focusedCredit={categoryCreditAndAus[i][j][k].focused}
+                            totalCredit={categoryCreditAndAus[i][j][k].requirement}
                             colorIndex={getColorOfCategory(selectedPlanner, [i, j, k])}
                             isCategoryFocused={
                               itemFocus.from === ItemFocusFrom.CATEGORY
