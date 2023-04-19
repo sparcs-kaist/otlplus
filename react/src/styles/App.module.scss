@@ -1313,6 +1313,9 @@ a {
                 margin-left: -5px;
                 margin-top: -16px;
                 margin-right: -100px;
+                &:hover {
+                    z-index: 101 !important;
+                }
 
                 &__box {
                     position: relative;
