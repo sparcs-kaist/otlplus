@@ -50,7 +50,8 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
-        return [CategoryFirstIndex.MAJOR, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 0];
+        const secondIndex = separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id));
+        return [CategoryFirstIndex.MAJOR, secondIndex, 0];
       }
       break;
     }
@@ -62,7 +63,8 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
       );
       if (targetTrack) {
-        return [CategoryFirstIndex.MAJOR, separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id)), 1];
+        const secondIndex = separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id));
+        return [CategoryFirstIndex.MAJOR, secondIndex, 1];
       }
       break;
     }

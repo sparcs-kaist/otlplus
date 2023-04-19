@@ -353,8 +353,11 @@ class LectureDetailSection extends Component {
     const { shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, lists } = this.props;
 
-    const shouldShowUnfix = (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE)
-      && lectureFocus.clicked;
+    const isSingleFocus = (
+      lectureFocus.from === LectureFocusFrom.LIST
+      || lectureFocus.from === LectureFocusFrom.TABLE
+    );
+    const shouldShowUnfix = isSingleFocus && lectureFocus.clicked;
 
     const mapReviewToBlock = (review, index) => (
       <ReviewSimpleBlock
@@ -365,7 +368,7 @@ class LectureDetailSection extends Component {
     );
 
     const getSectionContent = () => {
-      if (lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE) {
+      if (isSingleFocus) {
         const reviewBlocks = (lectureFocus.reviews == null)
           ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
           : (lectureFocus.reviews.length
@@ -411,15 +414,23 @@ class LectureDetailSection extends Component {
                 entries={[
                   {
                     name: t('ui.score.language'),
-                    score: lectureFocus.lecture.is_english ? 'Eng' : '한',
+                    score: lectureFocus.lecture.is_english
+                      ? 'Eng'
+                      : '한',
                   },
                   {
-                    name: (lectureFocus.lecture.credit > 0) ? t('ui.score.credit') : 'AU',
-                    score: (lectureFocus.lecture.credit > 0) ? lectureFocus.lecture.credit : lectureFocus.lecture.credit_au,
+                    name: (lectureFocus.lecture.credit > 0)
+                      ? t('ui.score.credit')
+                      : 'AU',
+                    score: (lectureFocus.lecture.credit > 0)
+                      ? lectureFocus.lecture.credit
+                      : lectureFocus.lecture.credit_au,
                   },
                   {
                     name: t('ui.score.competition'),
-                    score: (lectureFocus.lecture.limit === 0) ? '0.0:1' : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
+                    score: (lectureFocus.lecture.limit === 0)
+                      ? '0.0:1'
+                      : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
                   },
                 ]}
               />

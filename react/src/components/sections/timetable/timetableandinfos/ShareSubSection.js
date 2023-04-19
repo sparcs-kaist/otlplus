@@ -25,6 +25,8 @@ class ShareSubSection extends Component {
       setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
+    const apiParameter = `timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`;
+
     return (
       <div className={classNames('subsection--share', (mobileIsLectureListOpen ? 'mobile-hidden' : null))}>
         <div>
@@ -33,21 +35,21 @@ class ShareSubSection extends Component {
             ? (
               <>
                 <a
-                  href={`/api/share/timetable/image?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
+                  href={`/api/share/timetable/image?${apiParameter}`}
                   download
                 >
                   <i className={classNames('icon', 'icon--share-image')} />
                 </a>
                 <a
                   style={{ display: 'none' }}
-                  href={`/api/share/timetable/calendar?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
+                  href={`/api/share/timetable/calendar?${apiParameter}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <i className={classNames('icon', 'icon--share-googlecalendar')} />
                 </a>
                 <a
-                  href={`/api/share/timetable/ical?timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`}
+                  href={`/api/share/timetable/ical?${apiParameter}`}
                   download
                 >
                   <i className={classNames('icon', 'icon--share-icalendar')} />
@@ -55,7 +57,11 @@ class ShareSubSection extends Component {
                 <Link
                   to={{
                     pathname: '/timetable/syllabus',
-                    search: qs.stringify({ timetable: (selectedTimetable.id), year: year, semester: semester }),
+                    search: qs.stringify({
+                      timetable: (selectedTimetable.id),
+                      year: year,
+                      semester: semester,
+                    }),
                   }}
                   target="_blank"
                   rel="noopener noreferrer"

@@ -473,10 +473,12 @@ class TimetableTabs extends Component {
     const { timetables } = this.props;
 
     const relativePosition = dragCurrentPosition - dragStartPosition;
-    if ((timetables.findIndex((t) => (t.id === timetable.id)) === 0) && relativePosition < 0) {
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === 0)
+      && relativePosition < 0) {
       return 0;
     }
-    if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1) && relativePosition > 0) {
+    if ((timetables.findIndex((t) => (t.id === timetable.id)) === timetables.length - 1)
+      && relativePosition > 0) {
       return 0;
     }
     return relativePosition;

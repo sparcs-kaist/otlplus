@@ -24,8 +24,14 @@ class CourseInfoSubSection extends Component {
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
           entries={[
-            { name: t('ui.attribute.classification'), info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}` },
-            { name: t('ui.attribute.description'), info: courseFocus.course.summary },
+            {
+              name: t('ui.attribute.classification'),
+              info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}`,
+            },
+            {
+              name: t('ui.attribute.description'),
+              info: courseFocus.course.summary,
+            },
           ]}
           longInfo
         />
@@ -40,8 +46,12 @@ class CourseInfoSubSection extends Component {
               score: courseFocus.course.num_labs,
             },
             {
-              name: (courseFocus.course.credit === 0) ? t('ui.score.au') : t('ui.score.credit'),
-              score: (courseFocus.course.credit === 0) ? courseFocus.course.credit_au : courseFocus.course.credit,
+              name: (courseFocus.course.credit === 0)
+                ? t('ui.score.au')
+                : t('ui.score.credit'),
+              score: (courseFocus.course.credit === 0)
+                ? courseFocus.course.credit_au
+                : courseFocus.course.credit,
             },
           ]}
           big

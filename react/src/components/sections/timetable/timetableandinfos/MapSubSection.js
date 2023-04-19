@@ -128,8 +128,19 @@ class MapSubSection extends Component {
           <div className={classNames('subsection--map__pin__box', (isPinHighlighted ? 'highlighted' : null))}>
             <span>{b}</span>
             {lecturesOnBuilding.map((l) => {
-              const isCircleHighlighted = isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b);
-              return <span className={classNames('background-color--dark', `background-color--${getColorNumber(l)}`, (isCircleHighlighted ? 'highlighted' : null))} key={l.id} />;
+              const isCircleHighlighted = (
+                isSingleFocused(l, lectureFocus) || (multipleFocusBuilding === b)
+              );
+              return (
+                <span
+                  className={classNames(
+                    'background-color--dark',
+                    `background-color--${getColorNumber(l)}`,
+                    (isCircleHighlighted ? 'highlighted' : null)
+                  )}
+                  key={l.id}
+                />
+              );
             })}
           </div>
           <div className={classNames('subsection--map__pin__arrow-shadow', (isPinHighlighted ? 'highlighted' : null))} />

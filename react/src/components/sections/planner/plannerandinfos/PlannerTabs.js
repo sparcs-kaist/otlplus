@@ -532,10 +532,12 @@ class PlannerTabs extends Component {
     const { planners } = this.props;
 
     const relativePosition = dragCurrentPosition - dragStartPosition;
-    if ((planners.findIndex((t) => (t.id === planner.id)) === 0) && relativePosition < 0) {
+    if ((planners.findIndex((t) => (t.id === planner.id)) === 0)
+      && relativePosition < 0) {
       return 0;
     }
-    if ((planners.findIndex((t) => (t.id === planner.id)) === planners.length - 1) && relativePosition > 0) {
+    if ((planners.findIndex((t) => (t.id === planner.id)) === planners.length - 1)
+      && relativePosition > 0) {
       return 0;
     }
     return relativePosition;

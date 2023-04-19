@@ -284,7 +284,10 @@ class CourseListSection extends Component {
     return (
       <div className={classNames('section', 'section--course-list', 'mobile-hidden')}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-list')}>
-          {((selectedListCode === CourseListCode.SEARCH) && searchOpen) ? <CourseSearchSubSection /> : null}
+          {
+            ((selectedListCode === CourseListCode.SEARCH) && searchOpen)
+              && <CourseSearchSubSection />
+          }
           {getListTitle()}
           {getListElement()}
         </div>

@@ -40,8 +40,12 @@ class CourseInfoSubSection extends Component {
               score: itemFocus.course.num_labs,
             },
             {
-              name: (itemFocus.course.credit === 0) ? t('ui.score.au') : t('ui.score.credit'),
-              score: (itemFocus.course.credit === 0) ? itemFocus.course.credit_au : itemFocus.course.credit,
+              name: (itemFocus.course.credit === 0)
+                ? t('ui.score.au')
+                : t('ui.score.credit'),
+              score: (itemFocus.course.credit === 0)
+                ? itemFocus.course.credit_au
+                : itemFocus.course.credit,
             },
           ]}
           big

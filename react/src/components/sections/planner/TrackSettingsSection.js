@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { range } from 'lodash';
+import { range, sum } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 import CloseButton from '../../CloseButton';
@@ -26,9 +26,11 @@ class TrackSettingsSection extends Component {
 
     const { selectedPlanner } = props;
 
+    const selectedPlannerDuration = selectedPlanner.end_year - selectedPlanner.start_year + 1;
+
     this.state = {
       selectedStartYears: new Set([selectedPlanner.start_year.toString()]),
-      selectedDurations: new Set([(selectedPlanner.end_year - selectedPlanner.start_year + 1).toString()]),
+      selectedDurations: new Set([(selectedPlannerDuration).toString()]),
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
       selectedMinorTracks: new Set(
@@ -97,7 +99,12 @@ class TrackSettingsSection extends Component {
     const { tracks } = this.props;
 
     const additionalTrackIds = (
-      [...selectedMinorTracks, ...selectedDoubleTracks, ...selectedAdvancedTracks, ...selectedInterdisciplinaryTracks]
+      [
+        ...selectedMinorTracks,
+        ...selectedDoubleTracks,
+        ...selectedAdvancedTracks,
+        ...selectedInterdisciplinaryTracks,
+      ]
         .map((i) => parseInt(i, 10))
     );
     return additionalTrackIds.map((i) => tracks.additional.find((at) => (at.id === i)));
@@ -165,19 +172,25 @@ class TrackSettingsSection extends Component {
       return;
     }
 
-    const removedItemCount = (
-      selectedPlanner.taken_items.filter((ti) => (ti.lecture.year < startYear || ti.lecture.year > endYear)).length
-        + selectedPlanner.future_items.filter((fi) => (fi.year < startYear || fi.year > endYear)).length
-        + selectedPlanner.arbitrary_items.filter((gi) => (gi.year < startYear || gi.year > endYear)).length
-    );
+    const removedItemCount = sum([
+      selectedPlanner.taken_items
+        .filter((ti) => !this._checkYearInRange(startYear, endYear, ti.lecture.year))
+        .length,
+      selectedPlanner.future_items
+        .filter((fi) => !this._checkYearInRange(startYear, endYear, fi.year))
+        .length,
+      selectedPlanner.arbitrary_items
+        .filter((gi) => !this._checkYearInRange(startYear, endYear, gi.year))
+        .length,
+    ]);
     // eslint-disable-next-line no-alert
     if (removedItemCount > 0 && !window.confirm(`플래너 기간을 ${startYear}~${endYear}년으로 변경하면 ${removedItemCount}개의 과목이 삭제됩니다. 정말 변경하시겠습니까?`)) {
       return;
     }
     const unmatchingPeriodTracksCount = (
-      ((generalTrack.start_year > startYear || generalTrack.end_year < startYear) ? 1 : 0)
-        + ((majorTrack.start_year > startYear || majorTrack.end_year < startYear) ? 1 : 0)
-        + additionalTracks.filter((at) => (at.start_year > startYear || at.end_year < startYear)).length
+      (this._checkYearInTrackRange(generalTrack, startYear) ? 0 : 1)
+        + (this._checkYearInTrackRange(majorTrack, startYear) ? 0 : 1)
+        + additionalTracks.filter((at) => !this._checkYearInTrackRange(at, startYear)).length
     );
     // eslint-disable-next-line no-alert
     if (unmatchingPeriodTracksCount > 0 && !window.confirm(`선택한 졸업요건 중 ${unmatchingPeriodTracksCount}개의 졸업요건은 입학년도가 ${startYear}년일 경우 적용이 불가능할 수 있습니다. 정말 변경하시겠습니까? 해당 요건의 적용 가능 여부는 학사요람을 참고 바랍니다.`)) {
@@ -239,6 +252,16 @@ class TrackSettingsSection extends Component {
   }
 
 
+  _checkYearInRange = (startYear, endYear, year) => (
+    startYear <= year && year <= endYear
+  );
+
+
+  _checkYearInTrackRange = (track, year) => (
+    this._checkYearInRange(track.start_year, track.end_year, year)
+  );
+
+
   render() {
     const {
       selectedStartYears, selectedDurations,
@@ -287,7 +310,7 @@ class TrackSettingsSection extends Component {
               .map((gt) => [
                 gt.id.toString(),
                 getGeneralTrackName(gt),
-                gt.start_year > startYear || gt.end_year < startYear,
+                !this._checkYearInTrackRange(gt, startYear),
               ])
           }
           checkedValues={selectedGeneralTracks}
@@ -303,7 +326,7 @@ class TrackSettingsSection extends Component {
               .map((mt) => [
                 mt.id.toString(),
                 getMajorTrackName(mt),
-                mt.start_year > startYear || mt.end_year < startYear,
+                !this._checkYearInTrackRange(mt, startYear),
               ])
           }
           checkedValues={new Set(selectedMajorTracks)}
@@ -319,7 +342,8 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.code === majorTrack.department.code,
+                !this._checkYearInTrackRange(at, startYear)
+                  || at.department.code === majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedMinorTracks)}
@@ -334,7 +358,8 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.code === majorTrack.department.code,
+                !this._checkYearInTrackRange(at, startYear)
+                  || at.department.code === majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedDoubleTracks)}
@@ -349,7 +374,8 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear || at.department.code !== majorTrack.department.code,
+                !this._checkYearInTrackRange(at, startYear)
+                  || at.department.code !== majorTrack.department.code,
               ])
           }
           checkedValues={new Set(selectedAdvancedTracks)}
@@ -364,7 +390,7 @@ class TrackSettingsSection extends Component {
               .map((at) => [
                 at.id.toString(),
                 getAdditionalTrackName(at),
-                at.start_year > startYear || at.end_year < startYear,
+                !this._checkYearInTrackRange(at, startYear),
               ])
           }
           checkedValues={new Set(selectedInterdisciplinaryTracks)}

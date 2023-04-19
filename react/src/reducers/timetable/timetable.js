@@ -156,13 +156,15 @@ const timetable = (state = initialState, action) => {
             arrange_order: action.arrangeOrder,
           };
         }
-        if (action.arrangeOrder <= t.arrange_order && t.arrange_order < action.timetable.arrange_order) {
+        if (action.arrangeOrder <= t.arrange_order
+          && t.arrange_order < action.timetable.arrange_order) {
           return {
             ...t,
             arrange_order: t.arrange_order + 1,
           };
         }
-        if (action.timetable.arrange_order < t.arrange_order && t.arrange_order <= action.arrangeOrder) {
+        if (action.timetable.arrange_order < t.arrange_order
+          && t.arrange_order <= action.arrangeOrder) {
           return {
             ...t,
             arrange_order: t.arrange_order - 1,

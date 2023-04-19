@@ -111,7 +111,8 @@ const planner = (state = initialState, action) => {
       const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [listName]: state.selectedPlanner[listName].map((i) => (i.id === action.item.id ? action.item : i)),
+        [listName]:
+          state.selectedPlanner[listName].map((i) => (i.id === action.item.id ? action.item : i)),
       };
       const newPlanners = state.planners.map((t) => (
         t.id === newPlanner.id
@@ -147,13 +148,15 @@ const planner = (state = initialState, action) => {
             arrange_order: action.arrangeOrder,
           };
         }
-        if (action.arrangeOrder <= t.arrange_order && t.arrange_order < action.planner.arrange_order) {
+        if (action.arrangeOrder <= t.arrange_order
+          && t.arrange_order < action.planner.arrange_order) {
           return {
             ...t,
             arrange_order: t.arrange_order + 1,
           };
         }
-        if (action.planner.arrange_order < t.arrange_order && t.arrange_order <= action.arrangeOrder) {
+        if (action.planner.arrange_order < t.arrange_order
+          && t.arrange_order <= action.arrangeOrder) {
           return {
             ...t,
             arrange_order: t.arrange_order - 1,

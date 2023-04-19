@@ -439,7 +439,11 @@ class PlannerSubSection extends Component {
     const getTiles = (year, semester, shouldIncludeSeasonal) => {
       const items = [
         ...this._getItemsForSemester(selectedPlanner, year, semester),
-        ...(shouldIncludeSeasonal ? this._getItemsForSemester(selectedPlanner, year, semester + 1) : []),
+        ...(
+          shouldIncludeSeasonal
+            ? this._getItemsForSemester(selectedPlanner, year, semester + 1)
+            : []
+        ),
       ];
       const sizes = items.map((i) => this._getTileSizeOfItem(i));
       return items.map((i, index) => (

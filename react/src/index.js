@@ -83,7 +83,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     response.config.metadata.endTime = new Date();
-    response.config.metadata.duration = response.config.metadata.endTime - response.config.metadata.startTime;
+    response.config.metadata.duration = (
+      response.config.metadata.endTime - response.config.metadata.startTime
+    );
     ReactGA.timing({
       category: response.config.metadata.gaCategory || 'Undefined',
       variable: response.config.metadata.gaVariable || 'Undefined',
@@ -93,7 +95,9 @@ axios.interceptors.response.use(
   },
   (error) => {
     error.config.metadata.endTime = new Date();
-    error.config.metadata.duration = error.config.metadata.endTime - error.config.metadata.startTime;
+    error.config.metadata.duration = (
+      error.config.metadata.endTime - error.config.metadata.startTime
+    );
     return Promise.reject(error);
   },
 );

@@ -87,7 +87,9 @@ SearchFilter.propTypes = {
   updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))
+  ).isRequired,
   checkedValues: PropTypes.instanceOf(Set).isRequired,
   isRadio: PropTypes.bool,
 };

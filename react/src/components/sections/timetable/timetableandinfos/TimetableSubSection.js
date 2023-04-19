@@ -165,7 +165,8 @@ class TimetableSubSection extends Component {
     const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
-      setIsDraggingDispatch, openSearchDispatch, setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
+      setIsDraggingDispatch, openSearchDispatch,
+      setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
       setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
