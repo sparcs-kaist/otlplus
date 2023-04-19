@@ -104,6 +104,9 @@ class MapSubSection extends Component {
       getOverallLectures(selectedTimetable, lectureFocus).map((l) => getBuildingStr(l))
     );
     const mapBuildingToPin = (b) => {
+      if (!b) {
+        return null;
+      }
       const lecturesOnBuilding = this._getLecturesOnBuilding(b);
       const isPinHighlighted = (
         lecturesOnBuilding.some((l) => isSingleFocused(l, lectureFocus))
