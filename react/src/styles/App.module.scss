@@ -3617,10 +3617,11 @@ button.disabled {
 
 
 .background-color {
-    $base-colors: #F0B9B9, #F5C8AE, #F2D7A0, #EDE9A1,
-    #E5F2A2, #D8F5B3, #CAF5BF, #BEEDCE,
-    #B5E6E3, #BDE3F2, #B6D4F0, #B9C3ED,
-    #CCC2ED, #DBC0F0, #EBC0F0, #F5BCD9,
+    $base-colors: 
+    #F2B9B9, #FFC4B2, #F7C4A1, #F7D4A1,
+    #E5D69B, #DCE4A7, #C3E3AB, #B8ECC0,
+    #A1E4C8, #9EE7DD, #98DAE0, #A8D9EC,
+    #B2CAE5, #CCC8E6, #D8BCD4, #EEBFCE,
     #D6D6D6, #B4B4B4,
     adjust-color(#E54C65, $saturation: 5%, $lightness: 10%);
 
