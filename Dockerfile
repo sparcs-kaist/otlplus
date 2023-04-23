@@ -14,4 +14,9 @@ RUN pip install -r requirements.txt
 ADD . .
 
 EXPOSE 8000
+
+ADD ./volumes/config /root/.ssh/config
+ADD ./volumes/key.pem /root/key.pem
+RUN chown -R root:root /root && chmod 400 /root/key.pem
+
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
