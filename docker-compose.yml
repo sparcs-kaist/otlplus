@@ -29,9 +29,9 @@ services:
     ports:
       - "58000:8000"
     volumes:
-      - ./volumes/scripts:/back/scripts
+      - ./volumes/scripts:/var/www/otlplus/scripts
       - ./volumes/config:/root/.ssh/config
       - ./volumes/key.pem:/root/key.pem
-      - ./volumes/logs:/back/logs
-    working_dir: /back
+      - ./volumes/logs:/var/www/otlplus/logs
+    working_dir: /var/www/otlplus
     command: gunicorn otlplus.wsgi --bind 0.0.0.0:8000
