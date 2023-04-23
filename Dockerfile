@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get -y update && apt-get install unixodbc-dev -y && apt-get clean
 RUN pip install --upgrade pip
 
-RUN mkdir /var/www/otlplus
+RUN mkdir -p /var/www/otlplus
 RUN mkdir /var/www/otlplus/logs
 WORKDIR /var/www/otlplus
 ADD ./requirements.txt ./requirements.txt
