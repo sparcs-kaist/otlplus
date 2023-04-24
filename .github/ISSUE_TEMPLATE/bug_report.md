@@ -19,11 +19,12 @@ A clear and concise description of what the bug is.
 
 ## 예상하는 올바른 결과
 
-A clear and concise description of what you expected to happen.
+(OPTIONAL) A clear and concise description of what you expected to happen.
 
 ## 에러 로그
 
 ```sh
+(OPTIONAL)
 ```
 
 ## 스크린샷
@@ -44,4 +45,4 @@ If applicable, add screenshots to help explain your problem.
 
 ## 추가 정보
 
-Add any other context about the problem here.
+(OPTIONAL) Add any other context about the problem here.

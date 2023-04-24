@@ -20,7 +20,7 @@ A clear and concise description of what you want to happen.
 
 ## 스크린샷
 
-If applicable, add screenshots to help explain your feature request.
+(OPTIONAL) If applicable, add screenshots to help explain your feature request.
 
 ## 개발 환경
 
@@ -30,10 +30,12 @@ If applicable, add screenshots to help explain your feature request.
 
 ## 테스트 환경
 
+(OPTIONAL)
+
 - Device: [e.g. iPhone6]
 - OS: [e.g. iOS8.1]
 - Web Version: [e.g. 1.1.0]
 
 ## 추가 정보
 
-Add any other context or screenshots about the feature request here.
+(OPTIONAL) Add any other context or screenshots about the feature request here.
