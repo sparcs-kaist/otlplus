@@ -3642,15 +3642,19 @@ button.disabled {
             &.background-color--stripe {
                 background: repeating-linear-gradient(
                     -45deg,
-                    $base-color 0 4px,
-                    $stripe-color 4px 8px
+                    $base-color 0px,
+                    $base-color 4px,
+                    $stripe-color 4px,
+                    $stripe-color 8px
                 );
             }
             &.background-color--dark.background-color--stripe {
                 background: repeating-linear-gradient(
                     -45deg,
-                    $dark-color 0 2px,
-                    $dark-stripe-color 2px 4px
+                    $dark-color 0px,
+                    $dark-color 2px,
+                    $dark-stripe-color 2px,
+                    $dark-stripe-color 4px
                 );
             }
         }
