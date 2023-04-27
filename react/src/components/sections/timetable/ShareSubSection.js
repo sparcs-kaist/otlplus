@@ -37,6 +37,7 @@ class ShareSubSection extends Component {
                   download
                 >
                   <i className={classNames('icon', 'icon--share-image')} />
+                  <div >이미지로 내보내기</div> 
                 </a>
                 <a
                   style={{ display: 'none' }}
@@ -68,6 +69,7 @@ class ShareSubSection extends Component {
               <>
                 <span className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-image')} />
+                  <div >이미지로 내보내기 </div> 
                 </span>
                 <span style={{ display: 'none' }} className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-googlecalendar')} />
