@@ -9,13 +9,17 @@ from apps.session.models import UserProfile
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument("--host", dest="host", help="Specifies server address.")
-        parser.add_argument("--port", dest="port", help="Specifies server port.")
-        parser.add_argument("--user", dest="user", help="Specifies user name to log in.")
+        parser.add_argument("--host", dest="host",
+                            help="Specifies server address.")
+        parser.add_argument("--port", dest="port",
+                            help="Specifies server port.")
+        parser.add_argument("--user", dest="user",
+                            help="Specifies user name to log in.")
         parser.add_argument("--year", dest="year", help="")
         parser.add_argument("--student_no", dest="student_no", help="")
         parser.add_argument("--semester", dest="semester", help="")
-        parser.add_argument("--password", dest="password", help="Specifies passowrd to log in.")
+        parser.add_argument("--password", dest="password",
+                            help="Specifies passowrd to log in.")
         parser.add_argument(
             "--encoding",
             dest="encoding",
@@ -48,8 +52,7 @@ class Command(BaseCommand):
 
         cleared_semester_list = []
 
-        userprofile_list = UserProfile.objects.filter(
-            student_id=student_no).first()
+        userprofile_list = UserProfile.objects.filter(student_id=student_no)
         lectures = Lecture.objects.filter(deleted=False)
 
         for userprofile in userprofile_list:
