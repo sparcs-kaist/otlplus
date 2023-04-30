@@ -48,15 +48,21 @@ class Command(BaseCommand):
 
         cleared_semester_list = []
 
-        userprofile = UserProfile.objects.filter(student_id=student_no).first()
+        userprofile_list = UserProfile.objects.filter(
+            student_id=student_no).first()
         lectures = Lecture.objects.filter(deleted=False)
-        for a in rows:
-            if (a[0], a[1]) not in cleared_semester_list:
-                cleared_semester_list.append((a[0], a[1]))
-                userprofile.taken_lectures.remove(*userprofile.taken_lectures.filter(year=a[0], semester=a[1]))
-            try:
-                lecture = lectures.get(year=a[0], semester=a[1], code=a[2], class_no=a[3].strip(), deleted=False)
-                userprofile.taken_lectures.add(lecture)
-            except (Lecture.DoesNotExist, Lecture.MultipleObjectsReturned) as exception:
-                print(f"error on getting lecture for {str(a[0])} {str(a[1])} {a[2]} {a[3]}", file=sys.stderr)
-                print(exception, file=sys.stderr)
+
+        for userprofile in userprofile_list:
+            for a in rows:
+                if (a[0], a[1]) not in cleared_semester_list:
+                    cleared_semester_list.append((a[0], a[1]))
+                    userprofile.taken_lectures.remove(
+                        *userprofile.taken_lectures.filter(year=a[0], semester=a[1]))
+                try:
+                    lecture = lectures.get(
+                        year=a[0], semester=a[1], code=a[2], class_no=a[3].strip(), deleted=False)
+                    userprofile.taken_lectures.add(lecture)
+                except (Lecture.DoesNotExist, Lecture.MultipleObjectsReturned) as exception:
+                    print(
+                        f"error on getting lecture for {str(a[0])} {str(a[1])} {a[2]} {a[3]}", file=sys.stderr)
+                    print(exception, file=sys.stderr)
