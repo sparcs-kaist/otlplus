@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'otlplus',
         'USER': 'root',
         'PASSWORD': 'p@ssw0rd',
-        'HOST': 'otlplus-db',
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
