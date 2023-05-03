@@ -86,10 +86,14 @@ WSGI_APPLICATION = "otlplus.wsgi.application"
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'otlplus',
+        'USER': 'root',
+        'PASSWORD': 'p@ssw0rd',
+        'HOST': 'otlplus-db',
+        'PORT': '3306',
+    }
 }
 
 CACHES = {
