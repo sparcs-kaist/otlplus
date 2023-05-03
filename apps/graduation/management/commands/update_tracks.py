@@ -24,6 +24,8 @@ class Command(BaseCommand):
                 fields["start_year"] = UNBOUND_START_YEAR
             if fields["end_year"] == "":
                 fields["end_year"] = UNBOUND_END_YEAR
+            if "basic_elective_doublemajor" in fields and fields["basic_elective_doublemajor"] == "":
+                fields["basic_elective_doublemajor"] = 3
             if "department" in fields:
                 fields["department"] = Department.objects.filter(code=fields["department"], visible=True).last() \
                                            if fields["department"] != "" \
