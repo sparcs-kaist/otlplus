@@ -14,13 +14,9 @@ export const getGeneralTrackName = (track, short = false) => {
 };
 
 export const getMajorTrackName = (track, short = false) => {
-  const type = i18n.t('ui.track.major');
   const name = track.department[i18n.t('js.property.name')];
   const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
-  if (short) {
-    return `${name} (${year})`;
-  }
-  return `${type} - ${name} (${year})`;
+  return `${name} (${year})`;
 };
 
 export const getAdditionalTrackName = (track, short = false) => {

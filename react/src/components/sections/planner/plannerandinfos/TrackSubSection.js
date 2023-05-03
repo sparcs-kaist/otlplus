@@ -24,7 +24,7 @@ class TrackSubSection extends Component {
                 name: t('ui.attribute.general'),
                 info: (
                   selectedPlanner
-                    ? getGeneralTrackName(selectedPlanner.general_track, 'GENERAL')
+                    ? getGeneralTrackName(selectedPlanner.general_track)
                     : '-'
                 ),
               },
@@ -32,7 +32,7 @@ class TrackSubSection extends Component {
                 name: t('ui.attribute.major'),
                 info: (
                   selectedPlanner
-                    ? getMajorTrackName(selectedPlanner.major_track, 'MAJOR')
+                    ? getMajorTrackName(selectedPlanner.major_track)
                     : '-'
                 ),
               },
@@ -41,7 +41,7 @@ class TrackSubSection extends Component {
                 info: (
                   selectedPlanner
                     ? selectedPlanner.additional_tracks
-                      .map((at) => (getAdditionalTrackName(at, 'ADDITIONAL')))
+                      .map((at) => (getAdditionalTrackName(at)))
                       .join(', ')
                     : '-'
                 ),
