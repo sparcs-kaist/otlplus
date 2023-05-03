@@ -249,6 +249,14 @@
       "all": "전체",
       "allSemesters": "전체 학기"
     },
+    "track": {
+      "general": "일반",
+      "major": "전공",
+      "doubleMajor": "복수전공",
+      "minor": "부전공",
+      "advancedMajor": "심화전공",
+      "interdisciplinaryMajor": "자유융합전공"
+    },
     "schedule": {
       "beginning": "개강",
       "end": "종강",

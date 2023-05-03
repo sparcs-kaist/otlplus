@@ -249,6 +249,14 @@
       "all": "All",
       "allSemesters": "All Semesters"
     },
+    "track": {
+      "general": "General",
+      "major": "Major",
+      "doubleMajor": "Double Major",
+      "minor": "Minor",
+      "advancedMajor": "Advanced Major",
+      "interdisciplinaryMajor": "Interdisciplinary Major"
+    },
     "schedule": {
       "beginning": "Beginning",
       "end": "End",

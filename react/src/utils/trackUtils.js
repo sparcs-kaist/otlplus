@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+
 export const getYearName = (year) => {
   if (year <= 2000 || year >= 2100) {
     return '';
@@ -6,25 +8,25 @@ export const getYearName = (year) => {
 };
 
 export const getGeneralTrackName = (track) => {
-  return `일반 (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+  return `${i18n.t('ui.track.general')} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
 };
 
 export const getMajorTrackName = (track) => {
-  return `전공-${getYearName(track.department.name)} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+  return `${i18n.t('ui.track.major')} - ${getYearName(track.department[i18n.t('js.property.name')])} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
 };
 
 export const getAdditionalTrackName = (track) => {
   if (track.type === 'DOUBLE') {
-    return `복수전공-${track.department.name} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+    return `${i18n.t('ui.track.doubleMajor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
   }
   if (track.type === 'MINOR') {
-    return `부전공-${track.department.name} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+    return `${i18n.t('ui.track.minor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
   }
   if (track.type === 'ADVANCED') {
-    return `심화전공-${track.department.name} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+    return `${i18n.t('ui.track.advancedMajor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
   }
   if (track.type === 'INTERDISCIPLINARY') {
-    return `자유융합전공 (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+    return `${i18n.t('ui.track.interdisciplinaryMajor')} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
   }
   return 'Unknown';
 };
