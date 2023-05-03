@@ -308,8 +308,12 @@ class TrackSettingsSection extends Component {
             inputName="general"
             titleName={t('ui.attribute.general')}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.general
                 .filter((at) => at.end_year >= 2020)
+                .sort((at1, at2) => {
+                  return at1.start_year - at2.start_year;
+                })
                 .map((gt) => [
                   gt.id.toString(),
                   getGeneralTrackName(gt),
@@ -324,8 +328,18 @@ class TrackSettingsSection extends Component {
             inputName="major"
             titleName={t('ui.attribute.major')}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.major
                 .filter((at) => at.end_year >= 2020)
+                .sort((at1, at2) => {
+                  if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
+                    return -1000;
+                  }
+                  if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
+                    return 1000;
+                  }
+                  return at1.start_year - at2.start_year;
+                })
                 .map((mt) => [
                   mt.id.toString(),
                   getMajorTrackName(mt),
@@ -340,8 +354,18 @@ class TrackSettingsSection extends Component {
             inputName="minor"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.additional
                 .filter((at) => (at.end_year >= 2020 && at.type === 'MINOR'))
+                .sort((at1, at2) => {
+                  if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
+                    return -1000;
+                  }
+                  if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
+                    return 1000;
+                  }
+                  return at1.start_year - at2.start_year;
+                })
                 .map((at) => [
                   at.id.toString(),
                   getAdditionalTrackName(at),
@@ -356,8 +380,18 @@ class TrackSettingsSection extends Component {
             inputName="double"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.additional
                 .filter((at) => (at.end_year >= 2020 && at.type === 'DOUBLE'))
+                .sort((at1, at2) => {
+                  if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
+                    return -1000;
+                  }
+                  if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
+                    return 1000;
+                  }
+                  return at1.start_year - at2.start_year;
+                })
                 .map((at) => [
                   at.id.toString(),
                   getAdditionalTrackName(at),
@@ -372,8 +406,18 @@ class TrackSettingsSection extends Component {
             inputName="advanced"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.additional
                 .filter((at) => (at.end_year >= 2020 && at.type === 'ADVANCED'))
+                .sort((at1, at2) => {
+                  if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
+                    return -1000;
+                  }
+                  if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
+                    return 1000;
+                  }
+                  return at1.start_year - at2.start_year;
+                })
                 .map((at) => [
                   at.id.toString(),
                   getAdditionalTrackName(at),
@@ -388,8 +432,12 @@ class TrackSettingsSection extends Component {
             inputName="interdisciplinary"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
             options={
+              // eslint-disable-next-line fp/no-mutating-methods
               tracks.additional
                 .filter((at) => (at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY'))
+                .sort((at1, at2) => {
+                  return at1.start_year - at2.start_year;
+                })
                 .map((at) => [
                   at.id.toString(),
                   getAdditionalTrackName(at),
