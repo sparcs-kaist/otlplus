@@ -17,6 +17,8 @@ class Command(BaseCommand):
         labels = lines[0].strip().split(Command.DELIMITER)
         for l in lines[1:]:
             words = l.strip().split(Command.DELIMITER)
+            if len(words) == 0:
+                continue
             fields = dict(zip(labels, words))
             if fields["start_year"] == "":
                 fields["start_year"] = UNBOUND_START_YEAR
