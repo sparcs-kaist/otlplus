@@ -123,31 +123,35 @@ class PlannerTabs extends Component {
   _getPlannerGeneralTrack = (user, startYear) => {
     const { tracks } = this.props;
 
-    const targetTracks = tracks.general.filter((gt) => (
+    const yearedTracks = tracks.general.filter((gt) => (
       startYear >= gt.start_year
         && startYear <= gt.end_year
-        && !gt.is_foreign
+    ));
+    const targetTracks = yearedTracks.filter((gt) => (
+      !gt.is_foreign
     ));
 
     if (targetTracks.length > 0) {
       return targetTracks[0];
     }
-    return tracks.general[0];
+    return yearedTracks[0];
   }
 
   _getPlannerMajorTrack = (user, startYear) => {
     const { tracks } = this.props;
 
-    const targetTracks = tracks.major.filter((mt) => (
+    const yearedTracks = tracks.major.filter((mt) => (
       startYear >= mt.start_year
         && startYear <= mt.end_year
-        && mt.department.code === user?.department?.code
+    ));
+    const targetTracks = yearedTracks.filter((mt) => (
+      mt.department.code === user?.department?.code
     ));
 
     if (targetTracks.length > 0) {
       return targetTracks[0];
     }
-    return tracks.major[0];
+    return yearedTracks[0];
   }
 
   changeTab = (planner) => {
