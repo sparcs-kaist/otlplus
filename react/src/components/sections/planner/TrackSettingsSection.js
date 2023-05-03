@@ -316,7 +316,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((gt) => [
                   gt.id.toString(),
-                  getGeneralTrackName(gt),
+                  getGeneralTrackName(gt, true),
                   !this._checkYearInTrackRange(gt, startYear),
                 ])
             }
@@ -342,7 +342,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((mt) => [
                   mt.id.toString(),
-                  getMajorTrackName(mt),
+                  getMajorTrackName(mt, true),
                   !this._checkYearInTrackRange(mt, startYear),
                 ])
             }
@@ -368,7 +368,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((at) => [
                   at.id.toString(),
-                  getAdditionalTrackName(at),
+                  getAdditionalTrackName(at, true),
                   !this._checkYearInTrackRange(at, startYear)
                     || at.department.code === majorTrack.department.code,
                 ])
@@ -394,7 +394,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((at) => [
                   at.id.toString(),
-                  getAdditionalTrackName(at),
+                  getAdditionalTrackName(at, true),
                   !this._checkYearInTrackRange(at, startYear)
                     || at.department.code === majorTrack.department.code,
                 ])
@@ -420,7 +420,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((at) => [
                   at.id.toString(),
-                  getAdditionalTrackName(at),
+                  getAdditionalTrackName(at, true),
                   !this._checkYearInTrackRange(at, startYear)
                     || at.department.code !== majorTrack.department.code,
                 ])
@@ -440,7 +440,7 @@ class TrackSettingsSection extends Component {
                 })
                 .map((at) => [
                   at.id.toString(),
-                  getAdditionalTrackName(at),
+                  getAdditionalTrackName(at, true),
                   !this._checkYearInTrackRange(at, startYear),
                 ])
             }

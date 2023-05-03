@@ -7,26 +7,45 @@ export const getYearName = (year) => {
   return year.toString();
 };
 
-export const getGeneralTrackName = (track) => {
-  return `${i18n.t('ui.track.general')} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+export const getGeneralTrackName = (track, short = false) => {
+  const name = i18n.t('ui.track.general');
+  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
+  return `${name} (${year})`;
 };
 
-export const getMajorTrackName = (track) => {
-  return `${i18n.t('ui.track.major')} - ${getYearName(track.department[i18n.t('js.property.name')])} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+export const getMajorTrackName = (track, short = false) => {
+  const type = i18n.t('ui.track.major');
+  const name = track.department[i18n.t('js.property.name')];
+  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
+  if (short) {
+    return `${name} (${year})`;
+  }
+  return `${type} - ${name} (${year})`;
 };
 
-export const getAdditionalTrackName = (track) => {
-  if (track.type === 'DOUBLE') {
-    return `${i18n.t('ui.track.doubleMajor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
-  }
-  if (track.type === 'MINOR') {
-    return `${i18n.t('ui.track.minor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
-  }
-  if (track.type === 'ADVANCED') {
-    return `${i18n.t('ui.track.advancedMajor')} - ${track.department[i18n.t('js.property.name')]} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
-  }
+export const getAdditionalTrackName = (track, short = false) => {
+  const type = (
+    track.type === 'DOUBLE'
+      ? i18n.t('ui.track.doubleMajor')
+      : track.type === 'MINOR'
+        ? i18n.t('ui.track.minor')
+        : track.type === 'ADVANCED'
+          ? i18n.t('ui.track.advancedMajor')
+          : track.type === 'INTERDISCIPLINARY'
+            ? i18n.t('ui.track.interdisciplinaryMajor')
+            : '기타'
+  );
+  const name = (
+    track.type !== 'INTERDISCIPLINARY'
+      ? track.department[i18n.t('js.property.name')]
+      : ''
+  );
+  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
   if (track.type === 'INTERDISCIPLINARY') {
-    return `${i18n.t('ui.track.interdisciplinaryMajor')} (${getYearName(track.start_year)}~${getYearName(track.end_year)})`;
+    return `${type} (${year})`;
   }
-  return 'Unknown';
+  if (short) {
+    return `${name} (${year})`;
+  }
+  return `${type} - ${name} (${year})`;
 };
