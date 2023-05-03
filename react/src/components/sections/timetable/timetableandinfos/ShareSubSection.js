@@ -25,7 +25,9 @@ class ShareSubSection extends Component {
       setMobileIsTimetableTabsOpenDispatch, setMobileIsLectureListOpenDispatch,
     } = this.props;
 
-    const apiParameter = `timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`;
+    const apiParameter = selectedTimetable
+      ? `timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`
+      : '';
 
     return (
       <div className={classNames('subsection--share', (mobileIsLectureListOpen ? 'mobile-hidden' : null))}>
