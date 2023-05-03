@@ -1057,6 +1057,12 @@ a {
     }
 
 
+    &--track-settings {
+        display: flex;
+        flex-direction: column;
+    }
+
+
     &--syllabus {
         grid-area: syllabus;
         border-top-left-radius: 0;

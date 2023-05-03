@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { range, sum } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
+
+import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
@@ -275,133 +277,135 @@ class TrackSettingsSection extends Component {
     const majorTrack = this._getSelectedMajorTrack();
 
     return (
-      <div className={classNames('section', 'section--modal')}>
+      <div className={classNames('section', 'section--modal', 'section--track-settings')}>
         <CloseButton onClick={this.close} />
         <div className={classNames('title')}>
           {t('ui.title.plannerSettings')}
         </div>
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedStartYears')}
-          inputName="startYear"
-          titleName={t('ui.attribute.entranceYear')}
-          options={
-            range(2015, (new Date()).getFullYear() + 1).map((y) => [y.toString(), y.toString()])
-          }
-          checkedValues={selectedStartYears}
-          isRadio={true}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedDurations')}
-          inputName="duration"
-          titleName={t('ui.attribute.enrollmentPeriod')}
-          options={
-            range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])
-          }
-          checkedValues={selectedDurations}
-          isRadio={true}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
-          inputName="general"
-          titleName={t('ui.attribute.general')}
-          options={
-            tracks.general
-              .filter((at) => at.end_year >= 2020)
-              .map((gt) => [
-                gt.id.toString(),
-                getGeneralTrackName(gt),
-                !this._checkYearInTrackRange(gt, startYear),
-              ])
-          }
-          checkedValues={selectedGeneralTracks}
-          isRadio={true}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedMajorTracks')}
-          inputName="major"
-          titleName={t('ui.attribute.major')}
-          options={
-            tracks.major
-              .filter((at) => at.end_year >= 2020)
-              .map((mt) => [
-                mt.id.toString(),
-                getMajorTrackName(mt),
-                !this._checkYearInTrackRange(mt, startYear),
-              ])
-          }
-          checkedValues={new Set(selectedMajorTracks)}
-          isRadio={true}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedMinorTracks')}
-          inputName="minor"
-          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
-          options={
-            tracks.additional
-              .filter((at) => (at.end_year >= 2020 && at.type === 'MINOR'))
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at),
-                !this._checkYearInTrackRange(at, startYear)
-                  || at.department.code === majorTrack.department.code,
-              ])
-          }
-          checkedValues={new Set(selectedMinorTracks)}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedDoubleTracks')}
-          inputName="double"
-          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
-          options={
-            tracks.additional
-              .filter((at) => (at.end_year >= 2020 && at.type === 'DOUBLE'))
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at),
-                !this._checkYearInTrackRange(at, startYear)
-                  || at.department.code === majorTrack.department.code,
-              ])
-          }
-          checkedValues={new Set(selectedDoubleTracks)}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedAdvancedTracks')}
-          inputName="advanced"
-          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
-          options={
-            tracks.additional
-              .filter((at) => (at.end_year >= 2020 && at.type === 'ADVANCED'))
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at),
-                !this._checkYearInTrackRange(at, startYear)
-                  || at.department.code !== majorTrack.department.code,
-              ])
-          }
-          checkedValues={new Set(selectedAdvancedTracks)}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedInterdisciplinaryTracks')}
-          inputName="interdisciplinary"
-          titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
-          options={
-            tracks.additional
-              .filter((at) => (at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY'))
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at),
-                !this._checkYearInTrackRange(at, startYear),
-              ])
-          }
-          checkedValues={new Set(selectedInterdisciplinaryTracks)}
-        />
-        <div className={classNames('caption')}>
-          Beta UI:
-          <br />
-          본 UI는 완성되지 않은 임시 UI로, 추후 다른 UI로 대체될 예정입니다.
-          <br />
-          일부 요건은 함께 선택할 수 없습니다.
-        </div>
+        <Scroller>
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedStartYears')}
+            inputName="startYear"
+            titleName={t('ui.attribute.entranceYear')}
+            options={
+              range(2015, (new Date()).getFullYear() + 1).map((y) => [y.toString(), y.toString()])
+            }
+            checkedValues={selectedStartYears}
+            isRadio={true}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedDurations')}
+            inputName="duration"
+            titleName={t('ui.attribute.enrollmentPeriod')}
+            options={
+              range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])
+            }
+            checkedValues={selectedDurations}
+            isRadio={true}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
+            inputName="general"
+            titleName={t('ui.attribute.general')}
+            options={
+              tracks.general
+                .filter((at) => at.end_year >= 2020)
+                .map((gt) => [
+                  gt.id.toString(),
+                  getGeneralTrackName(gt),
+                  !this._checkYearInTrackRange(gt, startYear),
+                ])
+            }
+            checkedValues={selectedGeneralTracks}
+            isRadio={true}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedMajorTracks')}
+            inputName="major"
+            titleName={t('ui.attribute.major')}
+            options={
+              tracks.major
+                .filter((at) => at.end_year >= 2020)
+                .map((mt) => [
+                  mt.id.toString(),
+                  getMajorTrackName(mt),
+                  !this._checkYearInTrackRange(mt, startYear),
+                ])
+            }
+            checkedValues={new Set(selectedMajorTracks)}
+            isRadio={true}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedMinorTracks')}
+            inputName="minor"
+            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
+            options={
+              tracks.additional
+                .filter((at) => (at.end_year >= 2020 && at.type === 'MINOR'))
+                .map((at) => [
+                  at.id.toString(),
+                  getAdditionalTrackName(at),
+                  !this._checkYearInTrackRange(at, startYear)
+                    || at.department.code === majorTrack.department.code,
+                ])
+            }
+            checkedValues={new Set(selectedMinorTracks)}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedDoubleTracks')}
+            inputName="double"
+            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
+            options={
+              tracks.additional
+                .filter((at) => (at.end_year >= 2020 && at.type === 'DOUBLE'))
+                .map((at) => [
+                  at.id.toString(),
+                  getAdditionalTrackName(at),
+                  !this._checkYearInTrackRange(at, startYear)
+                    || at.department.code === majorTrack.department.code,
+                ])
+            }
+            checkedValues={new Set(selectedDoubleTracks)}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedAdvancedTracks')}
+            inputName="advanced"
+            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
+            options={
+              tracks.additional
+                .filter((at) => (at.end_year >= 2020 && at.type === 'ADVANCED'))
+                .map((at) => [
+                  at.id.toString(),
+                  getAdditionalTrackName(at),
+                  !this._checkYearInTrackRange(at, startYear)
+                    || at.department.code !== majorTrack.department.code,
+                ])
+            }
+            checkedValues={new Set(selectedAdvancedTracks)}
+          />
+          <SearchFilter
+            updateCheckedValues={this.updateCheckedValues('selectedInterdisciplinaryTracks')}
+            inputName="interdisciplinary"
+            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
+            options={
+              tracks.additional
+                .filter((at) => (at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY'))
+                .map((at) => [
+                  at.id.toString(),
+                  getAdditionalTrackName(at),
+                  !this._checkYearInTrackRange(at, startYear),
+                ])
+            }
+            checkedValues={new Set(selectedInterdisciplinaryTracks)}
+          />
+          <div className={classNames('caption')}>
+            Beta UI:
+            <br />
+            본 UI는 완성되지 않은 임시 UI로, 추후 다른 UI로 대체될 예정입니다.
+            <br />
+            일부 요건은 함께 선택할 수 없습니다.
+          </div>
+        </Scroller>
         <div className={classNames('buttons')}>
           <button className={classNames('text-button')} onClick={this.submit}>
             {t('ui.button.confirm')}
