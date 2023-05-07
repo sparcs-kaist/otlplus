@@ -1,3 +1,8 @@
+import django
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "otlplus.settings")
+django.setup()
+
 import json
 from json import JSONDecodeError
 from typing import Optional, Union

@@ -32,29 +32,6 @@ urlpatterns = [
     # Admin Page
     url(r"^admin/", admin.site.urls),
 
-    # Service Worker
-    url(r"^index.html$", lambda request: render(request, "index.html")),
-    url(r"^precache-manifest.(?P<hash>\w+).js$",
-        lambda request, hash: render(request,
-                                     f"precache-manifest.{hash}.js",
-                                     content_type="application/javascript")),
-    url(r"^service-worker.js$",
-        lambda request: render(request,
-                               "service-worker.js",
-                               content_type="application/javascript")),
-    url(r"^service-worker.js.map$",
-        lambda request: render(request,
-                               "service-worker.js.map",
-                               content_type="application/json")),
-    url(r"^workbox-(?P<hash>\w+).js$",
-        lambda request, hash: render(request,
-                                     f"workbox-{hash}.js",
-                                     content_type="application/javascript")),
-    url(r"^workbox-(?P<hash>\w+).js.map$",
-        lambda request, hash: render(request,
-                                     f"workbox-{hash}.js.map",
-                                     content_type="application/json")),
-
     # Session
     url(r"^session/$",
         session_views.home),
@@ -170,5 +147,4 @@ urlpatterns = [
 
     url(r"^api/status$", lambda request: HttpResponse()),
     url(r"^api/", lambda request: HttpResponseNotFound("Bad url")),
-    url(r"^", lambda request: render(request, "index.html")),
 ]

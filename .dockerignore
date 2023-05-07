@@ -1,0 +1,14 @@
+**/.DS_Store
+
+**/.git
+**/.gitignore
+
+**/__pycache__/
+/.github/
+/.idea/
+
+/volumes/db
+
+.pylintrc
+db.sqlite3
+README.md

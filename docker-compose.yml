@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: otlplus-db
+    platform: linux/amd64
+    image: mysql:5.7
+    restart: on-failure
+    ports:
+      - "53306:3306"
+    environment:
+      - MYSQL_ROOT_HOSTS=%
+      - MYSQL_ROOT_PASSWORD=${OTLPLUS_DB_PASSWORD}
+      - MYSQL_DATABASE=otlplus
+    volumes:
+      - ./volumes/db:/var/lib/mysql
+      - ./volumes/dump:/dump
+    command: --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB
+  back:
+    depends_on: 
+      wait-for-db:
+        condition: service_completed_successfully
+    container_name: otlplus-back
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.back.local
+    restart: always
+    tty: true
+    ports:
+      - "58000:8000"
+    volumes:
+      - .:/var/www/otlplus:ro
+    working_dir: /var/www/otlplus
+  wait-for-db:
+    image: atkrad/wait4x
+    depends_on:
+      - db
+    command: tcp db:3306 -t 30s -i 250ms

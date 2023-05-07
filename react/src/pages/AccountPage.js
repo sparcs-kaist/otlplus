@@ -8,6 +8,7 @@ import Scroller from '../components/Scroller';
 import MyInfoSubSection from '../components/sections/account/MyInfoSubSection';
 import AcademicInfoSubSection from '../components/sections/account/AcademicInfoSubSection';
 import FavoriteDepartmentsSubSection from '../components/sections/account/FavoriteDepartmentsSubSection';
+import { API_URL } from '../const';
 
 
 class AccountPage extends Component {
@@ -25,7 +26,7 @@ class AccountPage extends Component {
               <FavoriteDepartmentsSubSection />
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
               <div>
-                <a href="/session/logout/" className={classNames('text-button')}>
+                <a href={`${API_URL}/session/logout?next=${window.location.origin}`} className={classNames('text-button')}>
                   {t('ui.button.signOut')}
                 </a>
               </div>

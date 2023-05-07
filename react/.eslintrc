@@ -38,6 +38,7 @@
     "react/require-default-props": "off",
     "react/prefer-stateless-function": 0,
     "react/prop-types": [2, {"ignore": ["children", "match", "t", "i18n"]}],
+    "react/no-unknown-property": 0,
 
     "no-loops/no-loops": "error",
 
