@@ -18,6 +18,8 @@ const ReviewSimpleBlock = ({ t, review, linkTo }) => {
     <RootTag
       to={linkTo}
       className={classNames('block', 'block--review-simple')}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <div>
         <span>
