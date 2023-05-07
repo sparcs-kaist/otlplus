@@ -10,6 +10,8 @@ import userShape from '../../../shapes/model/UserShape';
 
 import logoImage from '../images/Services-OTL.svg';
 
+import { API_URL } from '../../../const';
+
 
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
@@ -173,7 +175,7 @@ class Header extends Component {
                     )
                     : (
 
-                      <a href={`/session/login/?next=${window.location.href}`}>
+                      <a href={`${API_URL}/session/login/?next=${window.location.href}`}>
                         <i className={classNames('icon--header_user')} />
                         <span>
                           {t('ui.menu.signIn')}

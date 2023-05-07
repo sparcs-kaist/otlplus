@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: otlplus-db-dev
+    platform: linux/amd64
+    image: mysql:5.7
+    restart: on-failure
+    ports:
+      - "53306:3306"
+    environment:
+      - MYSQL_ROOT_HOSTS=%
+      - MYSQL_ROOT_PASSWORD=${OTLPLUS_DB_PASSWORD}
+      - MYSQL_DATABASE=otlplus
+    volumes:
+      - ../volumes/db:/var/lib/mysql
+      - ../volumes/dump:/dump
+    command: --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB
+  back:
+    depends_on: 
+      - db
+    container_name: otlplus-back-dev
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.back
+    restart: always
+    tty: true
+    ports:
+      - "58000:8000"
+    volumes:
+      - ../volumes/scripts:/var/www/otlplus/scripts:ro
+      - ../volumes/logs:/var/www/otlplus/logs
+    working_dir: /var/www/otlplus

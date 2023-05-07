@@ -23,7 +23,7 @@ jobs:
           cache: npm
           cache-dependency-path: react/package-lock.json
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
       - name: Build
         run: npm run build
   
@@ -43,7 +43,7 @@ jobs:
           cache: npm
           cache-dependency-path: react/package-lock.json
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
       - name: Run tests
         run: npm t
 
@@ -61,6 +61,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt 
       - name: Add dummy keys
-        run: mkdir keys && echo "DJANGO_SECRET_KEY" > keys/django_secret && touch keys/sso_secret
+        run: |
+          mkdir keys && echo "DJANGO_SECRET_KEY" > keys/django_secret && touch keys/sso_secret
+          echo "DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3',},}" > settings_local.py
       - name: Run tests
         run: pytest tests/

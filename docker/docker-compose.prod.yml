@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  back:
+    depends_on: 
+      - db
+    container_name: otlplus-back
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.back
+    restart: always
+    tty: true
+    ports:
+      - "58000:8000"
+    volumes:
+      - ../volumes/scripts:/var/www/otlplus/scripts:ro
+      - ../volumes/logs:/var/www/otlplus/logs
+    working_dir: /var/www/otlplus

@@ -19,6 +19,122 @@ Online Timeplanner with Lectures Plus @ KAIST <https://otl.kaist.ac.kr/>
 
 ## 개발 환경 설정
 
+### 0. 준비요건
+
+* Docker가 설치되어 있어야 합니다.
+* Windows의 경우 wsl shell에서 명령어들을 실행해야 합니다.
+* Frontend는 3000, Backend는 58000, DB는 53306 포트를 사용합니다. 따라서 이 포트들은 사용되지 않은 상태여야 합니다.
+
+### 1. Git clone하기
+
+```bash
+git clone https://github.com/sparcs-kaist/otlplus
+cd otlplus
+```
+
+### 2. Secret 설정하기
+
+**⚠️ 초기 설정에만 다음의 Secret 설정들이 필요합니다.**
+
+#### Django secret 설정하기
+
+`DJANGO_SECRET_KEY`는 임의의 문자열을 사용해도 무관합니다.
+
+```bash
+mkdir keys && touch ./keys/sso_secret && echo "DJANGO_SECRET_KEY" > ./keys/django_secret
+```
+
+#### SPARCS SSO secret 설정하기
+
+1. SPARCS 계정으로 [sparcssso.kaist.ac.kr](http://sparcssso.kaist.ac.kr) 로그인한 후 상단의 Dev Center로 접속
+2. Test Services의 register를 누릅니다.
+3. 다음의 정보를 입력하여 Test Service를 생성합니다.
+
+> Alias: (Any name)  
+> Main URL: <http://localhost:3000>  
+> Login Callback URL: <http://localhost:58000/session/login/callback>  
+> Unregister URL: <http://localhost:58000/session/unregister>  
+> Cooltime: 0
+
+4. Dev Center 홈으로 돌아가 생성된 Test Service에 위치한 Modify 버튼을 누릅니다.
+5. otlplus 폴더에 ./settings_local.py를 생성한 후 4에서 들어간 페이지에 적힌 Name과 Secret Key를 참고하여 다음의 형식으로 작성합니다.
+
+```python
+SSO_IS_BETA = False
+SSO_CLIENT_ID = "test0000000000000000" # SSO의 'Name' (또는 'Client ID') 필드
+SSO_SECRET_KEY = "00000000000000000000" # SSO의 'Secret Key' 필드
+```
+
+### 3. Backend 시작하기
+
+Backend를 시작하고 싶다면 otlplus 폴더에서 다음 명령어를 실행합니다.
+
+```bash
+OTLPLUS_DB_PASSWORD=p@ssw0rd docker compose up
+```
+
+> WSL에서 docker 명령어 없음으로 뜬다면,  
+> Docker 실행 후 settings > resources >wsl integration >enable integration with ~ 를 켜줍니다.
+
+#### [초기 필수] Migrate하기
+
+**⚠️ 초기 설정이거나 DB 구조가 변경된 경우에만 다음이 필요합니다.**
+
+1. `docker compose up`을 실행한 방금 터미널을 그대로 둡니다.
+2. 새로운 터미널을 켭니다.
+3. 다음을 한 줄씩 실행합니다.
+
+```bash
+docker exec -it otlplus-back /bin/bash
+python manage.py migrate
+exit
+```
+
+#### [선택] DB Dump 파일 적용하기
+
+**⚠️ 기존 DB Dump 파일을 적용하고 싶은 경우에만 다음이 필요합니다.**
+
+1. 담당자에게 요청해서 dump.sql 파일을 다운로드 받습니다.
+2. otlplus 폴더 기준 ./volumes/dump/dump.sql 경로로 dump.sql을 옮깁니다.
+3. 다음을 한 줄씩 실행합니다.
+
+```bash
+docker exec -it otlplus-db /bin/bash
+mysql -uroot -p'p@ssw0rd' -Dotlplus < /dump/dump.sql
+exit
+```
+
+### 4.Frontend 시작하기
+
+```bash
+cd react
+npm i
+npm start
+```
+
+### 5. DB 접속하기
+
+DB 접속을 원하는 경우 다음의 정보를 사용하세요.
+
+> host: localhost  
+> port: 53306  
+> user: root  
+> password: p@ssw0rd  
+> name: otlplus
+
+### 6. 정리하기
+
+만약 실행했던 개발 환경을 정리하고 싶다면 아래 명령어를 입력해 주세요.
+
+```sh
+docker compose down
+rm -rf ./volumes/db
+```
+
+## 개발 환경 설정 (Deprecated)
+
+2023.5.5. 까지 사용했던 Docker Compose 없는 개발 환경입니다.
+
 ### Django 환경 설정
 
 Working directory: `PROJECT_ROOT`
