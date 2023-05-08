@@ -35,9 +35,11 @@
       "famousHumanityReviews": "Famous Humanity Reviews",
       "rateOtl": "Rate OTL",
       "writeReview": "Write Review",
+      "plannerSettings": "Planner Settings",
       "myInformation": "My Information",
       "academicInformation": "Academic Information",
-      "settings": "Settings"
+      "settings": "Settings",
+      "lectureInformation": "Lecture Information"
     },
     "tab": {
       "search": "Search",
@@ -66,6 +68,8 @@
       "switchTable": "Switch Table",
       "showLectures": "Show Lectures",
       "search": "Search",
+      "change": "Change",
+      "confirm": "Confirm",
       "cancel": "Cancel",
       "like": "Like",
       "report": "Report",
@@ -79,7 +83,8 @@
       "writeMoreReviews": "Write More Reviews",
       "save": "Save",
       "submit": "Submit",
-      "signOut": "Sign Out"
+      "signOut": "Sign Out",
+      "reset": "Reset"
     },
     "attribute": {
       "department": "Dept.",
@@ -93,7 +98,13 @@
       "name": "Name",
       "email": "Email",
       "studentId": "Student ID",
-      "major": "Major"
+      "entranceYear": "Entrance Year",
+      "enrollmentPeriod": "Enrollment Period",
+      "all": "ALL",
+      "basic": "Basic",
+      "major": "Major",
+      "general": "General",
+      "additional": "Additional"
     },
     "score": {
       "reviewsWritten": "Reviews",
@@ -124,14 +135,38 @@
       "professor": "Prof.",
       "language": "Lang.",
       "term": "Term",
-      "favoriteDepartment": "Favorite Departments"
+      "favoriteDepartment": "Favorite Departments",
+      "semester": "Semester",
+      "retake": "Count"
+    },
+    "semesterInfo": {
+      "normal": "Normal",
+      "seasonal": "Seasonal"
+    },
+    "retake": {
+      "normal": "Include",
+      "retake": "Exclude"
     },
     "type": {
+      "basic": "Basic",
+      "major": "Major",
+      "doubleMajor": "Double Major",
+      "minor": "Minor",
+      "advancedMajor": "Advanced Major",
+      "interdisciplinaryMajor": "Interdisciplinary Major",
+      "research": "Research",
+      "general": "General",
       "basicRequired": "Basic Required",
       "basicElective": "Basic Elective",
       "majorRequired": "Major Required",
       "majorElective": "Major Elective",
+      "generalRequired": "General Required",
       "humanitiesSocialElective": "Humanities & Social Elective",
+      "humanities": "Humanities",
+      "thesisStudy": "Thesis Study",
+      "individualStudy": "Individual Study",
+      "otherElective": "Other Elective",
+      "unclassified": "Unclassified",
       "etc": "Others",
       "basicRequiredShort": "BR",
       "basicElectiveShort": "BE",
@@ -143,7 +178,10 @@
       "generalRequiredShort": "GR",
       "electiveGraduateShort": "EG",
       "allShort": "ALL",
-      "etcShort": "ETC"
+      "etcShort": "ETC",
+      "total": "Total",
+      "totalCredit": "Credit",
+      "totalAu": "AU"
     },
     "department": {
       "hssShort": "HSS",
@@ -211,6 +249,14 @@
       "all": "All",
       "allSemesters": "All Semesters"
     },
+    "track": {
+      "general": "General",
+      "major": "Major",
+      "doubleMajor": "Double Major",
+      "minor": "Minor",
+      "advancedMajor": "Advanced Major",
+      "interdisciplinaryMajor": "Interdisciplinary Major"
+    },
     "schedule": {
       "beginning": "Beginning",
       "end": "End",
@@ -228,6 +274,8 @@
       "timetableOverlap": "You can't add lecture overlapping.",
       "timetableDelete": "Do you really want to delete? The timetable can't be recovered once deleted.",
       "lastTimetable": "You can't delete the last timetable.",
+      "plannerDelete": "Do you really want to delete? The planner can't be recovered once deleted.",
+      "lastPlanner": "You can't delete the last planner.",
       "alreadyUploading": "The upload is already in progress. Please wait for a moment.",
       "emptyContent": "Please enter the comment.",
       "scoreNotSelected": "Please select all scores.",
@@ -260,11 +308,14 @@
     "others": {
       "table": "Table",
       "myTable": "My Table",
+      "planner": "Planner",
       "examOfDay": "Exams on {{day}}",
       "creditCount": "{{count}} credit",
       "creditCount_plural": "{{count}} credits",
       "auCount": "{{count}} AU",
       "auCount_plural": "{{count}} AUs",
+      "yearCount": "{{count}} year",
+      "yearCount_plural": "{{count}} years",
       "dayCount": "{{count}} day",
       "dayCount_plural": "{{count}} days",
       "hourCount": "{{count}} hour",
@@ -279,6 +330,7 @@
       "dragTimetable": "Drag timetable",
       "notOffered": "Not Offered",
       "taken": "TAKEN",
+      "added": "ADDED",
       "written": "WRITTEN",
       "timeNone": "None",
       "today": "Today",
@@ -288,6 +340,7 @@
     "menu": {
       "timetable": "Timetable",
       "dictionary": "Dictionary",
+      "planner": "Planner",
       "writeReviews": "Write Reviews",
       "toggleLang": "한국어",
       "notifications": "Notifications",

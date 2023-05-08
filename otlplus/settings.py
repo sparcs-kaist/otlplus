@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     "apps.review.apps.ReviewConfig",
     "apps.subject.apps.SubjectConfig",
     "apps.timetable.apps.TimetableConfig",
+    "apps.planner.apps.PlannerConfig",
+    "apps.graduation.apps.GraduationConfig",
     "corsheaders",
 )
 

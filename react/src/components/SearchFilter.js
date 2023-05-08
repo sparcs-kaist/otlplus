@@ -6,6 +6,11 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import SearchFilterEntity from './SearchFilterEntity';
 
 
+const VALUE_INDEX = 0;
+const LABEL_INDEX = 1;
+const DIMMED_INDEX = 2;
+
+
 class SearchFilter extends Component {
   _isChecked = (value) => {
     const { checkedValues } = this.props;
@@ -13,9 +18,14 @@ class SearchFilter extends Component {
   }
 
   _handleValueCheckedChange = (value, isChecked) => {
-    const { checkedValues, updateCheckedValues } = this.props;
+    const {
+      isRadio, options, checkedValues, updateCheckedValues,
+    } = this.props;
 
-    if (isChecked) {
+    if (isRadio) {
+      updateCheckedValues(new Set([value]));
+    }
+    else if (isChecked) {
       if (value === 'ALL') {
         updateCheckedValues(new Set(['ALL']));
       }
@@ -34,7 +44,7 @@ class SearchFilter extends Component {
       else {
         const checkedValuesCopy = new Set(checkedValues);
         checkedValuesCopy.delete(value);
-        if (checkedValuesCopy.size === 0) {
+        if (checkedValuesCopy.size === 0 && options.some((o) => (o[VALUE_INDEX] === 'ALL'))) {
           checkedValuesCopy.add('ALL');
         }
         updateCheckedValues(checkedValuesCopy);
@@ -45,11 +55,8 @@ class SearchFilter extends Component {
 
   render() {
     const {
-      inputName, titleName, options, checkedValues,
+      inputName, titleName, options, checkedValues, isRadio,
     } = this.props;
-
-    const VALUE_INDEX = 0;
-    const LABEL_INDEX = 1;
 
     const mapCircle = (o) => (
       <SearchFilterEntity
@@ -57,6 +64,8 @@ class SearchFilter extends Component {
         value={o[VALUE_INDEX]}
         name={inputName}
         label={o[LABEL_INDEX]}
+        isRadio={isRadio}
+        isDimmed={o[DIMMED_INDEX]}
         onChange={(e) => this._handleValueCheckedChange(e.target.value, e.target.checked)}
         isChecked={checkedValues.has(o[VALUE_INDEX])}
       />
@@ -78,8 +87,11 @@ SearchFilter.propTypes = {
   updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
   titleName: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool]))
+  ).isRequired,
   checkedValues: PropTypes.instanceOf(Set).isRequired,
+  isRadio: PropTypes.bool,
 };
 
 export default SearchFilter;

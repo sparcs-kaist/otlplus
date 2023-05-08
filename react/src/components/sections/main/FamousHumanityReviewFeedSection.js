@@ -10,7 +10,7 @@ import { CourseListCode } from '../../../reducers/dictionary/list';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
 
-import reviewShape from '../../../shapes/model/ReviewShape';
+import reviewShape from '../../../shapes/model/review/ReviewShape';
 
 
 class FamousHumanityReviewFeedSection extends Component {

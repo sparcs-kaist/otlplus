@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
 
-import lectureShape from '../../shapes/model/LectureShape';
+import lectureShape from '../../shapes/model/subject/LectureShape';
 
 
 const LectureGroupBlockRow = ({

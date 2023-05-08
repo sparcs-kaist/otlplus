@@ -24,6 +24,8 @@ import apps.review.views as review_views
 import apps.subject.views as subject_views
 import apps.support.views as support_views
 import apps.timetable.views as timetable_views
+import apps.planner.views as planner_views
+import apps.graduation.views as graduation_views
 
 
 urlpatterns = [
@@ -68,6 +70,21 @@ urlpatterns = [
         timetable_views.UserInstanceTimetableInstanceRemoveLectureView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/reorder",
         timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
+    
+    url(r"^api/users/(?P<user_id>\d+)/planners$",
+        planner_views.UserInstancePlannerListView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)$",
+        planner_views.UserInstancePlannerInstanceView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/add-future-item$",
+        planner_views.UserInstancePlannerInstanceAddFutureItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/add-arbitrary-item$",
+        planner_views.UserInstancePlannerInstanceAddArbitraryItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/update-item$",
+        planner_views.UserInstancePlannerInstanceUpdateItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/remove-item$",
+        planner_views.UserInstancePlannerInstanceRemoveItemView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/planners/(?P<planner_id>\d+)/reorder",
+        planner_views.UserInstancePlannerInstanceReorderView.as_view()),
 
     url(r"^api/users/(?P<user_id>\d+)/wishlist$",
         timetable_views.UserInstanceWishlistView.as_view()),
@@ -114,6 +131,9 @@ urlpatterns = [
 
     url(r"^api/rates$",
         support_views.RateListView.as_view()),
+
+    url(r"^api/tracks",
+        graduation_views.TrackListView.as_view()),
 
     url(r"^api/share/timetable/image$",
         timetable_views.ShareTimetableImageView.as_view()),

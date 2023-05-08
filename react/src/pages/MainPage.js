@@ -17,7 +17,7 @@ import FamousHumanityReviewFeedSection from '../components/sections/main/FamousH
 import RankedReviewFeedSection from '../components/sections/main/RankedReviewFeedSection';
 import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedSection';
 import MainSearchSection from '../components/sections/main/MainSearchSection';
-import userShape from '../shapes/model/UserShape';
+import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection ';
 

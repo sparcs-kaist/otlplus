@@ -6,14 +6,14 @@ import { withTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Divider from '../components/Divider';
-import MySummarySubSection from '../components/sections/write-reviews/MySummarySubSection';
-import TakenLecturesSubSection from '../components/sections/write-reviews/TakenLecturesSubSection';
-import ReviewsMenusSubSection from '../components/sections/write-reviews/ReviewsMenusSubSection';
-import LectureReviewsSubSection from '../components/sections/write-reviews/LectureReviewsSubSection';
-import LatestReviewsSubSection from '../components/sections/write-reviews/LatestReviewsSubSection';
-import MyReviewsSubSection from '../components/sections/write-reviews/MyReviewsSubSection';
-import LikedReviewsSubSection from '../components/sections/write-reviews/LikedReviewsSubSection';
-import RankedReviewsSubSection from '../components/sections/write-reviews/RankedReviewsSubSection';
+import MySummarySubSection from '../components/sections/write-reviews/reviewsleft/MySummarySubSection';
+import TakenLecturesSubSection from '../components/sections/write-reviews/reviewsleft/TakenLecturesSubSection';
+import ReviewsMenusSubSection from '../components/sections/write-reviews/reviewsleft/ReviewsMenusSubSection';
+import LectureReviewsSubSection from '../components/sections/write-reviews/reviewsright/LectureReviewsSubSection';
+import LatestReviewsSubSection from '../components/sections/write-reviews/reviewsright/LatestReviewsSubSection';
+import MyReviewsSubSection from '../components/sections/write-reviews/reviewsright/MyReviewsSubSection';
+import LikedReviewsSubSection from '../components/sections/write-reviews/reviewsright/LikedReviewsSubSection';
+import RankedReviewsSubSection from '../components/sections/write-reviews/reviewsright/RankedReviewsSubSection';
 
 import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-reviews/reviewsFocus';
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
@@ -21,7 +21,7 @@ import { reset as resetLikedReviews } from '../actions/write-reviews/likedReview
 import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
 import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 
-import reviewsFocusShape from '../shapes/state/ReviewsFocusShape';
+import reviewsFocusShape from '../shapes/state/write-reviews/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
 
 

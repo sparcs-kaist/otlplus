@@ -35,9 +35,11 @@
       "famousHumanityReviews": "사랑받는 교양후기",
       "rateOtl": "OTL 평가하기",
       "writeReview": "후기 작성",
+      "plannerSettings": "플래너 설정",
       "myInformation": "내 정보",
       "academicInformation": "학사 정보",
-      "settings": "설정"
+      "settings": "설정",
+      "lectureInformation": "수강 정보"
     },
     "tab": {
       "search": "검색",
@@ -66,6 +68,8 @@
       "switchTable": "시간표 변경",
       "showLectures": "과목 목록 보기",
       "search": "검색",
+      "change": "변경",
+      "confirm": "확인",
       "cancel": "취소",
       "like": "좋아요",
       "report": "신고하기",
@@ -79,7 +83,8 @@
       "writeMoreReviews": "후기 더 작성하기",
       "save": "저장",
       "submit": "제출하기",
-      "signOut": "로그아웃"
+      "signOut": "로그아웃",
+      "reset": "초기화"
     },
     "attribute": {
       "department": "학과",
@@ -93,7 +98,13 @@
       "name": "이름",
       "email": "메일",
       "studentId": "학번",
-      "major": "전공"
+      "entranceYear": "입학년도",
+      "enrollmentPeriod": "재학기간",
+      "all": "전체",
+      "basic": "기초",
+      "major": "전공",
+      "general": "기본",
+      "additional": "추가"
     },
     "score": {
       "reviewsWritten": "작성 후기",
@@ -124,14 +135,38 @@
       "professor": "교수",
       "language": "언어",
       "term": "기간",
-      "favoriteDepartment": "관심학과"
+      "favoriteDepartment": "관심학과",
+      "semester": "학기",
+      "retake": "계산"
+    },
+    "semesterInfo": {
+      "normal": "일반",
+      "seasonal": "계절학기"
+    },
+    "retake": {
+      "normal": "포함",
+      "retake": "제외"
     },
     "type": {
+      "basic": "기초",
+      "major": "전공",
+      "doubleMajor": "복수전공",
+      "minor": "부전공",
+      "advancedMajor": "심화전공",
+      "interdisciplinaryMajor": "자유융합전공",
+      "research": "연구",
+      "general": "교양",
       "basicRequired": "기초필수",
       "basicElective": "기초선택",
       "majorRequired": "전공필수",
       "majorElective": "전공선택",
+      "generalRequired": "교양필수",
       "humanitiesSocialElective": "인문사회선택",
+      "humanities": "인문사회선택",
+      "thesisStudy": "졸업연구",
+      "individualStudy": "개별연구",
+      "otherElective": "자유선택",
+      "unclassified": "미분류",
       "etc": "기타",
       "basicRequiredShort": "기필",
       "basicElectiveShort": "기선",
@@ -143,7 +178,10 @@
       "generalRequiredShort": "공통",
       "electiveGraduateShort": "석박",
       "allShort": "전체",
-      "etcShort": "기타"
+      "etcShort": "기타",
+      "total": "전체",
+      "totalCredit": "학점",
+      "totalAu": "AU"
     },
     "department": {
       "hssShort": "인문",
@@ -211,6 +249,14 @@
       "all": "전체",
       "allSemesters": "전체 학기"
     },
+    "track": {
+      "general": "일반",
+      "major": "전공",
+      "doubleMajor": "복수전공",
+      "minor": "부전공",
+      "advancedMajor": "심화전공",
+      "interdisciplinaryMajor": "자유융합전공"
+    },
     "schedule": {
       "beginning": "개강",
       "end": "종강",
@@ -228,6 +274,8 @@
       "timetableOverlap": "시간표가 겹치는 과목은 추가할 수 없습니다.",
       "timetableDelete": "정말 삭제하시겠습니까? 삭제된 시간표는 복구할 수 없습니다.",
       "lastTimetable": "마지막 시간표는 삭제할 수 없습니다.",
+      "plannerDelete": "정말 삭제하시겠습니까? 삭제된 플래너는 복구할 수 없습니다.",
+      "lastPlanner": "마지막 플래너는 삭제할 수 없습니다.",
       "alreadyUploading": "이미 업로드 중입니다. 잠시만 기다려 주세요.",
       "emptyContent": "후기를 입력해 주세요.",
       "scoreNotSelected": "평가를 선택해 주세요.",
@@ -260,9 +308,11 @@
     "others": {
       "table": "시간표",
       "myTable": "내 시간표",
+      "planner": "플래너",
       "examOfDay": "{{day}} 시험",
       "creditCount": "{{count}}학점",
       "auCount": "{{count}}AU",
+      "yearCount": "{{count}}년",
       "dayCount": "{{count}}일",
       "hourCount": "{{count}}시간",
       "minuteCount": "{{count}}분",
@@ -273,6 +323,7 @@
       "dragTimetable": "시간표에서 드래그",
       "notOffered": "미개설",
       "taken": "수강완료",
+      "added": "추가됨",
       "written": "작성완료",
       "timeNone": "없음",
       "today": "오늘",
@@ -282,6 +333,7 @@
     "menu": {
       "timetable": "모의시간표",
       "dictionary": "과목사전",
+      "planner": "졸업플래너",
       "writeReviews": "과목후기 작성하기",
       "toggleLang": "English",
       "notifications": "알림",

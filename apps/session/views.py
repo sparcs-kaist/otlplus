@@ -227,6 +227,7 @@ def info(request):
         "student_id": profile.student_id,
         "firstName": request.user.first_name,
         "lastName": request.user.last_name,
+        "department": profile.department.to_json() if profile.department else None,
         "majors": get_user_major_list(profile),
         "departments": get_user_department_list(request.user),
         "favorite_departments": json_encode_list(profile.favorite_departments.all()),

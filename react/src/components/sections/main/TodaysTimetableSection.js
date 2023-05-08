@@ -12,10 +12,11 @@ import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../common/consta
 import Scroller from '../../Scroller';
 import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 
-import userShape from '../../../shapes/model/UserShape';
-import semesterShape from '../../../shapes/model/SemesterShape';
+import userShape from '../../../shapes/model/session/UserShape';
+import semesterShape from '../../../shapes/model/subject/SemesterShape';
 
 import { getOngoingSemester } from '../../../utils/semesterUtils';
+import { getColorNumber } from '../../../utils/lectureUtils';
 
 
 class TodaysTimetableSection extends Component {
@@ -185,6 +186,7 @@ class TodaysTimetableSection extends Component {
                     classtime={ct}
                     beginIndex={ct.begin / 30 - TIMETABLE_START_HOUR * 2}
                     endIndex={ct.end / 30 - TIMETABLE_START_HOUR * 2}
+                    color={getColorNumber(l)}
                     cellWidth={cellWidth}
                     cellHeight={cellHeight}
                   />

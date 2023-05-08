@@ -15,13 +15,14 @@ def rgetattr(object_, names, default):
 class ParseType(Enum):
     STR = auto()
     INT = auto()
+    BOOL = auto()
     LIST_STR = auto()
     LIST_INT = auto()
 
 
 Validator = Callable[[Any], bool]
 ParseConfig = Tuple[str, ParseType, bool, List[Validator]]
-ParseResult = Optional[Union[str, int, List[str], List[int]]]
+ParseResult = Optional[Union[str, int, bool, List[str], List[int]]]
 
 
 def parse_params(
@@ -46,10 +47,15 @@ def _parse_entry(
 
     key, type_, is_required, validators = config
 
+    # TODO: Update with match-case in Python 3.10
     if type_ == ParseType.STR:
         value: Optional[str] = dict_.get(key, None)
     elif type_ == ParseType.INT:
         value: Optional[int] = _get_int(dict_, key) \
+                               if isinstance(dict_, QueryDict) \
+                               else dict_.get(key, None)
+    elif type_ == ParseType.BOOL:
+        value: Optional[bool] = _get_bool(dict_, key) \
                                if isinstance(dict_, QueryDict) \
                                else dict_.get(key, None)
     elif type_ == ParseType.LIST_STR:
@@ -78,6 +84,15 @@ def _get_int(querydict: QueryDict, key: str) -> Optional[int]:
         return None
     else:
         return int(value)
+    
+def _get_bool(querydict: QueryDict, key: str) -> Optional[bool]:
+    value = querydict.get(key, None)
+    if value is None:
+        return None
+    elif value == 'true':
+        return True
+    else:
+        return False
 
 def _get_int_list(querydict: QueryDict, key: str) -> Optional[List[int]]:
     values = querydict.getlist(key, None)
@@ -133,6 +148,10 @@ def patch_object(object_, update_fields):
     for k, v in update_fields.items():
         if v is None:
             continue
-        setattr(object_, k, v)
+        elif isinstance(v, (list, QuerySet)):
+            getattr(object_, k).clear()
+            getattr(object_, k).add(*v)
+        else:
+            setattr(object_, k, v)
 
     object_.save()

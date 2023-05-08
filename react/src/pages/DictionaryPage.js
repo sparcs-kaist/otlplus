@@ -7,9 +7,9 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import { CourseListCode } from '../reducers/dictionary/list';
 
-import CourseListSection from '../components/sections/dictionary/CourseListSection';
-import CourseDetailSection from '../components/sections/dictionary/CourseDetailSection';
-import CourseListTabs from '../components/sections/dictionary/CourseListTabs';
+import CourseListSection from '../components/sections/dictionary/courselist/CourseListSection';
+import CourseDetailSection from '../components/sections/dictionary/coursedetail/CourseDetailSection';
+import CourseListTabs from '../components/sections/dictionary/courselist/CourseListTabs';
 
 import {
   reset as resetCourseFocus,

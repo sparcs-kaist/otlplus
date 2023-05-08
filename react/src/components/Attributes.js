@@ -34,9 +34,25 @@ class Attributes extends Component {
               >
                 { e.name }
               </div>
-              <div>
-                { e.info }
-              </div>
+              {
+                e.onInfoClick
+                  ? (
+                    <div
+                      className={classNames(
+                        'text-button',
+                        e.isInfoClickDisabled ? 'text-button--disabled' : null
+                      )}
+                      onClick={e.onInfoClick}
+                    >
+                      { e.info }
+                    </div>
+                  )
+                  : (
+                    <div>
+                      { e.info }
+                    </div>
+                  )
+              }
             </div>
           ))
         }
@@ -52,6 +68,8 @@ Attributes.propTypes = {
       info: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
       onMouseOver: PropTypes.func,
       onMouseOut: PropTypes.func,
+      onInfoClick: PropTypes.func,
+      isInfoClickDisabled: PropTypes.bool,
     })
   ).isRequired,
   fixedWidthName: PropTypes.bool,

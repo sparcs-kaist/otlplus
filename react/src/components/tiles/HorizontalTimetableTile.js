@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr, getColorNumber } from '../../utils/lectureUtils';
+import { getProfessorsShortStr } from '../../utils/lectureUtils';
 
-import lectureShape from '../../shapes/model/LectureShape';
-import classtimeShape from '../../shapes/model/ClasstimeShape';
+import lectureShape from '../../shapes/model/subject/LectureShape';
+import classtimeShape from '../../shapes/model/subject/ClasstimeShape';
 
 
 const HorizontalTimetableTile = ({
   t,
   lecture, classtime,
   beginIndex, endIndex,
+  color,
   cellWidth, cellHeight,
 }) => {
   return (
     <div
-      className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${getColorNumber(lecture)}`)}
+      className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${color}`)}
       style={{
         left: 2 + cellWidth * beginIndex + 2,
         top: 15 + 3,
@@ -45,6 +46,7 @@ HorizontalTimetableTile.propTypes = {
   classtime: classtimeShape,
   beginIndex: PropTypes.number.isRequired,
   endIndex: PropTypes.number.isRequired,
+  color: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
 };

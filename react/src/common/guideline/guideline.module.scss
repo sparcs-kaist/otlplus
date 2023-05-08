@@ -199,6 +199,10 @@ header, footer {
 
                 & > span {
                     margin-right: 24px;
+
+                    & sup {
+                        line-height: 0;
+                    }
                 }
             }
             .special-menus {

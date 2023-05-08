@@ -1,0 +1,4 @@
+start_year,end_year,is_foreign,total_credit,total_au,basic_required,basic_elective,thesis_study,thesis_study_doublemajor,general_required_credit,general_required_au,humanities,humanities_doublemajor
+2023,,False,138,4,23,9,3,0,7,4,21,12
+2018,2022,False,136,8,23,9,3,0,7,8,21,12
+2014,2017,False,130,8,23,9,3,0,7,9,21,12

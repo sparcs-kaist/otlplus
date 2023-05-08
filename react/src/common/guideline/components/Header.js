@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 
 import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../boundClassNames';
 
-import userShape from '../../../shapes/model/UserShape';
+import userShape from '../../../shapes/model/session/UserShape';
 
 import logoImage from '../images/Services-OTL.svg';
 
@@ -130,6 +130,12 @@ class Header extends Component {
               <span>
                 <Link to="/write-reviews">
                   {t('ui.menu.writeReviews')}
+                </Link>
+              </span>
+              <span>
+                <Link to="/planner">
+                  {t('ui.menu.planner')}
+                  <sup>BETA</sup>
                 </Link>
               </span>
             </div>
