@@ -106,8 +106,14 @@ exit
 
 ### 4.Frontend 시작하기
 
+프론트엔드 코드는 otlplus-web 레포에 있습니다.
+아래 명령어와 같이 원하는 위치에 해당 레포를 클론한 후 실행해 주세요.
+
 ```bash
-cd react
+cd ..
+git clone https://github.com/sparcs-kaist/otlplus-web
+cd otlplus-web
+
 npm i
 npm start
 ```
