@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   db:
-    container_name: otlplus-db
+    container_name: ${OTLPLUS_DB_NAME:-otlplus-db}
     platform: linux/amd64
     image: mysql:5.7
     restart: on-failure
@@ -19,7 +19,7 @@ services:
   back:
     depends_on: 
       - db
-    container_name: otlplus-back
+    container_name: ${OTLPLUS_BACK_NAME:-otlplus-back}
     platform: linux/amd64
     build:
       context: ..
