@@ -15,7 +15,7 @@ services:
     volumes:
       - ../volumes/db:/var/lib/mysql
       - ../volumes/dump:/dump
-    command: --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB
+    command: --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
   back:
     depends_on: 
       - db
@@ -32,3 +32,17 @@ services:
       - ../volumes/scripts:/var/www/otlplus/scripts:ro
       - ../volumes/logs:/var/www/otlplus/logs
     working_dir: /var/www/otlplus
+  front:
+    container_name: otlplus-front
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.front
+    restart: always
+    tty: true
+    ports:
+      - "58080:80"
+    volumes:
+      - ../volumes/scripts:/var/www/otlplus/scripts:ro
+      - ../volumes/logs:/var/www/otlplus/logs
+    working_dir: /var/www/otlplus/react

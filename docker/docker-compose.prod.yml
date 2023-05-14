@@ -2,8 +2,6 @@ version: '3.4'
 
 services:
   back:
-    depends_on: 
-      - db
     container_name: otlplus-back
     platform: linux/amd64
     build:
