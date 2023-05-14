@@ -11,6 +11,7 @@ services:
     tty: true
     ports:
       - "58000:8000"
+      - "8022:22"
     volumes:
       - ../volumes/scripts:/var/www/otlplus/scripts:ro
       - ../volumes/logs:/var/www/otlplus/logs
