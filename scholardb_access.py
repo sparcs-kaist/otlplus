@@ -19,12 +19,11 @@ def execute(host, port, user, password, query):
     f.write("%s\n%s\n%s\n%s\n%s" % (host, port, user, password, query))
     f.close()
 
-    os.system("scp -oStrictHostKeyChecking=no -i ~/key.pem -P 8022 /tmp/otl_db_ssh_args wheel@143.248.234.126:/tmp > /dev/null")
+    os.system("scp /tmp/otl_db_ssh_args xen:/tmp > /dev/null")
     os.remove("/tmp/otl_db_ssh_args")
-    os.system(
-        "ssh -oStrictHostKeyChecking=no -i ~/key.pem -p 8022 wheel@143.248.234.126 python db.py > /dev/null")
-    os.system("scp -oStrictHostKeyChecking=no -i ~/key.pem -P 8022 wheel@143.248.234.126:/tmp/otl_db_dump_result /tmp > /dev/null")
-    os.system("ssh -oStrictHostKeyChecking=no -i ~/key.pem -p 8022 wheel@143.248.234.126 rm /tmp/otl_db_dump_result > /dev/null")
+    os.system("ssh xen python db.py > /dev/null")
+    os.system("scp xen:/tmp/otl_db_dump_result /tmp > /dev/null")
+    os.system("ssh xen rm /tmp/otl_db_dump_result > /dev/null")
     result = pickle.load(open("/tmp/otl_db_dump_result", "rb"), encoding="bytes")
     os.remove("/tmp/otl_db_dump_result")
 
