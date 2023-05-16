@@ -12,6 +12,7 @@ services:
       - MYSQL_ROOT_HOSTS=%
       - MYSQL_ROOT_PASSWORD=${OTLPLUS_DB_PASSWORD}
       - MYSQL_DATABASE=otlplus
+      - TZ=Asia/Seoul
     volumes:
       - ../volumes/db:/var/lib/mysql
       - ../volumes/dump:/dump
@@ -30,6 +31,7 @@ services:
       - "58000:8000"
       - "8022:22"
     volumes:
+      - "/etc/timezone:/etc/timezone:ro"
       - ../volumes/scripts:/var/www/otlplus/scripts:ro
       - ../volumes/logs:/var/www/otlplus/logs
     working_dir: /var/www/otlplus
