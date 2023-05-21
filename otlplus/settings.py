@@ -97,7 +97,6 @@ DATABASES = {
         'PORT': '3306',
         "OPTIONS": {
             "charset": "utf8mb4",
-            "init_command": "ALTER DATABASE otlplus CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci",
         },
     }
 }
