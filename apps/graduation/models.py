@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.cache import cache
 
 from apps.subject.models import Department
 
@@ -26,7 +27,15 @@ class GeneralTrack(models.Model):
     class Meta:
         unique_together = [["start_year", "is_foreign"], ["end_year", "is_foreign"]]
 
+    def get_cache_key(self):
+        return "generaltrack:%d-%d-%s" % (self.start_year, self.end_year, self.is_foreign)
+
     def to_json(self):
+        cache_id = self.get_cache_key()
+        result_cached = cache.get(cache_id)
+        if result_cached is not None:
+            return result_cached
+
         result = {
             "id": self.id,
             "start_year": self.start_year,
@@ -44,6 +53,8 @@ class GeneralTrack(models.Model):
             "humanities_doublemajor": self.humanities_doublemajor,
         }
 
+        cache.set(cache_id, result, 60 * 60)
+
         return result
 
 
@@ -60,7 +71,15 @@ class MajorTrack(models.Model):
     class Meta:
         unique_together = [["start_year", "department"], ["end_year", "department"]]
 
+    def get_cache_key(self):
+        return "majortrack:%d-%d-%d" % (self.start_year, self.end_year, self.department.id)
+
     def to_json(self):
+        cache_id = self.get_cache_key()
+        result_cached = cache.get(cache_id)
+        if result_cached is not None:
+            return result_cached
+
         result = {
             "id": self.id,
             "start_year": self.start_year,
@@ -70,6 +89,8 @@ class MajorTrack(models.Model):
             "major_required": self.major_required,
             "major_elective": self.major_elective,
         }
+
+        cache.set(cache_id, result, 60 * 60)
 
         return result
 
@@ -95,7 +116,15 @@ class AdditionalTrack(models.Model):
     class Meta:
         unique_together = [["start_year", "type", "department"], ["end_year", "type", "department"]]
 
+    def get_cache_key(self):
+        return "additionaltrack:%d-%d-%s-%d" % (self.start_year, self.end_year, self.type, self.department.id if self.department else 0)
+
     def to_json(self):
+        cache_id = self.get_cache_key()
+        result_cached = cache.get(cache_id)
+        if result_cached is not None:
+            return result_cached
+
         result = {
             "id": self.id,
             "start_year": self.start_year,
@@ -105,5 +134,7 @@ class AdditionalTrack(models.Model):
             "major_required": self.major_required,
             "major_elective": self.major_elective,
         }
+
+        cache.set(cache_id, result, 60 * 60)
 
         return result
