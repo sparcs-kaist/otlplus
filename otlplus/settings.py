@@ -95,6 +95,9 @@ DATABASES = {
         'PASSWORD': 'p@ssw0rd',
         'HOST': 'db',
         'PORT': '3306',
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 
