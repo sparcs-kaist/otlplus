@@ -312,3 +312,15 @@ export CFLAGS="-I/opt/homebrew/include"
 export CPPFLAGS="-I/opt/homebrew/include"
 pip install -r requirements.txt
 ```
+#### (Windows) git clone시 유의사항
+local window에 clone 후, wsl shell로 실행하면 오류가 발생합니다. 
+(local window에 clone하면 `user@desktop:mnt/` 에서 실행됩니다.)
+
+wsl2 shell을 실행한 뒤, wsl2 shell 상에서 git clone을 해야 합니다. 
+
+#### (Windows) wsl 상에서 docker compose up 시 유의사항
+docker 명령어 없다는 콘솔창이 뜨면 아래 명령어를 입력하여 wsl version이 1인 distro를 확인 한 뒤, wsl version 2로 바꾸어줍니다.
+```
+$ wsl.exe -l -v 
+$ wsl.exe --set-version (distro name) 2 
+```
