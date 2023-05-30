@@ -134,7 +134,7 @@ class ReviewInstanceLikeView(View):
         user_profile = request.user.userprofile
 
         if review.votes.filter(userprofile=user_profile).exists():
-            ReviewVote.object.filter(review=review, userprofile=user_profile).delete()
+            ReviewVote.objects.filter(review=review, userprofile=user_profile).delete()
             return HttpResponse()
         else:
             return HttpResponseBadRequest("Not Liked")
