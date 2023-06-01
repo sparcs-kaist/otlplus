@@ -99,8 +99,6 @@ urlpatterns = [
         review_views.ReviewInstanceView.as_view()),
     url(r"^api/reviews/(?P<review_id>\d+)/like$",
         review_views.ReviewInstanceLikeView.as_view()),
-    url(r"^api/reviews/(?P<review_id>\d+)/cancel-like$",
-        review_views.ReviewInstanceLikeView.as_view()),
 
     url(r"^api/semesters$", subject_views.SemesterListView.as_view()),
 
