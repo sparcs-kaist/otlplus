@@ -129,6 +129,16 @@ class ReviewInstanceLikeView(View):
         ReviewVote.objects.create(review=review, userprofile=user_profile)
         return HttpResponse()
 
+    def delete(self, request, review_id):
+        review = get_object_or_404(Review, id=review_id)
+        user_profile = request.user.userprofile
+
+        if review.votes.filter(userprofile=user_profile).exists():
+            ReviewVote.objects.filter(review=review, userprofile=user_profile).delete()
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest("Not Liked")
+
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceLikedReviewsView(View):
