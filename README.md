@@ -312,6 +312,7 @@ export CFLAGS="-I/opt/homebrew/include"
 export CPPFLAGS="-I/opt/homebrew/include"
 pip install -r requirements.txt
 ```
+### TroubleShooting
 #### (Windows) git clone시 유의사항
 local window에 clone 후, wsl shell로 실행하면 오류가 발생합니다. 
 (local window에 clone하면 `user@desktop:mnt/` 에서 실행됩니다.)
