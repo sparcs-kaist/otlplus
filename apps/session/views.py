@@ -236,3 +236,25 @@ def info(request):
         "reviews": json_encode_list(profile.reviews.all()),
     }
     return JsonResponse(ctx, safe=False)
+
+def infoTest(request):
+    sid = request.GET.get("sid", None)
+    try:
+        profile = User.objects.get(username=sid)
+    except User.DoesNotExist:
+        profile = None
+    ctx = {
+        "id": profile.id,
+        "email": profile.user.email,
+        "student_id": profile.student_id,
+        "firstName": profile.first_name,
+        "lastName": profile.last_name,
+        "department": profile.department.to_json() if profile.department else None,
+        "majors": get_user_major_list(profile),
+        "departments": get_user_department_list(profile),
+        "favorite_departments": json_encode_list(profile.favorite_departments.all()),
+        "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
+        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
+        "reviews": json_encode_list(profile.reviews.all()),
+    }
+    return JsonResponse(ctx, safe=False)

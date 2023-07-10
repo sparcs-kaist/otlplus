@@ -49,6 +49,8 @@ urlpatterns = [
         session_views.favorite_departments),
     url(r"^session/info",
         session_views.info),
+    url(r"^session/infoTest",
+        session_views.infoTest),
     # url(r"^session/unregister/callback/$",
     #     session_views.unregister_callback),
 
