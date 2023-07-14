@@ -15,7 +15,9 @@ services:
     volumes:
       - ./volumes/db:/var/lib/mysql
       - ./volumes/dump:/dump
-    command: --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: |
+      --sql_mode=NO_ENGINE_SUBSTITUTION --default_storage_engine=InnoDB 
+      --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
   back:
     depends_on: 
       wait-for-db:

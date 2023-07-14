@@ -95,6 +95,9 @@ DATABASES = {
         'PASSWORD': 'p@ssw0rd',
         'HOST': 'db',
         'PORT': '3306',
+        "OPTIONS": {
+            "charset": "utf8mb4",
+        },
     }
 }
 
@@ -154,7 +157,7 @@ SSO_IS_BETA = DEBUG
 LOGIN_URL = "/session/login/"
 LOGOUT_URL = "/session/logout/"
 
-VERSION = "3.3.0.0"
+VERSION = "3.3.1.0"
 
 try:
     from settings_local import *  # pylint: disable=wildcard-import, unused-wildcard-import

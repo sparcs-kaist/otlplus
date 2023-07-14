@@ -7,6 +7,9 @@
 /.github/
 /.idea/
 
+**/node_modules/
+**/build/
+
 /volumes/db
 
 .pylintrc
