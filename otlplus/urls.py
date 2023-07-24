@@ -34,9 +34,9 @@ urlpatterns = [
 
     # Session
     url(r"^session/$",
-        session_views.home),
+        session_views.sidList),
     url(r"^session/login/$",
-        session_views.user_login),
+        session_views.login_info),
     url(r"^session/login/callback",
         session_views.login_callback),
     url(r"^session/logout/$",
@@ -49,6 +49,8 @@ urlpatterns = [
         session_views.favorite_departments),
     url(r"^session/info",
         session_views.info),
+    url(r"^session/infoTest",
+        session_views.infoTest),
     # url(r"^session/unregister/callback/$",
     #     session_views.unregister_callback),
 
