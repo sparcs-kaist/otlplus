@@ -62,25 +62,60 @@ EXCLUDED_DEPARTMENTS = [
 sso_client = Client(settings.SSO_CLIENT_ID, settings.SSO_SECRET_KEY, is_beta=settings.SSO_IS_BETA)
 
 
-def home(request):
-    return HttpResponseRedirect("./login/")
+def sidList(request):
+
+    sidList = UserProfile.objects.all().only('sid')
+    result = [sid.sid for sid in sidList]
+    return JsonResponse(result, safe=False)
 
 
-def user_login(request):
-    user = request.user
-    if user and user.is_authenticated:
-        return redirect(request.GET.get("next", "/"))
+def login_info(request):
+    sid = request.GET.get("sid", None)
+    # print(sid)
+    try:
+        user = User.objects.get(username=sid)
+    except User.DoesNotExist:
+        print(sid);
+        user = None
 
-    request.session["next"] = request.GET.get("next", "/")
+    profile = user.userprofile
+    ctx = {
+        "id": profile.id,
+        "email": profile.user.email,
+        "student_id": profile.student_id,
+        "firstName": user.first_name,
+        "lastName": user.last_name,
+        "department": profile.department.to_json() if profile.department else None,
+        "majors": get_user_major_list(profile),
+        "departments": get_user_department_list(request.user),
+        "favorite_departments": json_encode_list(profile.favorite_departments.all()),
+        "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
+        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
+        "reviews": json_encode_list(profile.reviews.all()),
+    }
+    return JsonResponse(ctx, safe=False)
 
-    social_login = request.GET.get("social_login", None)
-
-    login_url, state = sso_client.get_login_params()
-    if social_login == '0':
-        login_url += '&social_enabled=0&show_disabled_button=0'
-    request.session["sso_state"] = state
-    return HttpResponseRedirect(login_url)
-
+def infoTest(request):
+    sid = request.GET.get("sid", None)
+    print(sid)
+    try:
+        profile = UserProfile.objects.get(sid=sid)
+    except User.DoesNotExist:
+        profile = None
+    print(profile)
+    ctx = {
+        "id": profile.id,
+        "email": profile.email,
+        "student_id": profile.student_id,
+        "department": profile.department.to_json() if profile.department else None,
+        "majors": get_user_major_list(profile),
+        "departments": get_user_department_list(profile),
+        "favorite_departments": json_encode_list(profile.favorite_departments.all()),
+        "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
+        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
+        "reviews": json_encode_list(profile.reviews.all()),
+    }
+    return JsonResponse(ctx, safe=False)
 
 @require_http_methods(["GET"])
 def login_callback(request):
@@ -237,24 +272,3 @@ def info(request):
     }
     return JsonResponse(ctx, safe=False)
 
-def infoTest(request):
-    sid = request.GET.get("sid", None)
-    try:
-        profile = User.objects.get(username=sid)
-    except User.DoesNotExist:
-        profile = None
-    ctx = {
-        "id": profile.id,
-        "email": profile.user.email,
-        "student_id": profile.student_id,
-        "firstName": profile.first_name,
-        "lastName": profile.last_name,
-        "department": profile.department.to_json() if profile.department else None,
-        "majors": get_user_major_list(profile),
-        "departments": get_user_department_list(profile),
-        "favorite_departments": json_encode_list(profile.favorite_departments.all()),
-        "review_writable_lectures": json_encode_list(profile.review_writable_lectures),
-        "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
-        "reviews": json_encode_list(profile.reviews.all()),
-    }
-    return JsonResponse(ctx, safe=False)
