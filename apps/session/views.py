@@ -75,7 +75,9 @@ def user_login(request):
 
     social_login = request.GET.get("social_login", None)
 
-    login_url, state = sso_client.get_login_params()
+    http_host = request.META["HTTP_HOST"]
+    login_url, state = sso_client.get_login_params("https://"+http_host+"/session/login/callback/")
+    
     if social_login == '0':
         login_url += '&social_enabled=0&show_disabled_button=0'
     request.session["sso_state"] = state

@@ -77,7 +77,7 @@ class Client:
         except Exception:
             raise RuntimeError('INVALID_OBJECT')
 
-    def get_login_params(self):
+    def get_login_params(self, preferred_url):
         """
         Get login parameters for SPARCS SSO login
         :returns: [url, state] where url is a url to redirect user,
@@ -87,6 +87,7 @@ class Client:
         params = {
             'client_id': self.client_id,
             'state': state,
+            'preferred_url': preferred_url,
         }
         url = '?'.join([self.URLS['token_require'], urlencode(params)])
         return [url, state]
