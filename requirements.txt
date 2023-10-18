@@ -15,7 +15,7 @@ requests==2.31.0
 rsa==4.7.2
 six==1.16.0
 uritemplate==3.0.0
-urllib3==1.26.17
+urllib3==1.26.18
 jsonpickle==2.0.0
 pyodbc==4.0.32
 pylint==2.4.4
