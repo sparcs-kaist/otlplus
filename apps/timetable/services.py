@@ -77,7 +77,7 @@ def _get_timetable_type(lectures: List[Lecture]) -> TimetableType:
         for lecture in lectures:
             classtimes: List[ClassTime] = lecture.classtimes.all()
             for classtime in classtimes:
-                if classtime.day > 5:
+                if classtime.day >= 5:
                     return True
                 
         return False
