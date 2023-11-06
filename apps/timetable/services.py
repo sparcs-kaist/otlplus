@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import List, Optional, Tuple
 import datetime
 import pytz
@@ -8,7 +9,7 @@ from django.conf import settings
 from django.db.models import F, Case, When
 
 from apps.session.models import UserProfile
-from apps.subject.models import Lecture, Semester
+from apps.subject.models import ClassTime, Lecture, Semester
 from .models import Timetable
 
 
@@ -31,6 +32,10 @@ TIMETABLE_CELL_COLORS = [
     "#EBCAEF",
     "#f4badb",
 ]
+
+class TimetableType(Enum):
+    FIVE_DAYS = "5days"
+    SEVEN_DAYS = "7days"
 
 
 def reorder_timetable(timetable: Timetable, target_arrange_order: int):
@@ -67,6 +72,17 @@ def get_timetable_entries(profile: UserProfile, table_id: int, year: int, semest
 
     return list(table.lectures.filter(deleted=False))
 
+def _get_timetable_type(lectures: List[Lecture]) -> TimetableType:
+    def _has_weekend():
+        for lecture in lectures:
+            classtimes: List[ClassTime] = lecture.classtimes.all()
+            for classtime in classtimes:
+                if classtime.day >= 5:
+                    return True
+                
+        return False
+            
+    return TimetableType.SEVEN_DAYS if _has_weekend() else TimetableType.FIVE_DAYS
 
 def _draw_rounded_rectangle(draw, points: Tuple[int, int, int, int], radius: int, color):
     draw.pieslice([points[0], points[1], points[0] + radius * 2, points[1] + radius * 2],
@@ -150,7 +166,8 @@ def create_timetable_image(semester: Semester, lectures: List[Lecture], language
     else:
         file_path = "/var/www/otlplus/static/"
 
-    image = Image.open(file_path + "img/Image_template.png")
+    timetable_type = _get_timetable_type(lectures)
+    image = Image.open(file_path + f"img/Image_template_{timetable_type.value}.png")
     draw = ImageDraw.Draw(image)
     text_image = Image.new("RGBA", image.size)
     text_draw = ImageDraw.Draw(text_image)
@@ -160,7 +177,8 @@ def create_timetable_image(semester: Semester, lectures: List[Lecture], language
     is_english = language and ("en" in language)
 
     semester_name = semester.get_name(language=language).title()
-    text_draw.text((952, 78),
+    semester_name_begin = 952 if timetable_type == TimetableType.FIVE_DAYS else 952 + 350
+    text_draw.text((semester_name_begin, 78),
                    semester_name,
                    fill=(204, 204, 204),
                    font=semester_font,
