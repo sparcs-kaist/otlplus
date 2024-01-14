@@ -17,6 +17,6 @@ ADD . .
 
 EXPOSE 8000
 
-# RUN chown -R root:root /root && chmod 400 /root/key.pem && chmod 400 /root/wheel-2021.pem && echo "StrictHostKeyChecking no" >> /etc/ssh_config
+RUN chown -R root:root /root && echo "StrictHostKeyChecking no" >> /etc/ssh_config
 
 CMD ["gunicorn", "otlplus.wsgi", "--bind", "0.0.0.0:8000", "--log-file", "-", "--workers", "6", "--threads", "12", "--worker-class", "gevent"]

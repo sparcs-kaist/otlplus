@@ -5,9 +5,6 @@
 ├── README.md
 ├── base
 │   ├── kustomization.yaml
-│   ├── redis
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
 │   └── server
 │       ├── configmap.yaml
 │       ├── deployment.yaml
