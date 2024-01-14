@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-path: /api/status
+    alb.ingress.kubernetes.io/target-type: 'instance'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:666583083672:certificate/2f5020e0-01dd-43dd-aa7e-0699015d6b89
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
+  name: otl-ingress
+  namespace: otl
+  finalizers:
+    - ingress.k8s.aws/resources
+  labels:
+    app: otl-ingress
+spec:
+  ingressClassName: alb
+  rules:
+  - host: otl-staging.sparcs.org
+    http:
+      paths:
+      - path: /
+        backend:
+          service:
+            name: otl-svc
+            port: 
+              number: 58000
+        pathType: Prefix
+  tls:
+  - hosts:
+    - otl-staging.sparcs.org

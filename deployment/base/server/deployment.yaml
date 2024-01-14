@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otl-server
+  labels:
+    app: otl-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: otl-server
+  template:
+    metadata:
+      labels:
+        app: otl-server
+    spec:
+      containers:
+        - name: otl-server
+          image: 
+          ports:
+          - containerPort: 58000
+          envFrom:
+          - secretRef:
+              name: otl-secret
+          env:
+          - name: SSO_CLIENT_ID
+            valueFrom:
+              configMapKeyRef:
+                name: otl-env
+                key: SSO_CLIENT_ID
+          volumeMounts:
+          - mountPath: "/var/www/otlplus/keys/django_secret"
+            name: django-secret
+            readOnly: true
+          - mountPath: "/var/www/otlplus/keys/google_client_secrets.json"
+            name: google-client-secret
+            readOnly: true
+          - mountPath: "/var/www/otlplus/keys/sso_secret"
+            name: sso-secret
+            readOnly: true
+          - mountPath: "/root/key.pem"
+            name: pem-key
+            readOnly: true
+          - mountPath: "/root/wheel-2021.pem"
+            name: wheel-pem-key
+            readOnly: true
+          - mountPath: "/root/.ssh/config"
+            name: ssh-config
+            readOnly: true
+        volumes:
+          - name: django-secret
+            secret:
+              secretName: django-secret
+          - name: google-client-secrets
+            secret:
+              secretName: google-client-secrets
+          - name: sso-secret
+            secret:
+              secretName: sso-secret
+          - name: pem-key
+            secret:
+              secretName: pem-key
+          - name: wheel-pem-key
+            secret:
+              secretName: wheel-pem-key
+          - name: ssh-config
+            configMap:
+              name: ssh-config
