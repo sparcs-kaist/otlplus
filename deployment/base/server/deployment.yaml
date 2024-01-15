@@ -47,22 +47,22 @@ spec:
           - mountPath: "/root/.ssh/config"
             name: ssh-config
             readOnly: true
-        volumes:
-          - name: django-secret
-            secret:
-              secretName: django-secret
-          - name: google-client-secrets
-            secret:
-              secretName: google-client-secrets
-          - name: sso-secret
-            secret:
-              secretName: sso-secret
-          - name: pem-key
-            secret:
-              secretName: pem-key
-          - name: wheel-pem-key
-            secret:
-              secretName: wheel-pem-key
-          - name: ssh-config
-            configMap:
-              name: ssh-config
+      volumes:
+        - name: django-secret
+          secret:
+            secretName: django-secret
+        - name: google-client-secrets
+          secret:
+            secretName: google-client-secrets
+        - name: sso-secret
+          secret:
+            secretName: sso-secret
+        - name: pem-key
+          secret:
+            secretName: pem-key
+        - name: wheel-pem-key
+          secret:
+            secretName: wheel-pem-key
+        - name: ssh-config
+          configMap:
+            name: ssh-config
