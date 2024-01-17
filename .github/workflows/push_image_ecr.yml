@@ -2,6 +2,9 @@ name: Push Prod Image to Amazon ECR
 
 # when tagging action success
 on:
+  push:
+    branches:
+      - deploy
   pull_request:
     types:
       - closed
@@ -51,6 +54,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: otl-server
       with:
+        file: docker/Dockerfile.back
         push: true
         tags: |
           "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest"
