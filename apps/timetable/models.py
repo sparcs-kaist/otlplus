@@ -11,6 +11,7 @@ class Timetable(models.Model):
     year = models.IntegerField(null=True, db_index=True)  # 몇넌도의 타임테이블인지
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
     arrange_order = models.SmallIntegerField(db_index=True)
+    name = models.CharField(max_length=20)
 
     def to_json(self, nested=False):
         result = {
@@ -18,6 +19,7 @@ class Timetable(models.Model):
             "lectures": [lecture.to_json(nested=False)
                          for lecture in self.lectures.filter(deleted=False)],
             "arrange_order": self.arrange_order,
+            "name": self.name
         }
         return result
 

@@ -200,6 +200,29 @@ class UserInstanceTimetableInstanceReorderView(View):
 
 
 @method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceChangeNameView(View):
+    def post(self, request, user_id, timetable_id):
+        BODY_STRUCTURE = [
+            ("name", ParseType.STR, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+
+        name, = parse_body(request.body, BODY_STRUCTURE)
+
+        Timetable.objects.filter(id=timetable_id).update(name=name)
+        return JsonResponse(timetable.to_json())
+
+
+
+@method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceWishlistView(View):
     def get(self, request, user_id):
         userprofile = request.user.userprofile
