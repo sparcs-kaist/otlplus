@@ -72,6 +72,8 @@ urlpatterns = [
         timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/name",
         timetable_views.UserInstanceTimetableInstanceChangeNameView.as_view()),
+    url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/pin",
+        timetable_views.UserInstanceTimetableInstancePinView.as_view()),
     
     
     url(r"^api/users/(?P<user_id>\d+)/planners$",

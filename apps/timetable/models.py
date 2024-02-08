@@ -12,6 +12,7 @@ class Timetable(models.Model):
     semester = models.SmallIntegerField(null=True, db_index=True)  # 어떤학기의 타임테이블인지
     arrange_order = models.SmallIntegerField(db_index=True)
     name = models.CharField(max_length=20)
+    is_pinned = models.BooleanField(default=False)
 
     def to_json(self, nested=False):
         result = {

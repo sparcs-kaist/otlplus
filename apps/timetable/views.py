@@ -1,6 +1,7 @@
 import json
 
 from django.db.models import F
+from django.db import transaction
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -218,6 +219,25 @@ class UserInstanceTimetableInstanceChangeNameView(View):
         name, = parse_body(request.body, BODY_STRUCTURE)
 
         Timetable.objects.filter(id=timetable_id).update(name=name)
+        return JsonResponse(timetable.to_json())
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstancePinView(View):
+    def post(self, request, user_id, timetable_id):
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+        
+        with transaction.atomic():
+            Timetable.objects.filter(user_id=user_id).update(is_pinned=False)
+            Timetable.objects.filter(id=timetable_id).update(is_pinned=True)
+
         return JsonResponse(timetable.to_json())
 
 
