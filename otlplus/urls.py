@@ -70,7 +70,7 @@ urlpatterns = [
         timetable_views.UserInstanceTimetableInstanceRemoveLectureView.as_view()),
     url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/reorder",
         timetable_views.UserInstanceTimetableInstanceReorderView.as_view()),
-    url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/change-name",
+    url(r"^api/users/(?P<user_id>\d+)/timetables/(?P<timetable_id>\d+)/name",
         timetable_views.UserInstanceTimetableInstanceChangeNameView.as_view()),
     
     

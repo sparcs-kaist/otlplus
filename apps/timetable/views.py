@@ -201,7 +201,7 @@ class UserInstanceTimetableInstanceReorderView(View):
 
 @method_decorator(login_required_ajax, name="dispatch")
 class UserInstanceTimetableInstanceChangeNameView(View):
-    def post(self, request, user_id, timetable_id):
+    def patch(self, request, user_id, timetable_id):
         BODY_STRUCTURE = [
             ("name", ParseType.STR, True, []),
         ]
