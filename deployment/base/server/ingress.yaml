@@ -10,6 +10,7 @@ metadata:
     alb.ingress.kubernetes.io/target-type: 'instance'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:666583083672:certificate/2f5020e0-01dd-43dd-aa7e-0699015d6b89
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
+    alb.ingress.kubernetes.io/group.name: "sparcs-prod-external" 
   name: otl-ingress
   namespace: otl
   finalizers:
