@@ -20,7 +20,8 @@ class Timetable(models.Model):
             "lectures": [lecture.to_json(nested=False)
                          for lecture in self.lectures.filter(deleted=False)],
             "arrange_order": self.arrange_order,
-            "name": self.name
+            "name": self.name,
+            "is_pinned": self.is_pinned
         }
         return result
 
