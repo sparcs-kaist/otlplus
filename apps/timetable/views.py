@@ -1,6 +1,7 @@
 import json
 
 from django.db.models import F
+from django.db import transaction
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -197,6 +198,49 @@ class UserInstanceTimetableInstanceReorderView(View):
 
         reorder_timetable(timetable, arrange_order)
         return JsonResponse(timetable.to_json())
+
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstanceChangeNameView(View):
+    def patch(self, request, user_id, timetable_id):
+        BODY_STRUCTURE = [
+            ("name", ParseType.STR, True, []),
+        ]
+
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+
+        name, = parse_body(request.body, BODY_STRUCTURE)
+
+        timetable.name = name
+        timetable.save()
+        return JsonResponse(timetable.to_json())
+
+@method_decorator(login_required_ajax, name="dispatch")
+class UserInstanceTimetableInstancePinView(View):
+    def post(self, request, user_id, timetable_id):
+        userprofile = request.user.userprofile
+        if userprofile.id != int(user_id):
+            return HttpResponse(status=401)
+
+        try:
+            timetable = userprofile.timetables.get(id=timetable_id)
+        except Timetable.DoesNotExist:
+            return HttpResponseNotFound()
+        
+        with transaction.atomic():
+            Timetable.objects.filter(user_id=user_id, semester=timetable.semester).update(is_pinned=False)
+            timetable.is_pinned = True
+            timetable.save()
+
+        return JsonResponse(timetable.to_json())
+
 
 
 @method_decorator(login_required_ajax, name="dispatch")
