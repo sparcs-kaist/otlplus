@@ -235,7 +235,7 @@ class UserInstanceTimetableInstancePinView(View):
             return HttpResponseNotFound()
         
         with transaction.atomic():
-            Timetable.objects.filter(user_id=user_id).update(is_pinned=False)
+            Timetable.objects.filter(user_id=user_id, semester=timetable.semester).update(is_pinned=False)
             timetable.is_pinned = True
             timetable.save()
 
