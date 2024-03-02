@@ -3,7 +3,6 @@ from functools import reduce
 from typing import Tuple
 import operator
 import datetime
-import traceback
 
 from django.core.cache import cache
 from django.db import models
@@ -167,7 +166,6 @@ class Lecture(models.Model):
     def to_json(self, nested=False):
         if self.deleted:
             print("WARNING: You are serializing DELETED lecture: %s. Please check your query" % self)
-            traceback.print_stack()
 
         cache_id = self.get_cache_key(nested)
         result_cached = cache.get(cache_id)
