@@ -15,4 +15,4 @@ class TrackListView(View):
             'major': [gt.to_json() for gt in MajorTrack.objects.all().order_by('department__code', 'start_year', 'end_year')],
             'additional': [gt.to_json() for gt in AdditionalTrack.objects.all().order_by(Length('type'), 'department__code', 'start_year', 'end_year')],
         }
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})

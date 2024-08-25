@@ -176,7 +176,7 @@ def department_options(request):
         json_encode_list(deps_other),
     ]
 
-    return JsonResponse(result, safe=False)
+    return JsonResponse(result, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 @login_required_ajax
@@ -217,7 +217,7 @@ def unregister(request):
     user.delete()
     logout(request)
 
-    return JsonResponse(status=200, data={})
+    return JsonResponse(status=200, data={},json_dumps_params={'ensure_ascii': False})
 
 
 @login_required_ajax
@@ -237,4 +237,4 @@ def info(request):
         "my_timetable_lectures": json_encode_list(profile.taken_lectures.exclude(Lecture.get_query_for_research())),
         "reviews": json_encode_list(profile.reviews.all()),
     }
-    return JsonResponse(ctx, safe=False)
+    return JsonResponse(ctx, safe=False,json_dumps_params={'ensure_ascii': False})

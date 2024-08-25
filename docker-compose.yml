@@ -32,7 +32,7 @@ services:
     ports:
       - "58000:8000"
     volumes:
-      - .:/var/www/otlplus:ro
+      - .:/var/www/otlplus
     working_dir: /var/www/otlplus
   wait-for-db:
     image: atkrad/wait4x

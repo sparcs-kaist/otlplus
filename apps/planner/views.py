@@ -38,7 +38,7 @@ class UserInstancePlannerListView(View):
         planners = apply_order(planners, order, DEFAULT_ORDER)
         planners = apply_offset_and_limit(planners, offset, limit, MAX_LIMIT)
         result = [p.to_json() for p in planners]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
     def post(self, request, user_id):
         BODY_STRUCTURE = [
@@ -107,7 +107,7 @@ class UserInstancePlannerListView(View):
                                                 type=target_item.type, type_en=target_item.type_en,
                                                 credit=target_item.credit, credit_au=target_item.credit_au)
 
-        return JsonResponse(planner.to_json())
+        return JsonResponse(planner.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -122,7 +122,7 @@ class UserInstancePlannerInstanceView(View):
         except Planner.DoesNotExist:
             return HttpResponseNotFound()
 
-        return JsonResponse(planner.to_json())
+        return JsonResponse(planner.to_json(),json_dumps_params={'ensure_ascii': False})
 
     def patch(self, request, user_id, planner_id):
         BODY_STRUCTURE = [
@@ -162,7 +162,7 @@ class UserInstancePlannerInstanceView(View):
         planner.taken_items.exclude(lecture__year__gte=start_year, lecture__year__lte=end_year).delete()
         planner.future_items.exclude(year__gte=start_year, year__lte=end_year).delete()
         planner.arbitrary_items.exclude(year__gte=start_year, year__lte=end_year).delete()
-        return JsonResponse(planner.to_json(), safe=False)
+        return JsonResponse(planner.to_json(), safe=False,json_dumps_params={'ensure_ascii': False})
 
     def delete(self, request, user_id, planner_id):
         userprofile = request.user.userprofile
@@ -207,7 +207,7 @@ class UserInstancePlannerInstanceAddFutureItemView(View):
             return HttpResponseBadRequest("Wrong field 'course' in request data")
         item = FuturePlannerItem.objects.create(planner=planner, year=year, semester=semester,
                                                 course=course)
-        return JsonResponse(item.to_json())
+        return JsonResponse(item.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -242,7 +242,7 @@ class UserInstancePlannerInstanceAddArbitraryItemView(View):
         item = ArbitraryPlannerItem.objects.create(planner=planner, year=year, semester=semester,
                                                    department=department, type=type_, type_en=type_en,
                                                    credit=credit, credit_au=credit_au)
-        return JsonResponse(item.to_json())
+        return JsonResponse(item.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -286,7 +286,7 @@ class UserInstancePlannerInstanceUpdateItemView(View):
         if is_excluded is not None:
             target_item.is_excluded = is_excluded
         target_item.save()
-        return JsonResponse(target_item.to_json())
+        return JsonResponse(target_item.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -321,7 +321,7 @@ class UserInstancePlannerInstanceRemoveItemView(View):
             except ArbitraryPlannerItem.DoesNotExist:
                 HttpResponseBadRequest("No such planner item")
         target_item.delete()
-        return JsonResponse(planner.to_json())
+        return JsonResponse(planner.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -343,4 +343,4 @@ class UserInstancePlannerInstanceReorderView(View):
         arrange_order, = parse_body(request.body, BODY_STRUCTURE)
 
         reorder_planner(planner, arrange_order)
-        return JsonResponse(planner.to_json())
+        return JsonResponse(planner.to_json(),json_dumps_params={'ensure_ascii': False})

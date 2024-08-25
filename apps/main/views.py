@@ -64,4 +64,4 @@ class UserInstanceFeedsView(View):
         feeds = [f for f in feeds if f is not None]
         feeds = sorted(feeds, key=(lambda f: f.priority))
         result = [f.to_json(user=request.user) for f in feeds]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
