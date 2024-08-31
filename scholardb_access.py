@@ -21,7 +21,7 @@ def execute(host, port, user, password, query):
 
     os.system("scp /tmp/otl_db_ssh_args xen:/tmp > /dev/null")
     os.remove("/tmp/otl_db_ssh_args")
-    os.system("ssh xen python db.py > /dev/null")
+    os.system("ssh xen python newdb/db.py > /dev/null")
     os.system("scp xen:/tmp/otl_db_dump_result /tmp > /dev/null")
     os.system("ssh xen rm /tmp/otl_db_dump_result > /dev/null")
     result = pickle.load(open("/tmp/otl_db_dump_result", "rb"), encoding="bytes")

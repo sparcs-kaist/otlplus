@@ -49,7 +49,7 @@ class UserInstanceTimetableListView(View):
         timetables = apply_order(timetables, order, DEFAULT_ORDER)
         timetables = apply_offset_and_limit(timetables, offset, limit, MAX_LIMIT)
         result = [t.to_json() for t in timetables]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
     def post(self, request, user_id):
         BODY_STRUCTURE = [
@@ -82,7 +82,7 @@ class UserInstanceTimetableListView(View):
                 return HttpResponseBadRequest("Wrong field 'lectures' in request data")
             timetable.lectures.add(lecture)
 
-        return JsonResponse(timetable.to_json())
+        return JsonResponse(timetable.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -97,7 +97,7 @@ class UserInstanceTimetableInstanceView(View):
         except Timetable.DoesNotExist:
             return HttpResponseNotFound()
 
-        return JsonResponse(timetable.to_json())
+        return JsonResponse(timetable.to_json(),json_dumps_params={'ensure_ascii': False})
 
     def delete(self, request, user_id, timetable_id):
         userprofile = request.user.userprofile
@@ -147,7 +147,7 @@ class UserInstanceTimetableInstanceAddLectureView(View):
                 return HttpResponseBadRequest('Wrong field \'lecture\' in request data')
 
             timetable.lectures.add(lecture)
-            return JsonResponse(timetable.to_json())
+            return JsonResponse(timetable.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -174,7 +174,7 @@ class UserInstanceTimetableInstanceRemoveLectureView(View):
         lecture = Lecture.objects.get(id=lecture_id)
 
         timetable.lectures.remove(lecture)
-        return JsonResponse(timetable.to_json())
+        return JsonResponse(timetable.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -196,7 +196,7 @@ class UserInstanceTimetableInstanceReorderView(View):
         arrange_order, = parse_body(request.body, BODY_STRUCTURE)
 
         reorder_timetable(timetable, arrange_order)
-        return JsonResponse(timetable.to_json())
+        return JsonResponse(timetable.to_json(),json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -209,7 +209,7 @@ class UserInstanceWishlistView(View):
         wishlist = Wishlist.objects.get_or_create(user=userprofile)[0]
 
         result = wishlist.to_json()
-        return JsonResponse(result)
+        return JsonResponse(result,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -235,7 +235,7 @@ class UserInstanceWishlistAddLectureView(View):
         wishlist.lectures.add(lecture)
 
         result = wishlist.to_json()
-        return JsonResponse(result)
+        return JsonResponse(result,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -261,7 +261,7 @@ class UserInstanceWishlistRemoveLectureView(View):
         wishlist.lectures.remove(lecture)
 
         result = wishlist.to_json()
-        return JsonResponse(result)
+        return JsonResponse(result,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")

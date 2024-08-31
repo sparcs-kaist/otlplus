@@ -29,7 +29,7 @@ class NoticeListView(View):
 
         notices = apply_order(notices, order, DEFAULT_ORDER)
         result = [n.to_json() for n in notices]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")

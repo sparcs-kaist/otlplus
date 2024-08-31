@@ -18,7 +18,7 @@ class CachedAuthMiddleware(object):
         assert hasattr(
             request,
             "session",
-        ), "Cached authentication middleware requires Session middleware to work correctly."
+        ), "Cached authentication middleware.py requires Session middleware.py to work correctly."
         try:
             key = "cached-user:%d" % request.session[SESSION_KEY]
         except KeyError:

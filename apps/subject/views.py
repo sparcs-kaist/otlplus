@@ -25,7 +25,7 @@ class SemesterListView(View):
 
         semesters = apply_order(semesters, order, DEFAULT_ORDER)
         result = [semester.to_json() for semester in semesters]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class CourseListView(View):
@@ -67,7 +67,7 @@ class CourseListView(View):
         courses = apply_order(courses, order, DEFAULT_ORDER)
         courses = apply_offset_and_limit(courses, offset, limit, MAX_LIMIT)
         result = [c.to_json(user=request.user) for c in courses]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 class CourseInstanceView(View):
@@ -75,7 +75,7 @@ class CourseInstanceView(View):
         course = get_object_or_404(Course, id=course_id)
 
         result = course.to_json(user=request.user)
-        return JsonResponse(result)
+        return JsonResponse(result,json_dumps_params={'ensure_ascii': False})
 
 
 class CourseListAutocompleteView(View):
@@ -92,7 +92,7 @@ class CourseListAutocompleteView(View):
         match = services.match_autocomplete(keyword, courses, professors)
         if not match:
             return JsonResponse(keyword, safe=False)
-        return JsonResponse(match, safe=False)
+        return JsonResponse(match, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class CourseInstanceReviewsView(View):
@@ -114,7 +114,7 @@ class CourseInstanceReviewsView(View):
         reviews = apply_order(reviews, order, DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json(user=request.user) for review in reviews]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class CourseInstanceLecturesView(View):
@@ -131,7 +131,7 @@ class CourseInstanceLecturesView(View):
 
         lectures = apply_order(lectures, order, DEFAULT_ORDER)
         result = [lecture.to_json() for lecture in lectures]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -190,7 +190,7 @@ class LectureListView(View):
         lectures = apply_order(lectures, order, DEFAULT_ORDER)
         lectures = apply_offset_and_limit(lectures, offset, limit, MAX_LIMIT)
         result = [lecture.to_json(nested=False) for lecture in lectures]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class LectureInstanceView(View):
@@ -198,7 +198,7 @@ class LectureInstanceView(View):
         lecture = get_object_or_404(Lecture, id=lecture_id)
 
         result = lecture.to_json()
-        return JsonResponse(result)
+        return JsonResponse(result,json_dumps_params={'ensure_ascii': False})
 
 
 class LectureListAutocompleteView(View):
@@ -219,7 +219,7 @@ class LectureListAutocompleteView(View):
         match = services.match_autocomplete(keyword, lectures, professors)
         if not match:
             return JsonResponse(keyword, safe=False)
-        return JsonResponse(match, safe=False)
+        return JsonResponse(match, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class LectureInstanceReviewsView(View):
@@ -240,7 +240,7 @@ class LectureInstanceReviewsView(View):
         reviews = apply_order(reviews, order, DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json() for review in reviews]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 class LectureInstanceRelatedReviewsView(View):
@@ -264,7 +264,7 @@ class LectureInstanceRelatedReviewsView(View):
         reviews = apply_order(reviews, order, DEFAULT_ORDER)
         reviews = apply_offset_and_limit(reviews, offset, limit, MAX_LIMIT)
         result = [review.to_json() for review in reviews]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})
 
 
 @method_decorator(login_required_ajax, name="dispatch")
@@ -284,4 +284,4 @@ class UserInstanceTakenCoursesView(View):
 
         courses = apply_order(courses, order, DEFAULT_ORDER)
         result = [course.to_json(user=request.user) for course in courses]
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result, safe=False,json_dumps_params={'ensure_ascii': False})

@@ -145,6 +145,6 @@ urlpatterns = [
     # url(r"^api/external/google/google_auth_return$",
     #     timetable_views.external_google_google_auth_return_view),
 
-    url(r"^api/status$", lambda request: HttpResponse()),
+    url(r"^api/status$", lambda request: HttpResponse("I am healthy")),
     url(r"^api/", lambda request: HttpResponseNotFound("Bad url")),
 ]
