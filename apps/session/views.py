@@ -94,9 +94,10 @@ def login_callback(request):
     code = request.GET.get("code")
     sso_profile = sso_client.get_user_info(code)
     username = sso_profile["sid"]
+    email = sso_profile["email"]
 
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.filter(email=email).order_by('-last_login').first()
     except User.DoesNotExist:
         user = None
 
