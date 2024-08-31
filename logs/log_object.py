@@ -25,6 +25,8 @@ class BaseLogObject(metaclass=abc.ABCMeta):
         self.request = request
 
     def format_request(self) -> dict:
+        # print(self.request.META['HTTP_UUID'])
+        # print(self.request.META)
         result = {
             "method": self.request.method,
             # "meta": {
@@ -32,7 +34,7 @@ class BaseLogObject(metaclass=abc.ABCMeta):
             #     for key, value in self.request.META.items()
             #     if key in REQUEST_META_KEYS
             # },
-            "UUID": self.request.META['HTTP_UUID'] if hasattr(self.request.META,'HTTP_UUID') else None,
+            "UUID": self.request.META['HTTP_UUID'] if self.request.META['HTTP_UUID'] else None,
             "path": self.request.path_info,
         }
 
