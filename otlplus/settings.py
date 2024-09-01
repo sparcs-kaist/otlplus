@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -117,7 +118,7 @@ CACHES = {
 import os
 import sys
 
-LOG_FILE_PATH = os.environ.get("LOG_FILE_PATH", "/var/www/otlplus/logs/response.log")
+LOG_FILE_PATH = os.environ.get("LOG_FILE_PATH", "/var/www/otlplus/logs/")
 LOG_MAX_BYTES = int(os.environ.get("LOG_MAX_BYTES", 1024 * 1024 * 10))
 LOG_BACKUP_COUNT = int(os.environ.get("LOG_BACKUP_COUNT", 100))
 
@@ -142,7 +143,7 @@ LOGGING = {
         "rotating_file": {
             "level": "INFO",
             "class": "logs.handler.SizedTimedRotatingFileHandler",
-            "filename": LOG_FILE_PATH,
+            "filename": os.path.join('/var/www/otlplus/logs/', f'response-{datetime.now().strftime("%Y-%m-%d")}.log'),
             "max_bytes": LOG_MAX_BYTES,
             "backup_count": LOG_BACKUP_COUNT,
             "encoding": "utf-8",
@@ -203,8 +204,11 @@ AUTHENTICATION_BACKENDS = (
 
 with open(os.path.join(BASE_DIR, "keys/sso_secret")) as f:
     SSO_SECRET_KEY = f.read().strip()
-SSO_CLIENT_ID = os.getenv("SSO_CLIENT_ID")
-SSO_IS_BETA = DEBUG
+# SSO_CLIENT_ID = os.getenv("SSO_CLIENT_ID")
+SSO_CLIENT_ID = "testbecb93acf2c87d2e064c" # SSO의 'Name' (또는 'Client ID') 필드
+SSO_SECRET_KEY = "74166705c80967e09c80" # SSO의 'Secret Key' 필드
+
+SSO_IS_BETA = False
 
 LOGIN_URL = "/session/login/"
 LOGOUT_URL = "/session/logout/"

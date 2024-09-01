@@ -27,12 +27,12 @@ class BaseLogObject(metaclass=abc.ABCMeta):
     def format_request(self) -> dict:
         result = {
             "method": self.request.method,
-            "meta": {
-                key.lower(): str(value)
-                for key, value in self.request.META.items()
-                if key in REQUEST_META_KEYS
-            },
-            "UUID": self.request.META['HTTP_UUID'],
+            # "meta": {
+            #     key.lower(): str(value)
+            #     for key, value in self.request.META.items()
+            #     if key in REQUEST_META_KEYS
+            # },
+            "UUID": self.request.META['HTTP_UUID'] if hasattr(self.request.META,'HTTP_UUID') else None,
             "path": self.request.path_info,
         }
 
@@ -45,7 +45,7 @@ class BaseLogObject(metaclass=abc.ABCMeta):
                 result["data"] = self.request.POST.dict()
 
         try:
-            result["user"] = self.request.user.id
+            result["user"] = self.request.user.username
         except AttributeError:
             result["user"] = None
 
@@ -66,14 +66,15 @@ class LogObject(BaseLogObject):
     def format(self) -> dict:
         return {
             "request": self.format_request(),
-            "response": self.format_response()
+            "response": self.format_response(),
+            "duration": self.duration
         }
 
     def format_response(self) -> dict:
         result = {
             "status": self.response.status_code,
-            "headers": dict(self.response.items()),
-            "charset": getattr(self.response, "charset", 'utf-8'),
+            # "headers": dict(self.response.items()),
+            # "charset": getattr(self.response, "charset", 'utf-8'),
         }
 
         try:
